@@ -11,6 +11,7 @@ transparency = 1
 blend_mode = 1
 cull_mode = 2
 albedo_texture = SubResource("ImageTexture_5btwd")
+uv1_scale = Vector3(-1, 1, 1)
 texture_filter = 0
 
 [sub_resource type="SphereMesh" id="SphereMesh_3om8j"]
@@ -26,6 +27,7 @@ resource_local_to_scene = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lj37i"]
 resource_local_to_scene = true
 albedo_texture = SubResource("ImageTexture_xi13m")
+uv1_scale = Vector3(-1, 1, 1)
 texture_filter = 0
 
 [sub_resource type="SphereMesh" id="SphereMesh_k1oab"]
