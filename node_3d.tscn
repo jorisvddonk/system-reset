@@ -1,11 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://qy43e0b6eovd"]
+[gd_scene load_steps=8 format=3 uid="uid://qy43e0b6eovd"]
 
 [ext_resource type="Script" path="res://node_3d.gd" id="1_0q83w"]
 [ext_resource type="Script" path="res://camera.gd" id="1_acea0"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_02uor"]
+[ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="4_1epc5"]
+[ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="5_676sm"]
 
 [sub_resource type="Environment" id="Environment_66x13"]
 background_mode = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
+blend_mode = 1
+cull_mode = 2
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_0q83w")
@@ -41,3 +47,16 @@ layers = 2
 light_color = Color(0.996078, 1, 0.666667, 1)
 light_energy = 0.295
 light_cull_mask = 4294967294
+
+[node name="cupolaRoof" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.33, 0, 0, 0, -0.33, 0, 0, 0, 0.33, 0, 1.81, 0)
+layers = 2
+material_override = SubResource("StandardMaterial3D_hty7a")
+mesh = ExtResource("4_1epc5")
+skeleton = NodePath("../cupolaFloor")
+
+[node name="cupolaFloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.335, 0, 0, 0, 0.335, 0, 0, 0, 0.335, 0, 0, 0)
+layers = 2
+material_override = SubResource("StandardMaterial3D_hty7a")
+mesh = ExtResource("5_676sm")

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://w00fut87yk5n"
+path="res://.godot/imported/cupola_roof.obj-904f7c18766b31b8382b6bdb77f19014.mesh"
+
+[deps]
+
+files=["res://.godot/imported/cupola_roof.obj-904f7c18766b31b8382b6bdb77f19014.mesh"]
+
+source_file="res://cupola_roof.obj"
+dest_files=["res://.godot/imported/cupola_roof.obj-904f7c18766b31b8382b6bdb77f19014.mesh", "res://.godot/imported/cupola_roof.obj-904f7c18766b31b8382b6bdb77f19014.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
