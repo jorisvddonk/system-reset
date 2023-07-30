@@ -16,8 +16,8 @@ func _ready():
 	feltyrion.prepare_star()
 	feltyrion.unlock()
 	
-	var layer_fixer = func(item): item.set_layer_mask(2)
-	$vehicle.find_children("*", "MeshInstance3D").all(layer_fixer)
+	var layer_fixer = func(item): item.set_layer_mask(2); return true
+	$vehicle.find_children("?*", "MeshInstance3D").all(layer_fixer)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
