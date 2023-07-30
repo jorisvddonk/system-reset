@@ -32,3 +32,11 @@ material_override = SubResource("StandardMaterial3D_folie")
 radius = 2.425
 radial_segments = 100
 rings = 100
+
+[node name="PlanetNameLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62781, 0)
+pixel_size = 0.0344
+billboard = 1
+modulate = Color(0.239216, 0.6, 1, 1)
+text = "Test planet name    P01"
+vertical_alignment = 2

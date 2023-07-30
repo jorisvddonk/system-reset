@@ -24,14 +24,20 @@ func _ready():
 func _process(delta):
 	pass
 	
-func _on_found_planet(index, planet_id, seedval, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist):
-	printt("Found planet: ", feltyrion.get_planet_name_by_id(planet_id), index, planet_id, seedval, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist)
+func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist):
+	var planet_name = feltyrion.get_planet_name_by_id(planet_id)
+	printt("Found planet: ", planet_name, index, planet_id, seedval, x, y, z, "----", type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist)
 	var planet = Planet.instantiate()
 	planet.feltyrion = feltyrion
 	planet.type = type
 	planet.seed = seedval
 	planet.planet_index = index
-	planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0))
+	planet.planet_name = planet_name
+	# planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0))
+	planet.rotate_y(orb_orient * (PI / 180))
+	planet.translate(Vector3((feltyrion.ap_target.x - x), (feltyrion.ap_target.y - y), (feltyrion.ap_target.z - z)))
+	var layer_fixer = func(item): item.set_layer_mask(4); return true
+	planet.find_children("?*", "CSGSphere3D").all(layer_fixer)
 	$Planets.add_child(planet)
 
 func _on_found_star(x, y, z):
