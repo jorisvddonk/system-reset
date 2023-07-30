@@ -15,6 +15,7 @@ func _ready():
 	feltyrion.scan_stars()
 	feltyrion.prepare_star()
 	feltyrion.unlock()
+	$vehicle/vehicle_007.set_layer_mask(2)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
