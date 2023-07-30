@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjql6dlrtm3ls"]
+
+[ext_resource type="Script" path="res://Example.gd" id="1_ll3vh"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Example" type="Example" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ll3vh")
