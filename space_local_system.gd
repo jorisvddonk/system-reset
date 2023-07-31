@@ -6,9 +6,7 @@ var Planet = preload("res://Planet.tscn")
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
 	Globals.feltyrion.found_planet.connect(_on_found_planet)
-	Globals.feltyrion.lock()
-	Globals.feltyrion.prepare_star()
-	Globals.feltyrion.unlock()
+	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	
 func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
@@ -24,3 +22,11 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
 	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$Planets.add_child(planet)
+
+func _on_parsis_changed(vec3):
+	# for now, we assume that when parsis changes, we need to clean the planets and wait for them to be found again
+	for item in $Planets.get_children():
+		$Planets.remove_child(item)
+	Globals.feltyrion.lock()
+	Globals.feltyrion.prepare_star()
+	Globals.feltyrion.unlock()

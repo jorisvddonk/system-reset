@@ -46,6 +46,7 @@ func menu_fcd():
 	item3.text = "Set local target"
 	item4.text = "Deploy surface capsule"
 	#--
+	clear_lines()
 	var apinfo = Globals.feltyrion.get_ap_target_info()
 	if apinfo.ap_targetted:
 		if apinfo.ap_targetted == 1:
@@ -57,6 +58,7 @@ func menu_fcd():
 	line2.text = "current range: elapsed 0 kilodyams, remaining litihum: -1 grams." # TODO: change depending on status
 	#-
 	item1.pressed.connect(set_remote_target)
+	item2.pressed.connect(vimana)
 	add_connection(Globals.on_ap_target_changed, func(a,b): menu_fcd())
 	
 func menu_od():
@@ -88,6 +90,7 @@ func menu_od_nav():
 	item3.text = "Near chase" # TODO: change depending on status
 	item4.text = "Force radiations limit"
 	#--
+	clear_lines()
 	line1.text = "Starfield amplification enabled/disabled. High radiation fields are ignored/avoided."  # TODO: change depending on status
 	line2.text = "Tracking status: disconnected."  # TODO: change depending on status
 	var starInfo = Globals.feltyrion.get_current_star_info()
@@ -116,6 +119,7 @@ func menu_od_gc():
 	item3.text = "Show targets in range"
 	item4.text = "Set target to parsis"
 	#--
+	clear_lines()
 	line1.text = "Epoc 6012 triads 1234,567,890" # TODO: change depending on status
 	line2.text = "Parsis universal coordinates: %s:%s:%s" % [Globals.current_parsis.x, -Globals.current_parsis.y, Globals.current_parsis.z]
 	line3.text = "Heading pitch: %s:%s" % [-42, -42] # TODO: change depending on status
@@ -167,3 +171,7 @@ func add_connection(signal_, callable):
 
 func set_remote_target():
 	Globals.ui_mode = Globals.UI_MODE.SET_REMOTE_TARGET
+
+func vimana():
+	# TODO: determine if currently in vimana flight or not
+	Globals.vimanaFlight()

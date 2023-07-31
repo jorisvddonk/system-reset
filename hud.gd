@@ -2,25 +2,22 @@ extends Control
 
 var parsis: Vector3
 var apTarget: Vector3
+var ap_target_info
+var nearstar_info
 
 func _ready():
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.on_ap_target_changed.connect(_on_ap_target_changed)
-	var ap_target = Globals.feltyrion.get_ap_target()
-	_on_parsis_changed(ap_target.x, ap_target.y, ap_target.z)
+	_on_parsis_changed(Globals.feltyrion.get_ap_target())
 
-func _on_parsis_changed(x, y, z):
-	parsis = Vector3(x,y,z)
-	redraw_label()
+func _on_parsis_changed(vec):
+	parsis = vec
+	nearstar_info = Globals.feltyrion.get_current_star_info()
+	$HBoxContainer/ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [parsis.x, -parsis.y, parsis.z]
+	$HBoxContainer/NumBodies.text = "[center]Number of bodies: %s[/center]" % [nearstar_info.nearstar_nob]
 	
 
 func _on_ap_target_changed(vec, id_code):
 	apTarget = vec
-	redraw_label()
-	
-
-func redraw_label():
-	if apTarget.x != parsis.x || apTarget.y != parsis.y || apTarget.z != parsis.z:
-		$HBoxContainer/ParsisLabel.text = "[left]Parsis: x=%s y=%s z=%s[/left]   [right]remote target: x=%s y=%s z=%s [/right]" % [parsis.x, -parsis.y, parsis.z, apTarget.x, -apTarget.y, apTarget.z]
-	else:
-		$HBoxContainer/ParsisLabel.text = "[left]Parsis: x=%s y=%s z=%s[/left]" % [parsis.x, -parsis.y, parsis.z]
+	ap_target_info = Globals.feltyrion.get_ap_target_info()
+	$HBoxContainer/APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [apTarget.x, -apTarget.y, apTarget.z]

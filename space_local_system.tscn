@@ -14,14 +14,14 @@ script = ExtResource("1_tlx4b")
 [node name="Camera3D" type="Camera3D" parent="."]
 script = ExtResource("2_vcnjg")
 
-[node name="Planets" type="Node3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
-
-[node name="SolarSystemParentStar" type="CSGSphere3D" parent="Planets"]
-material_override = SubResource("StandardMaterial3D_qx1s7")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Planets"]
 layers = 4
 light_cull_mask = 4293918724
 omni_range = 4096.0
 omni_attenuation = 0.000345266
+
+[node name="Planets" type="Node3D" parent="."]
+
+[node name="SolarSystemParentStar" type="CSGSphere3D" parent="Planets"]
+material_override = SubResource("StandardMaterial3D_qx1s7")
