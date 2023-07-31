@@ -12,6 +12,7 @@ func _ready():
 	feltyrion.found_star.connect(_on_found_star)
 	feltyrion.found_planet.connect(_on_found_planet)
 	feltyrion.lock()
+	#feltyrion.set_ap_target(Vector3(3579984, -1002801, 305857)) # 'hello' star
 	feltyrion.scan_stars()
 	feltyrion.prepare_star()
 	feltyrion.unlock()
@@ -26,18 +27,18 @@ func _process(delta):
 	
 func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = feltyrion.get_planet_name_by_id(planet_id)
-	printt("Found planet: ", planet_name, index, planet_id, seedval, x, y, z, "----", type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist)
+	printt("Found planet: ", planet_name, index, planet_id, seedval, x, y, z, "----", type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, "rotation", rotation, term_start, term_end, qsortindex, qsortdist)
 	var planet = Planet.instantiate()
 	planet.feltyrion = feltyrion
 	planet.type = type
 	planet.seed = seedval
 	planet.planet_index = index
 	planet.planet_name = planet_name
-	# planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0))
-	planet.rotate_y(orb_orient * (PI / 180))
-	planet.translate(Vector3((feltyrion.ap_target.x - x), (feltyrion.ap_target.y - y), (feltyrion.ap_target.z - z)))
+	#planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0))
+	planet.translate(Vector3(-(feltyrion.ap_target.x - x), (feltyrion.ap_target.y - y), (feltyrion.ap_target.z - z))) # TODO: check if y should be flipped here..
+	planet.get_node("PlanetParent").rotate_y(((rotation + 98) % 360) * (PI / 180)) # not entirely sure why '98' is the magic number here (it should be 89..?) but it seems to work!
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
-	planet.find_children("?*", "CSGSphere3D").all(layer_fixer)
+	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$Planets.add_child(planet)
 
 func _on_found_star(x, y, z):

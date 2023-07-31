@@ -14,20 +14,27 @@ texture_filter = 0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_folie"]
 resource_local_to_scene = true
 albedo_texture = ExtResource("3_6fegb")
+emission = Color(0.141176, 0.141176, 0.141176, 1)
+emission_energy_multiplier = 1.8
+ao_light_affect = 1.0
+subsurf_scatter_strength = 1.0
+backlight = Color(0.94902, 0.94902, 0.94902, 1)
+refraction_scale = 1.0
 uv1_scale = Vector3(-1, 1, 1)
 texture_filter = 0
 
 [node name="Planet" type="Node3D"]
 script = ExtResource("2_atbx8")
 
-[node name="Atmosphere" type="CSGSphere3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.999499, -0.0316375, 0, 0.0316375, 0.999499, 0, 0, 0)
+[node name="PlanetParent" type="Node3D" parent="."]
+
+[node name="Atmosphere" type="CSGSphere3D" parent="PlanetParent"]
 material_override = SubResource("StandardMaterial3D_u03s0")
 radius = 2.61
 radial_segments = 100
 rings = 100
 
-[node name="Surface" type="CSGSphere3D" parent="."]
+[node name="Surface" type="CSGSphere3D" parent="PlanetParent"]
 material_override = SubResource("StandardMaterial3D_folie")
 radius = 2.425
 radial_segments = 100

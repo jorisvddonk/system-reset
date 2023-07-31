@@ -6,9 +6,6 @@
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="4_1epc5"]
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="5_676sm"]
 
-[sub_resource type="Environment" id="Environment_66x13"]
-background_mode = 1
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qx1s7"]
 albedo_color = Color(0.996078, 1, 0.505882, 1)
 emission_enabled = true
@@ -21,22 +18,16 @@ shading_mode = 2
 albedo_color = Color(1, 0.992157, 0.733333, 1)
 roughness = 0.1
 
+[sub_resource type="Environment" id="Environment_40657"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_0q83w")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6.05096)
-environment = SubResource("Environment_66x13")
-script = ExtResource("1_acea0")
-
-[node name="Feltyrion" type="Feltyrion" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Stars" type="Node3D" parent="."]
-
 [node name="Planets" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
 
 [node name="SolarSystemParentStar" type="CSGSphere3D" parent="Planets"]
 material_override = SubResource("StandardMaterial3D_qx1s7")
@@ -46,6 +37,16 @@ layers = 4
 light_cull_mask = 4293918724
 omni_range = 4096.0
 omni_attenuation = 0.000345266
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6.05096)
+script = ExtResource("1_acea0")
+
+[node name="Feltyrion" type="Feltyrion" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Stars" type="Node3D" parent="."]
 
 [node name="vehicle" parent="." instance=ExtResource("3_02uor")]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
@@ -83,3 +84,6 @@ layers = 2
 material_override = SubResource("StandardMaterial3D_hty7a")
 transparency = 0.4
 mesh = ExtResource("5_676sm")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_40657")
