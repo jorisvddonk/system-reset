@@ -14,3 +14,7 @@ config/name="Test Noctis"
 run/main_scene="res://node_3d.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Globals="*res://Globals.gd"

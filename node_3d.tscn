@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://qy43e0b6eovd"]
+[gd_scene load_steps=10 format=3 uid="uid://qy43e0b6eovd"]
 
 [ext_resource type="Script" path="res://node_3d.gd" id="1_0q83w"]
 [ext_resource type="Script" path="res://camera.gd" id="1_acea0"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_02uor"]
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="4_1epc5"]
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="5_676sm"]
+[ext_resource type="PackedScene" uid="uid://fuj2xt1sh8nm" path="res://hud.tscn" id="6_774yi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qx1s7"]
 albedo_color = Color(0.996078, 1, 0.505882, 1)
@@ -23,7 +24,7 @@ background_mode = 1
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 
-[node name="Node3D" type="Node3D"]
+[node name="MainScene" type="Node3D"]
 script = ExtResource("1_0q83w")
 
 [node name="Planets" type="Node3D" parent="."]
@@ -87,3 +88,7 @@ mesh = ExtResource("5_676sm")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_40657")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("6_774yi")]

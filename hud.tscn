@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://fuj2xt1sh8nm"]
+
+[ext_resource type="Script" path="res://hud.gd" id="1_o8fq7"]
+
+[sub_resource type="FontVariation" id="FontVariation_mieu8"]
+
+[node name="HUD" type="Node2D"]
+script = ExtResource("1_o8fq7")
+
+[node name="ParsisLabel" type="RichTextLabel" parent="."]
+offset_top = 608.0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/normal_font = SubResource("FontVariation_mieu8")
+text = "Parsis: x=1000, y=123, z=-123"

@@ -4,9 +4,9 @@
 
 [sub_resource type="ImageTexture" id="ImageTexture_pw6a8"]
 
-[node name="Node2D" type="Node2D"]
+[node name="PlanetGenerationExperiment" type="Node2D"]
 
-[node name="TextureRect" type="TextureRect" parent="." node_paths=PackedStringArray("button", "optionButton", "seedInput", "planetIndex", "feltyrion")]
+[node name="TextureRect" type="TextureRect" parent="." node_paths=PackedStringArray("button", "optionButton", "seedInput", "planetIndex")]
 offset_left = 133.0
 offset_top = 182.0
 offset_right = 853.0
@@ -17,7 +17,6 @@ button = NodePath("../Button")
 optionButton = NodePath("../OptionButton")
 seedInput = NodePath("../SeedInput")
 planetIndex = NodePath("../PlanetIndex")
-feltyrion = NodePath("../Feltyrion")
 
 [node name="Button" type="Button" parent="."]
 offset_left = 1027.0
