@@ -11,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_o8fq7")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -22,11 +23,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 alignment = 1
 
 [node name="ParsisLabel" type="RichTextLabel" parent="HBoxContainer"]
-custom_minimum_size = Vector2(400, 50)
+custom_minimum_size = Vector2(700, 50)
 layout_mode = 2
+mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)

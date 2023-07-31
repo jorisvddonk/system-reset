@@ -10,11 +10,12 @@ func _ready():
 	Globals.feltyrion.scan_stars()
 	Globals.feltyrion.unlock()
 
-func _on_found_star(x, y, z):
+func _on_found_star(x, y, z, id_code):
 	var objname = Globals.feltyrion.get_star_name(x, y, z)
 	objname = regex.sub(objname, "")
 	var star = Farstar.instantiate()
 	star.star_name = objname
 	star.parsis = Vector3(x, y, z)
+	star.id_code = id_code
 	star.translate(Vector3(x/1000, y/1000, z/1000))
 	$Stars.add_child(star)

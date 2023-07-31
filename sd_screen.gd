@@ -12,7 +12,23 @@ extends Panel
 @export var disable_display: Label
 @onready var active_control: Label = null
 
+const star_descriptions = ["medium size, yellow star, suitable for planets having indigenous lifeforms.",
+	"very large, blue giant star, high energy radiations around.",
+	"white dwarf star, possible harmful radiations.",
+	"very large, ancient, red giant star.",
+	"large and glowing, orange giant star, high nuclear mass.",
+	"small, weak, cold, brown dwarf substellar object.",
+	"large, very weak, very cold, gray giant dead star.",
+	"very small, blue dwarf star, strong gravity well around.",
+	"possible MULTIPLE system - planets spread over wide ranges.",
+	"medium size, surrounded by gas clouds, young star.",
+	"very large and ancient runaway star, unsuitable for planets.",
+	"tiny pulsar object, unsafe, high radiation, strong gravity."];
+
+var other_signals_to_cleanup = []
+
 func _ready():
+	_disable_display()
 	flight_control_drive.pressed.connect(menu_fcd)
 	onboard_devices.pressed.connect(menu_od)
 	preferences.pressed.connect(menu_prefs)
@@ -30,8 +46,18 @@ func menu_fcd():
 	item3.text = "Set local target"
 	item4.text = "Deploy surface capsule"
 	#--
-	clear_lines()
+	var apinfo = Globals.feltyrion.get_ap_target_info()
+	if apinfo.ap_targetted:
+		if apinfo.ap_targetted == 1:
+			line1.text = "Remote target: class %s star; %s" % [apinfo.ap_target_class, star_descriptions[apinfo.ap_target_class]]
+		else:
+			line1.text = "Direct parsis target: non-star type."
+	else:
+		line1.text = "no remote target selected"
+	line2.text = "current range: elapsed 0 kilodyams, remaining litihum: -1 grams." # TODO: change depending on status
+	#-
 	item1.pressed.connect(set_remote_target)
+	add_connection(Globals.on_ap_target_changed, func(a,b): menu_fcd())
 	
 func menu_od():
 	clear_connections()
@@ -64,7 +90,15 @@ func menu_od_nav():
 	#--
 	line1.text = "Starfield amplification enabled/disabled. High radiation fields are ignored/avoided."  # TODO: change depending on status
 	line2.text = "Tracking status: disconnected."  # TODO: change depending on status
-	line3.text = "Planet finder report: system has 5 planets, and 17 minor bodies. 22 labeled out of 22."  # TODO: change depending on status
+	var starInfo = Globals.feltyrion.get_current_star_info()
+	line3.text = "Planet finder report: system has %s %s%s, and %s minor bodies. %s labeled out of %s." % [
+		starInfo.nearstar_nop, 
+		"proto" if starInfo.nearstar_class == 9 else "",
+		"planet" if starInfo.nearstar_nop == 1 else "planets",
+		starInfo.nearstar_nob - starInfo.nearstar_nop,
+		starInfo.nearstar_labeled,
+		starInfo.nearstar_nob
+	]
 	
 func menu_od_misc():
 	clear_connections()
@@ -123,7 +157,13 @@ func clear_connections():
 	clear_connections_for_node(item2)
 	clear_connections_for_node(item3)
 	clear_connections_for_node(item4)
+	for item in other_signals_to_cleanup:
+		item.signal.disconnect(item.callable)
+	other_signals_to_cleanup.clear()
 
+func add_connection(signal_, callable):
+	signal_.connect(callable)
+	other_signals_to_cleanup.append({"signal": signal_, "callable": callable})
 
 func set_remote_target():
-	print("TODO")
+	Globals.ui_mode = Globals.UI_MODE.SET_REMOTE_TARGET

@@ -38,6 +38,9 @@ var _e = false
 var _shift = false
 var _alt = false
 
+func _ready():
+	set_process_unhandled_input(true)
+
 func _input(event):
 	# Receives mouse motion
 	if event is InputEventMouseMotion:
