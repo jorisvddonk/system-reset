@@ -44,6 +44,7 @@ func _on_found_star(x, y, z):
 	# print(x, ":", y, ":", z, " --- name: ", objname)
 	objname = regex.sub(objname, "")
 	var star = Farstar.instantiate()
+	star.star_name = objname
+	star.parsis = Vector3(x, y, z)
 	star.translate(Vector3(x/1000, y/1000, z/1000))
 	$Stars.add_child(star)
-	star.get_node("Label3D").text = objname
