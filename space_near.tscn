@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=14 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="Script" path="res://camera.gd" id="1_3gehl"]
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://fuj2xt1sh8nm" path="res://hud.tscn" id="6_1bch5"]
 [ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://sd_screen.tscn" id="6_6tqdb"]
+[ext_resource type="Script" path="res://SD_3dScreen.gd" id="8_4bukw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
 blend_mode = 1
@@ -15,7 +16,7 @@ shading_mode = 2
 albedo_color = Color(1, 0.992157, 0.733333, 1)
 roughness = 0.1
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_6hrh7"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_u8yx7"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvr2n"]
@@ -24,16 +25,20 @@ transparency = 1
 blend_mode = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_6hrh7")
+albedo_texture = SubResource("ViewportTexture_u8yx7")
 disable_receive_shadows = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_i3ms5"]
 size = Vector2(11.34, 1.4)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_mvi76"]
+points = PackedVector3Array(5.67, 0.699863, 0, 5.67, -0.7, 0, -5.67, 0.699863, 0, -5.67, -0.7, 0)
+
 [node name="SpaceNear" type="Node3D"]
 script = ExtResource("1_w6myo")
 
 [node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.5, 0)
 script = ExtResource("1_3gehl")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
@@ -71,10 +76,20 @@ disable_3d = true
 own_world_3d = true
 transparent_bg = true
 size = Vector2i(1135, 140)
+render_target_update_mode = 4
 
 [node name="SDScreen" parent="SubViewport" instance=ExtResource("6_6tqdb")]
 
-[node name="3dScreen" type="MeshInstance3D" parent="."]
+[node name="3dScreen" type="MeshInstance3D" parent="." node_paths=PackedStringArray("viewport", "sdscreen")]
 transform = Transform3D(-1.6, 0, -2.41593e-07, 0, 1.6, 0, 2.41593e-07, 0, -1.6, -0.0503712, 1.75311, 10.4565)
 material_override = SubResource("StandardMaterial3D_pvr2n")
 mesh = SubResource("QuadMesh_i3ms5")
+script = ExtResource("8_4bukw")
+viewport = NodePath("../SubViewport")
+sdscreen = NodePath("../SubViewport/SDScreen")
+
+[node name="Area3D" type="Area3D" parent="3dScreen"]
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3dScreen/Area3D"]
+shape = SubResource("ConvexPolygonShape3D_mvi76")

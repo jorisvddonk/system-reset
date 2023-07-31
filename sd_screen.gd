@@ -10,12 +10,18 @@ extends Panel
 @export var onboard_devices: Label
 @export var preferences: Label
 @export var disable_display: Label
+@onready var active_control: Label = null
 
 func _ready():
 	flight_control_drive.pressed.connect(menu_fcd)
 	onboard_devices.pressed.connect(menu_od)
 	preferences.pressed.connect(menu_prefs)
 	disable_display.pressed.connect(menu_dd)
+
+func _process(delta):
+	if Input.get_mouse_button_mask() == 1:
+		if active_control != null:
+			active_control.pressed_check()
 
 func menu_fcd():
 	clear_connections()
