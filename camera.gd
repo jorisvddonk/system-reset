@@ -37,11 +37,26 @@ var _q = false
 var _e = false
 var _shift = false
 var _alt = false
+var is_mirror = false
 
 func _ready():
-	set_process_unhandled_input(true)
+	var l = get_tree().get_current_scene()
+	var parentName = get_parent().name
+	if parentName == Globals.CAMERA_CONTROLLER_SCENE_NAME || l.name != Globals.ROOT_SCENE_NAME:
+		print("We (%s) are a camera controller!" % parentName)
+		set_process_unhandled_input(true)
+	else:
+		print("We (%s) are a camera mirror!" % parentName)
+		Globals.on_camera_rotation.connect(_on_camera_rotate)
+		is_mirror = true
+
+func _on_camera_rotate(rotation):
+	self.rotation = rotation
 
 func _input(event):
+	if (is_mirror):
+		return
+	
 	# Receives mouse motion
 	if event is InputEventMouseMotion:
 		_mouse_position = event.relative
@@ -78,6 +93,8 @@ func _input(event):
 
 # Updates mouselook and movement every frame
 func _process(delta):
+	if (is_mirror):
+		return
 	_update_mouselook()
 	_update_movement(delta)
 
