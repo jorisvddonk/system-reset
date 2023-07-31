@@ -10,7 +10,7 @@
 class_name FreeLookCamera extends Camera3D
 
 # Modifier keys' speed multiplier
-const SHIFT_MULTIPLIER = 2.5
+const SHIFT_MULTIPLIER = 5
 const ALT_MULTIPLIER = 1.0 / SHIFT_MULTIPLIER
 
 @export_range(0.0, 1.0) var sensitivity = 0.25
@@ -64,6 +64,10 @@ func _input(event):
 				_d = event.pressed
 			KEY_Q:
 				_q = event.pressed
+			KEY_SHIFT:
+				_shift = event.pressed
+			KEY_ALT:
+				_alt = event.pressed
 			KEY_E:
 				_e = event.pressed
 
