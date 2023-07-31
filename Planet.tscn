@@ -24,6 +24,9 @@ uv1_scale = Vector3(-1, 1, 1)
 texture_filter = 0
 
 [node name="Planet" type="Node3D"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 script = ExtResource("2_atbx8")
 
 [node name="PlanetParent" type="Node3D" parent="."]

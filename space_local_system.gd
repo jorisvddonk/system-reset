@@ -10,7 +10,8 @@ func _ready():
 	
 func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
-	printt("Found planet: ", planet_name, index, planet_id, seedval, x, y, z, "----", type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, "rotation", rotation, term_start, term_end, qsortindex, qsortdist)
+	#var planet_name = "planet_name"
+	#printt("Found planet: ", planet_name, index, planet_id, seedval, x, y, z, "----", type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, "rotation", rotation, term_start, term_end, qsortindex, qsortdist)
 	var planet = Planet.instantiate()
 	planet.type = type
 	planet.seed = seedval
@@ -27,6 +28,31 @@ func _on_parsis_changed(vec3):
 	# for now, we assume that when parsis changes, we need to clean the planets and wait for them to be found again
 	for item in $Planets.get_children():
 		$Planets.remove_child(item)
-	Globals.feltyrion.lock()
+	print("Creating planets...")
+	print(Time.get_unix_time_from_system())
 	Globals.feltyrion.prepare_star()
-	Globals.feltyrion.unlock()
+	var data = Globals.feltyrion.get_current_star_info()
+	for i in range(0,data.nearstar_nob):
+		var pl_data = Globals.feltyrion.get_planet_info(i)
+		_on_found_planet(i, pl_data.nearstar_p_identity, pl_data.nearstar_p_seedval,
+			pl_data.nearstar_p_plx,
+			pl_data.nearstar_p_ply,
+			pl_data.nearstar_p_plz,
+			pl_data.nearstar_p_type,
+			pl_data.nearstar_p_owner,
+			pl_data.nearstar_p_moonid,
+			pl_data.nearstar_p_ring,
+			pl_data.nearstar_p_tilt,
+			pl_data.nearstar_p_ray,
+			pl_data.nearstar_p_orb_ray,
+			pl_data.nearstar_p_orb_tilt,
+			pl_data.nearstar_p_orb_orient,
+			pl_data.nearstar_p_orb_ecc,
+			pl_data.nearstar_p_rtperiod,
+			pl_data.nearstar_p_rotation,
+			pl_data.nearstar_p_term_start,
+			pl_data.nearstar_p_term_end,
+			pl_data.nearstar_p_qsortindex,
+			pl_data.nearstar_p_qsortdist)
+	print("done creating planets")
+	print(Time.get_unix_time_from_system())

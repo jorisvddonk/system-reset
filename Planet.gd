@@ -6,8 +6,8 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	generate()
 	$PlanetNameLabel.text = planet_name
+	generate()
 
 func generate():
 	Globals.feltyrion.load_planet(planet_index, type, seed, true, false)

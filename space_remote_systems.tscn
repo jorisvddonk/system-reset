@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://mna8adl51ysw"]
 
 [ext_resource type="Script" path="res://space_remote_systems.gd" id="1_y4fie"]
-[ext_resource type="Script" path="res://MirrorCamera.gd" id="2_5lmn4"]
+[ext_resource type="Script" path="res://camera.gd" id="2_yu2n3"]
 
 [sub_resource type="Environment" id="Environment_7pcfu"]
 background_mode = 1
@@ -13,6 +13,6 @@ script = ExtResource("1_y4fie")
 environment = SubResource("Environment_7pcfu")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-script = ExtResource("2_5lmn4")
+script = ExtResource("2_yu2n3")
 
 [node name="Stars" type="Node3D" parent="."]
