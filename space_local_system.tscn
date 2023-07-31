@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://donu4757x48qs"]
+
+[ext_resource type="Script" path="res://space_local_system.gd" id="1_tlx4b"]
+[ext_resource type="Script" path="res://MirrorCamera.gd" id="2_vcnjg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qx1s7"]
+albedo_color = Color(0.996078, 1, 0.505882, 1)
+emission_enabled = true
+emission = Color(1, 0.968627, 0.584314, 1)
+
+[node name="SpaceLocalSystem" type="Node3D"]
+script = ExtResource("1_tlx4b")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("2_vcnjg")
+
+[node name="Planets" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+
+[node name="SolarSystemParentStar" type="CSGSphere3D" parent="Planets"]
+material_override = SubResource("StandardMaterial3D_qx1s7")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Planets"]
+layers = 4
+light_cull_mask = 4293918724
+omni_range = 4096.0
+omni_attenuation = 0.000345266

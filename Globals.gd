@@ -1,6 +1,7 @@
 extends Node
 @onready var feltyrion = Feltyrion.new()
 signal on_parsis_changed(x, y, z)
+signal on_camera_rotation(rotation)
 
 func set_parsis(vec3):
 	feltyrion.set_ap_target(vec3)

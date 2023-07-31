@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbo63hpxfc223"]
+
+[ext_resource type="Script" path="res://camera.gd" id="1_3gehl"]
+[ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
+[ext_resource type="Script" path="res://space_near.gd" id="1_w6myo"]
+[ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
+[ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
+blend_mode = 1
+cull_mode = 2
+shading_mode = 2
+albedo_color = Color(1, 0.992157, 0.733333, 1)
+roughness = 0.1
+
+[node name="SpaceNear" type="Node3D"]
+script = ExtResource("1_w6myo")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("1_3gehl")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3533, 2.61559, 9.52047)
+light_color = Color(0.556863, 0.764706, 1, 1)
+light_energy = 6.313
+light_cull_mask = 4293918722
+omni_range = 139.288
+
+[node name="cupolaFloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.335, 0, 0, 0, 0.335, 0, 0, 0, 0.335, 0, 0, 0)
+layers = 2
+material_override = SubResource("StandardMaterial3D_hty7a")
+transparency = 0.4
+mesh = ExtResource("1_i3c1o")
+skeleton = NodePath("../..")
+
+[node name="cupolaRoof" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.341021, 0, 0, 0, -0.33, 0, 0, 0, 0.315306, 0.20256, 1.80988, 0.0934862)
+layers = 2
+material_override = SubResource("StandardMaterial3D_hty7a")
+transparency = 0.4
+mesh = ExtResource("2_dedv8")
+skeleton = NodePath("../cupolaFloor")
+
+[node name="vehicle" parent="." instance=ExtResource("3_u5gxh")]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
