@@ -1,0 +1,123 @@
+[gd_scene load_steps=3 format=3 uid="uid://j2m02rcgoy04"]
+
+[ext_resource type="Script" path="res://sd_screen.gd" id="1_ki2m0"]
+[ext_resource type="Script" path="res://SDScreenControl.gd" id="2_e2e7d"]
+
+[node name="SDScreen" type="Panel" node_paths=PackedStringArray("line1", "line2", "line3", "item1", "item2", "item3", "item4", "flight_control_drive", "onboard_devices", "preferences", "disable_display")]
+custom_minimum_size = Vector2(1200, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 560.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_ki2m0")
+line1 = NodePath("RootContainer/RightSideContainer/LinesContainer/LabelLine1")
+line2 = NodePath("RootContainer/RightSideContainer/LinesContainer/LabelLine2")
+line3 = NodePath("RootContainer/RightSideContainer/LinesContainer/LabelLine3")
+item1 = NodePath("RootContainer/RightSideContainer/ItemContainer/LabelItem1")
+item2 = NodePath("RootContainer/RightSideContainer/ItemContainer/LabelItem2")
+item3 = NodePath("RootContainer/RightSideContainer/ItemContainer/LabelItem3")
+item4 = NodePath("RootContainer/RightSideContainer/ItemContainer/LabelItem4")
+flight_control_drive = NodePath("RootContainer/CommandsContainer/LabelFCD")
+onboard_devices = NodePath("RootContainer/CommandsContainer/LabelOD")
+preferences = NodePath("RootContainer/CommandsContainer/LabelPREFS")
+disable_display = NodePath("RootContainer/CommandsContainer/LabelDD")
+
+[node name="RootContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CommandsContainer" type="VBoxContainer" parent="RootContainer"]
+layout_mode = 2
+
+[node name="LabelFCD" type="Label" parent="RootContainer/CommandsContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Flight control drive"
+uppercase = true
+script = ExtResource("2_e2e7d")
+
+[node name="LabelOD" type="Label" parent="RootContainer/CommandsContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Onboard devices"
+uppercase = true
+
+[node name="LabelPREFS" type="Label" parent="RootContainer/CommandsContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Preferences"
+uppercase = true
+
+[node name="LabelDD" type="Label" parent="RootContainer/CommandsContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Disable display"
+uppercase = true
+
+[node name="ColorRect" type="ColorRect" parent="RootContainer"]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+
+[node name="RightSideContainer" type="VBoxContainer" parent="RootContainer"]
+layout_mode = 2
+
+[node name="ItemContainer" type="HBoxContainer" parent="RootContainer/RightSideContainer"]
+layout_mode = 2
+
+[node name="LabelItem1" type="Label" parent="RootContainer/RightSideContainer/ItemContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Item 1"
+uppercase = true
+
+[node name="LabelItem2" type="Label" parent="RootContainer/RightSideContainer/ItemContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Item 2"
+uppercase = true
+
+[node name="LabelItem3" type="Label" parent="RootContainer/RightSideContainer/ItemContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Item 3"
+uppercase = true
+
+[node name="LabelItem4" type="Label" parent="RootContainer/RightSideContainer/ItemContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Item 4"
+uppercase = true
+
+[node name="ColorRect" type="ColorRect" parent="RootContainer/RightSideContainer"]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+
+[node name="LinesContainer" type="VBoxContainer" parent="RootContainer/RightSideContainer"]
+layout_mode = 2
+
+[node name="LabelLine1" type="Label" parent="RootContainer/RightSideContainer/LinesContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Line 1"
+uppercase = true
+
+[node name="LabelLine2" type="Label" parent="RootContainer/RightSideContainer/LinesContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Line 2"
+uppercase = true
+
+[node name="LabelLine3" type="Label" parent="RootContainer/RightSideContainer/LinesContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "Line 3"
+uppercase = true

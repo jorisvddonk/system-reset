@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=12 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="Script" path="res://camera.gd" id="1_3gehl"]
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
@@ -6,6 +6,7 @@
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://fuj2xt1sh8nm" path="res://hud.tscn" id="6_1bch5"]
+[ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://sd_screen.tscn" id="6_6tqdb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
 blend_mode = 1
@@ -13,6 +14,21 @@ cull_mode = 2
 shading_mode = 2
 albedo_color = Color(1, 0.992157, 0.733333, 1)
 roughness = 0.1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_6hrh7"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvr2n"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_6hrh7")
+disable_receive_shadows = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_i3ms5"]
+size = Vector2(11.34, 1.4)
 
 [node name="SpaceNear" type="Node3D"]
 script = ExtResource("1_w6myo")
@@ -49,3 +65,16 @@ transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource("6_1bch5")]
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+own_world_3d = true
+transparent_bg = true
+size = Vector2i(1135, 140)
+
+[node name="SDScreen" parent="SubViewport" instance=ExtResource("6_6tqdb")]
+
+[node name="3dScreen" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.6, 0, -2.41593e-07, 0, 1.6, 0, 2.41593e-07, 0, -1.6, -0.0503712, 1.75311, 10.4565)
+material_override = SubResource("StandardMaterial3D_pvr2n")
+mesh = SubResource("QuadMesh_i3ms5")
