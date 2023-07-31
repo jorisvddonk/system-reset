@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dn7j527vmegka"]
+[gd_scene load_steps=5 format=3 uid="uid://dn7j527vmegka"]
 
+[ext_resource type="Script" path="res://main.gd" id="1_03no5"]
 [ext_resource type="PackedScene" uid="uid://mna8adl51ysw" path="res://space_remote_systems.tscn" id="1_og4bw"]
 [ext_resource type="PackedScene" uid="uid://donu4757x48qs" path="res://space_local_system.tscn" id="2_ea67m"]
 [ext_resource type="PackedScene" uid="uid://bbo63hpxfc223" path="res://space_near.tscn" id="2_xkawo"]
@@ -7,13 +8,12 @@
 [node name="MainControl" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+script = ExtResource("1_03no5")
 
 [node name="SubViewportContainer_SpaceRemote" type="SubViewportContainer" parent="."]
 layout_mode = 0
-offset_right = 748.0
-offset_bottom = 649.0
+offset_right = 1280.0
+offset_bottom = 720.0
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceRemote"]
 own_world_3d = true
@@ -25,7 +25,7 @@ render_target_update_mode = 4
 [node name="SpaceRemoteSystems" parent="SubViewportContainer_SpaceRemote/SubViewport" instance=ExtResource("1_og4bw")]
 
 [node name="SubViewportContainer_SpaceLocal" type="SubViewportContainer" parent="."]
-layout_mode = 2
+layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 
@@ -40,8 +40,8 @@ render_target_update_mode = 4
 
 [node name="SubViewportContainer_SpaceNear" type="SubViewportContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1280.0
+offset_bottom = 720.0
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceNear"]
 own_world_3d = true
