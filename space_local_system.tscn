@@ -1,12 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://donu4757x48qs"]
+[gd_scene load_steps=6 format=3 uid="uid://donu4757x48qs"]
 
 [ext_resource type="Script" path="res://space_local_system.gd" id="1_tlx4b"]
 [ext_resource type="Script" path="res://camera.gd" id="2_yq2a3"]
+[ext_resource type="Shader" uid="uid://17p84k6mfsml" path="res://solar_system_parent_star.tres" id="3_jyyok"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qx1s7"]
-albedo_color = Color(0.996078, 1, 0.505882, 1)
-emission_enabled = true
-emission = Color(1, 0.968627, 0.584314, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqaa"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_jyyok")
+
+[sub_resource type="SphereMesh" id="SphereMesh_jjmm3"]
+material = SubResource("ShaderMaterial_oyqaa")
 
 [node name="SpaceLocalSystem" type="Node3D"]
 process_thread_group = 1
@@ -24,8 +28,8 @@ light_cull_mask = 4293918724
 omni_range = 4096.0
 omni_attenuation = 0.000345266
 
-[node name="SolarSystemParentStar" type="CSGSphere3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-material_override = SubResource("StandardMaterial3D_qx1s7")
-
 [node name="Planets" type="Node3D" parent="."]
+
+[node name="SolarSystemParentStar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("SphereMesh_jjmm3")
