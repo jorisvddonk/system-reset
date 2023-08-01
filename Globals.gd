@@ -1,4 +1,6 @@
+@tool
 extends Node
+
 @onready var feltyrion: Feltyrion = Feltyrion.new()
 signal on_parsis_changed(parsis: Vector3)
 signal on_camera_rotation(rotation)
@@ -45,6 +47,7 @@ func _process(delta):
 
 func vimanaFlight():
 	# TODO: actually vimana flight :)
+	print("vimana!")
 	set_parsis(ap_target_parsis)
 
 func _unhandled_key_input(event):

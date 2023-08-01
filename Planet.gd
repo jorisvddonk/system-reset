@@ -1,3 +1,5 @@
+@tool
+
 extends Node3D
 @export var type: int
 @export var seed: float
