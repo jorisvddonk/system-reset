@@ -44,6 +44,7 @@ func _ready():
 	var parentName = get_parent().name
 	if parentName == Globals.CAMERA_CONTROLLER_SCENE_NAME || l.name != Globals.ROOT_SCENE_NAME:
 		print("We (%s) are a camera controller!" % parentName)
+		Globals.on_camera_rotation.emit(self.rotation) # make sure all other cameras are set to this one, even before we rotate
 		set_process_unhandled_input(true)
 	else:
 		print("We (%s) are a camera mirror!" % parentName)
