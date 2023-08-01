@@ -13,9 +13,9 @@ func generate():
 	Globals.feltyrion.load_planet(planet_index, type, seed, true, false)
 	var img = Globals.feltyrion.return_image(true, false)
 	var imageTexture = ImageTexture.create_from_image(img)
-	$PlanetParent/Surface.material_override.albedo_texture = imageTexture
+	$PlanetParent/Surface.mesh.material.albedo_texture = imageTexture
 	
 	var atmimg = Globals.feltyrion.return_atmosphere_image(true)
 	var atmimageTexture = ImageTexture.create_from_image(atmimg)
-	$PlanetParent/Atmosphere.material_override.albedo_texture = atmimageTexture
+	$PlanetParent/Atmosphere.mesh.material.albedo_texture = atmimageTexture
 

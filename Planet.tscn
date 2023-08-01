@@ -1,27 +1,39 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4sei7kpms65m"]
+[gd_scene load_steps=8 format=3 uid="uid://b4sei7kpms65m"]
 
-[ext_resource type="Texture2D" uid="uid://bqpwaadclwg2m" path="res://icon.svg" id="1_d25hg"]
 [ext_resource type="Script" path="res://Planet.gd" id="2_atbx8"]
-[ext_resource type="Texture2D" uid="uid://bbn78jk62crvd" path="res://addons/kenney_particle_pack/smoke_01.png" id="3_6fegb"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u03s0"]
+[sub_resource type="ImageTexture" id="ImageTexture_5btwd"]
+resource_local_to_scene = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rg7hy"]
 resource_local_to_scene = true
 transparency = 1
+blend_mode = 1
 cull_mode = 2
-albedo_texture = ExtResource("1_d25hg")
+albedo_texture = SubResource("ImageTexture_5btwd")
 texture_filter = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_folie"]
+[sub_resource type="SphereMesh" id="SphereMesh_3om8j"]
 resource_local_to_scene = true
-albedo_texture = ExtResource("3_6fegb")
-emission = Color(0.141176, 0.141176, 0.141176, 1)
-emission_energy_multiplier = 1.8
-ao_light_affect = 1.0
-subsurf_scatter_strength = 1.0
-backlight = Color(0.94902, 0.94902, 0.94902, 1)
-refraction_scale = 1.0
-uv1_scale = Vector3(-1, 1, 1)
+material = SubResource("StandardMaterial3D_rg7hy")
+radius = 1.5
+height = 3.0
+radial_segments = 32
+
+[sub_resource type="ImageTexture" id="ImageTexture_xi13m"]
+resource_local_to_scene = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lj37i"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ImageTexture_xi13m")
 texture_filter = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_k1oab"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_lj37i")
+radius = 1.375
+height = 2.75
+radial_segments = 32
 
 [node name="Planet" type="Node3D"]
 process_thread_group = 1
@@ -31,17 +43,13 @@ script = ExtResource("2_atbx8")
 
 [node name="PlanetParent" type="Node3D" parent="."]
 
-[node name="Atmosphere" type="CSGSphere3D" parent="PlanetParent"]
-material_override = SubResource("StandardMaterial3D_u03s0")
-radius = 2.61
-radial_segments = 100
-rings = 100
+[node name="Atmosphere" type="MeshInstance3D" parent="PlanetParent"]
+layers = 7
+mesh = SubResource("SphereMesh_3om8j")
 
-[node name="Surface" type="CSGSphere3D" parent="PlanetParent"]
-material_override = SubResource("StandardMaterial3D_folie")
-radius = 2.425
-radial_segments = 100
-rings = 100
+[node name="Surface" type="MeshInstance3D" parent="PlanetParent"]
+layers = 7
+mesh = SubResource("SphereMesh_k1oab")
 
 [node name="PlanetNameLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62781, 0)
