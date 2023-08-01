@@ -46,3 +46,7 @@ func _process(delta):
 func vimanaFlight():
 	# TODO: actually vimana flight :)
 	set_parsis(ap_target_parsis)
+
+func _unhandled_key_input(event):
+	if event.keycode == KEY_F1 && event.is_pressed():
+		vimanaFlight()
