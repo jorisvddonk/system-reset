@@ -5,10 +5,13 @@ extends Node3D
 @export var seed: float
 @export var planet_index: int
 @export var planet_name: String
+@export var planet_viewpoint: int
+@export var planet_rotation: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$PlanetNameLabel.text = planet_name
+	$PlanetParent.rotate_y(((planet_viewpoint + planet_rotation + 89 + 35) % 360) * (PI / 180))
 	generate()
 
 func generate():

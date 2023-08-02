@@ -19,9 +19,10 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	planet.seed = seedval
 	planet.planet_index = index
 	planet.planet_name = planet_name
+	planet.planet_viewpoint = viewpoint
+	planet.planet_rotation = rotation
 	#planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0)) # alternative placement; makes it easy to see all planets in an overview
 	planet.translate(Vector3(-(Globals.feltyrion.ap_target.x - x), (Globals.feltyrion.ap_target.y - y), (Globals.feltyrion.ap_target.z - z))) # TODO: check if y should be flipped here..
-	planet.get_node("PlanetParent").rotate_y(((viewpoint + rotation + 89 + 35) % 360) * (PI / 180)) # not entirely sure why '98' is the magic number here (it should be 89..?) but it seems to work!
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
 	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$Planets.add_child(planet)
