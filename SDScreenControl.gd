@@ -5,34 +5,29 @@ const DEBOUNCE = 100
 var last_click: int = 0
 signal pressed()
 @export var rootNode: Panel
+var mouse_over
 
-# Called when the node ente= e scene tree for the first time.
 func _ready():
 	self.mouse_entered.connect(_mouse_entered)
 	self.mouse_exited.connect(_mouse_exited)
-	#self.gui_input.connect(_gui_input) # disabled for now; see below
+	Globals.mouse_clicked.connect(on_mouse_clicked)
 	_mouse_exited()
 
 func _mouse_entered():
-	self.modulate = highlight_color
-	rootNode.active_control = self
+	if Globals.ui_mode == Globals.UI_MODE.NONE:
+		mouse_over = true
+		self.modulate = highlight_color
 	
 func _mouse_exited():
+	mouse_over = false
 	self.modulate = orig_color
-	if rootNode.active_control == self:
-		rootNode.active_control = null
 	
+func on_mouse_clicked():
+	pressed_check()
 
 func pressed_check():
-	if last_click < Time.get_ticks_msec() - DEBOUNCE:
-		last_click = Time.get_ticks_msec()
-		pressed.emit()
-
-# for some reason this does not work at all trough a viewport, hence why the rootNode.active_control exists...
-# disabled for now!
-#func _gui_input(event):
-#	if event is InputEventMouseButton:
-#		print("Clicked on %s" % self.text, event)
-#		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
-#			pressed_check()
-
+	if mouse_over && Globals.ui_mode == Globals.UI_MODE.NONE:
+		if mouse_over && last_click < Time.get_ticks_msec() - DEBOUNCE:
+			last_click = Time.get_ticks_msec()
+			pressed.emit()
+			_mouse_exited() # prevent stuck state - TODO; maybe introduce an 'active control' state? NIV had those for certain menu entries...

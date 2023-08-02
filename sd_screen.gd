@@ -10,7 +10,6 @@ extends Panel
 @export var onboard_devices: Label
 @export var preferences: Label
 @export var disable_display: Label
-@onready var active_control: Label = null
 
 const star_descriptions = ["medium size, yellow star, suitable for planets having indigenous lifeforms.",
 	"very large, blue giant star, high energy radiations around.",
@@ -34,11 +33,6 @@ func _ready():
 	preferences.pressed.connect(menu_prefs)
 	disable_display.pressed.connect(menu_dd)
 
-func _process(delta):
-	if Input.get_mouse_button_mask() == 1:
-		if active_control != null:
-			active_control.pressed_check()
-
 func menu_fcd():
 	clear_connections()
 	item1.text = "Set remote target"
@@ -57,9 +51,9 @@ func menu_fcd():
 		line1.text = "no remote target selected"
 	line2.text = "current range: elapsed 0 kilodyams, remaining litihum: -1 grams." # TODO: change depending on status
 	#-
-	item1.pressed.connect(set_remote_target)
+	item1.pressed.connect(set_remote_target) # see FarStar scene for the part that handles actually setting the remote target
 	item2.pressed.connect(vimana)
-	add_connection(Globals.on_ap_target_changed, func(a,b): menu_fcd())
+	add_connection(Globals.on_ap_target_changed, func(a,b): menu_fcd()) # redraw screen if current target changed
 	
 func menu_od():
 	clear_connections()
