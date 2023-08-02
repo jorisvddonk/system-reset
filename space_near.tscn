@@ -41,37 +41,6 @@ script = ExtResource("1_w6myo")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.5, 0)
 script = ExtResource("1_3gehl")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3533, 2.61559, 9.52047)
-light_color = Color(0.556863, 0.764706, 1, 1)
-light_energy = 6.313
-light_cull_mask = 4293918722
-omni_range = 139.288
-
-[node name="cupolaFloor" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.335, 0, 0, 0, 0.335, 0, 0, 0, 0.335, 0, 0, 0)
-layers = 2
-material_override = SubResource("StandardMaterial3D_hty7a")
-transparency = 0.4
-mesh = ExtResource("1_i3c1o")
-skeleton = NodePath("../..")
-
-[node name="cupolaRoof" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.341021, 0, 0, 0, -0.33, 0, 0, 0, 0.315306, 0.20256, 1.80988, 0.0934862)
-layers = 2
-material_override = SubResource("StandardMaterial3D_hty7a")
-transparency = 0.4
-mesh = ExtResource("2_dedv8")
-skeleton = NodePath("../cupolaFloor")
-
-[node name="vehicle" parent="." instance=ExtResource("3_u5gxh")]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="HUD" parent="CanvasLayer" instance=ExtResource("6_1bch5")]
-metadata/_edit_use_anchors_ = true
-
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 own_world_3d = true
@@ -81,16 +50,50 @@ render_target_update_mode = 4
 
 [node name="SDScreen" parent="SubViewport" instance=ExtResource("6_6tqdb")]
 
-[node name="3dScreen" type="MeshInstance3D" parent="." node_paths=PackedStringArray("viewport", "sdscreen")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("6_1bch5")]
+metadata/_edit_use_anchors_ = true
+
+[node name="StardrifterParent" type="Node3D" parent="."]
+
+[node name="cupolaFloor" type="MeshInstance3D" parent="StardrifterParent"]
+transform = Transform3D(0.335, 0, 0, 0, 0.335, 0, 0, 0, 0.335, 0, 0, 0)
+layers = 2
+material_override = SubResource("StandardMaterial3D_hty7a")
+transparency = 0.4
+mesh = ExtResource("1_i3c1o")
+skeleton = NodePath("../../..")
+
+[node name="cupolaRoof" type="MeshInstance3D" parent="StardrifterParent"]
+transform = Transform3D(0.341021, 0, 0, 0, -0.33, 0, 0, 0, 0.315306, 0.20256, 1.80988, 0.0934858)
+layers = 2
+material_override = SubResource("StandardMaterial3D_hty7a")
+transparency = 0.4
+mesh = ExtResource("2_dedv8")
+skeleton = NodePath("../cupolaFloor")
+
+[node name="vehicle" parent="StardrifterParent" instance=ExtResource("3_u5gxh")]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+
+[node name="3dScreen" type="MeshInstance3D" parent="StardrifterParent" node_paths=PackedStringArray("viewport", "sdscreen")]
 transform = Transform3D(-1.6, 0, -2.41593e-07, 0, 1.6, 0, 2.41593e-07, 0, -1.6, -0.0503712, 1.75311, 10.4565)
 material_override = SubResource("StandardMaterial3D_pvr2n")
 mesh = SubResource("QuadMesh_i3ms5")
+skeleton = NodePath("../..")
 script = ExtResource("8_4bukw")
-viewport = NodePath("../SubViewport")
-sdscreen = NodePath("../SubViewport/SDScreen")
+viewport = NodePath("../../SubViewport")
+sdscreen = NodePath("../../SubViewport/SDScreen")
 
-[node name="Area3D" type="Area3D" parent="3dScreen"]
+[node name="Area3D" type="Area3D" parent="StardrifterParent/3dScreen"]
 input_capture_on_drag = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="3dScreen/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StardrifterParent/3dScreen/Area3D"]
 shape = SubResource("ConvexPolygonShape3D_mvi76")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="StardrifterParent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3533, 2.61559, 9.52047)
+light_color = Color(0.556863, 0.764706, 1, 1)
+light_energy = 6.313
+light_cull_mask = 4293918722
+omni_range = 139.288

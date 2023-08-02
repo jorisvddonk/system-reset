@@ -11,7 +11,7 @@ func _process(delta):
 	if mouseover:
 		var space_state = get_world_3d().direct_space_state
 		var mousepos = get_viewport().get_mouse_position()
-		var cam = get_parent().get_node("Camera3D")
+		var cam = get_parent().get_parent().get_node("Camera3D")
 		var origin = cam.project_ray_origin(mousepos)
 		var end = origin + cam.project_ray_normal(mousepos) * 1000
 		var query = PhysicsRayQueryParameters3D.create(origin, end)
