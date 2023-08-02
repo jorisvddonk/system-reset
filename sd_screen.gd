@@ -38,7 +38,7 @@ func menu_fcd():
 	item1.text = "Set remote target"
 	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana_active else "Stop"]
 	item3.text = "Set local target" if can_set_local_target() else ("Start fine approach" if can_start_fine_approach() else ("Stop fine approach" if can_stop_fine_approach() else ""))
-	item4.text = "Deploy surface capsule"
+	item4.text = "Deploy surface capsule" if can_deploy_surface_capsule() else ("Cancel local target" if can_cancel_local_target() else "")
 	#--
 	clear_lines()
 	var apinfo = Globals.feltyrion.get_ap_target_info()
@@ -54,6 +54,7 @@ func menu_fcd():
 	item1.pressed.connect(set_remote_target) # see FarStar scene for the part that handles actually setting the remote target
 	item2.pressed.connect(toggle_vimana_active)
 	item3.pressed.connect(local_target_button) # see Planet scene for the part that handles actually setting the local target
+	item4.pressed.connect(interact_local_target_button)
 	add_connection(Globals.on_ap_target_changed, func(_a,_b): menu_fcd()) # redraw screen if current remote target changed
 	add_connection(Globals._on_local_target_changed, func(_a): menu_fcd()) # redraw screen if current local target changed
 	add_connection(Globals.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
@@ -178,6 +179,12 @@ func local_target_button():
 	elif can_stop_fine_approach():
 		Globals.fine_approach_active = false
 
+func interact_local_target_button():
+	if can_deploy_surface_capsule():
+		print("TODO") #TODO
+	elif can_cancel_local_target():
+		Globals.local_target_index = -1
+
 func toggle_vimana_active():
 	if Globals.vimana_active:
 		Globals.vimanaStop()
@@ -192,3 +199,10 @@ func can_start_fine_approach():
 
 func can_stop_fine_approach():
 	return Globals.fine_approach_active
+	
+func can_deploy_surface_capsule():
+	# note: logic possibly different from NIV
+	return Globals.local_target_orbit_index != -1
+
+func can_cancel_local_target():
+	return Globals.local_target_index != -1
