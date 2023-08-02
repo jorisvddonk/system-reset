@@ -1,4 +1,3 @@
-@tool
 extends Node
 
 @onready var feltyrion: Feltyrion = Feltyrion.new()

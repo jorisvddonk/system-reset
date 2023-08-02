@@ -1,5 +1,3 @@
-@tool
-
 extends Node3D
 var Farstar = preload("res://far_star.tscn")
 @onready var regex = RegEx.new()

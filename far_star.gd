@@ -1,5 +1,3 @@
-@tool
-
 extends Node3D
 @export var parsis: Vector3
 @export var star_name: String
