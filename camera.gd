@@ -42,8 +42,9 @@ var is_mirror = false
 func _ready():
 	var l = get_tree().get_current_scene()
 	var parentName = get_parent().name
-	if parentName == Globals.CAMERA_CONTROLLER_SCENE_NAME || l.name != Globals.ROOT_SCENE_NAME:
+	if parentName == Globals.CAMERA_CONTROLLER_SCENE_NAME || l.name != Globals.ROOT_SCENE_NAME || parentName == "StardrifterParent":
 		print("We (%s) are a camera controller!" % parentName)
+		Globals.maincamera = self
 		Globals.on_camera_rotation.emit(self.rotation) # make sure all other cameras are set to this one, even before we rotate
 		set_process_unhandled_input(true)
 	else:

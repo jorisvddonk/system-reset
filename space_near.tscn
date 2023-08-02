@@ -76,7 +76,7 @@ skeleton = NodePath("../cupolaFloor")
 [node name="vehicle" parent="StardrifterParent" instance=ExtResource("3_u5gxh")]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
-[node name="3dScreen" type="MeshInstance3D" parent="StardrifterParent" node_paths=PackedStringArray("viewport", "sdscreen")]
+[node name="3dScreen" type="MeshInstance3D" parent="StardrifterParent" node_paths=PackedStringArray("viewport", "sdscreen", "camera")]
 transform = Transform3D(-1.6, 0, -2.41593e-07, 0, 1.6, 0, 2.41593e-07, 0, -1.6, -0.0503712, 1.75311, 10.4565)
 material_override = SubResource("StandardMaterial3D_pvr2n")
 mesh = SubResource("QuadMesh_i3ms5")
@@ -84,6 +84,7 @@ skeleton = NodePath("../..")
 script = ExtResource("8_4bukw")
 viewport = NodePath("../../SubViewport")
 sdscreen = NodePath("../../SubViewport/SDScreen")
+camera = NodePath("../../Camera3D")
 
 [node name="Area3D" type="Area3D" parent="StardrifterParent/3dScreen"]
 input_capture_on_drag = true
