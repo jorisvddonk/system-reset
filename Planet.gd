@@ -51,9 +51,10 @@ func clicked_end():
 
 func __mouse_entered():
 	mouseover = true
+	$PlanetNameLabel.show()
 	$PlanetNameLabel.modulate = highlight_color
 	$PlanetNameLabel.fixed_size = true
-	$PlanetNameLabel.pixel_size = 0.003
+	$PlanetNameLabel.pixel_size = 0.0015
 	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
 		$PlanetNameLabel.modulate = local_tgt_highlight_color
 		$PlanetParent/SelectionSprite.show()
@@ -61,9 +62,7 @@ func __mouse_entered():
 func __mouse_exited():
 	mouseover = false
 	clicking = false
-	$PlanetNameLabel.modulate = orig_color
-	$PlanetNameLabel.fixed_size = false
-	$PlanetNameLabel.pixel_size = 0.0709
+	$PlanetNameLabel.hide()
 	$PlanetParent/SelectionSprite.hide()
 	
 
