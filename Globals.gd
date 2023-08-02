@@ -84,7 +84,7 @@ const FINE_APPROACH_DISTANCE = 15
 const TRACKING_SPEED = 1
 const TRACKING_DISTANCE__NEAR_CHASE = 4
 const TRACKING_DISTANCE__HIGH_SPEED_CHASE = 15
-const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 20 * DEGREES_TO_RADIANS # in radians per second
+const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * DEGREES_TO_RADIANS # in radians per second
 
 @export var vimana_active = false
 signal fine_approach_status_change(val: bool)
