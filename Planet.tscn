@@ -1,6 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4sei7kpms65m"]
+[gd_scene load_steps=9 format=3 uid="uid://b4sei7kpms65m"]
 
 [ext_resource type="Script" path="res://Planet.gd" id="2_atbx8"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s081u"]
+load_path = "res://.godot/imported/crosshair026.png-4bfbce0f5388f4c155453e66fcac6f8f.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_buind"]
+load_path = "res://.godot/imported/crosshair026.png-4bfbce0f5388f4c155453e66fcac6f8f.s3tc.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rg7hy"]
 resource_local_to_scene = true
@@ -29,15 +35,38 @@ radius = 1.375
 height = 2.75
 radial_segments = 32
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_abg5f"]
+resource_local_to_scene = true
+radius = 2.005
+
 [node name="Planet" type="Node3D"]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("2_atbx8")
-planet_viewpoint = null
-planet_rotation = null
 
 [node name="PlanetParent" type="Node3D" parent="."]
+
+[node name="SelectionSprite" type="Sprite3D" parent="PlanetParent"]
+transform = Transform3D(5.12494, 0, 0, 0, 5.12494, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+sorting_offset = 9999.0
+pixel_size = 0.0001
+billboard = 1
+no_depth_test = true
+fixed_size = true
+texture = SubResource("CompressedTexture2D_s081u")
+
+[node name="CurrentLocalTargetSelectionSprite" type="Sprite3D" parent="PlanetParent"]
+transform = Transform3D(5.12494, 0, 0, 0, 5.12494, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+sorting_offset = 9999.0
+modulate = Color(0.537255, 0.486275, 1, 1)
+pixel_size = 0.0001
+billboard = 1
+no_depth_test = true
+fixed_size = true
+texture = SubResource("CompressedTexture2D_buind")
 
 [node name="Atmosphere" type="MeshInstance3D" parent="PlanetParent"]
 layers = 7
@@ -53,3 +82,9 @@ pixel_size = 0.0344
 billboard = 1
 modulate = Color(0.239216, 0.6, 1, 1)
 vertical_alignment = 2
+
+[node name="Area3D" type="Area3D" parent="."]
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_abg5f")

@@ -9,6 +9,7 @@ signal mouse_click_begin()
 signal vimana_status_change(vimana_drive_active: bool)
 @export var current_parsis: Vector3 = Vector3(0,0,0)
 @export var ap_target_parsis: Vector3 = Vector3(0,0,0)
+
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
 signal ui_mode_changed(new_value)
 @export var ui_mode: UI_MODE = UI_MODE.NONE:
@@ -17,6 +18,22 @@ signal ui_mode_changed(new_value)
 	set(value):
 		ui_mode_changed.emit(value)
 		ui_mode = value
+
+signal _on_local_target_changed(planet_index: int)
+@export var local_target_index: int = -1: # the *selected* local target; -1 if none
+	get:
+		return local_target_index
+	set(value):
+		local_target_index = value
+		_on_local_target_changed.emit(value)
+		
+signal _on_local_target_orbit_changed(planet_index: int)
+@export var local_target_orbit_index: int = -1: # the *orbiting* local target; -1 if none
+	get:
+		return local_target_orbit_index
+	set(value):
+		_on_local_target_orbit_changed.emit(value)
+		local_target_orbit_index = value
 
 const ROOT_SCENE_NAME = "MainControl"
 const CAMERA_CONTROLLER_SCENE_NAME = "SpaceNear"
@@ -27,6 +44,13 @@ const MOUSE_CLICK_THRESHOLD_HIGH = 1.5
 const VIMANA_SPEED = 50000
 
 @export var vimana_active = false
+signal fine_approach_status_change(val: bool)
+@export var fine_approach_active = false:
+	get:
+		return fine_approach_active
+	set(value):
+		fine_approach_active = value
+		fine_approach_status_change.emit(value)
 
 func _ready():
 	self.add_child(feltyrion) # need to add Feltyrion to the tree so we can get nodes via the tree in C++
