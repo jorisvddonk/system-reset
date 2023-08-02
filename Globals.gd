@@ -50,6 +50,7 @@ const MOUSE_CLICK_THRESHOLD_LOW = 0.01
 const MOUSE_CLICK_THRESHOLD_HIGH = 1.5
 
 const VIMANA_SPEED = 50000
+const VIMANA_APPROACH_DISTANCE = 10
 const FINE_APPROACH_SPEED = 100
 const FINE_APPROACH_DISTANCE = 1
 
@@ -95,13 +96,15 @@ func _process(delta):
 	
 	if vimana_active:
 		var dist = current_parsis - ap_target_parsis
-		if dist.length() > VIMANA_SPEED * (delta*2):
+		if dist.length() > VIMANA_APPROACH_DISTANCE + (VIMANA_SPEED * (delta*2)):
 			current_parsis -= dist.normalized() * delta * VIMANA_SPEED
 			on_parsis_changed.emit(current_parsis)
 		else:
 			printt("we have arrived at remote target")
-			feltyrion.set_dzat(ap_target_parsis.x, ap_target_parsis.y, ap_target_parsis.z)
-			current_parsis = ap_target_parsis
+			var tgt_coordinates = ap_target_parsis - (dist.normalized() * VIMANA_APPROACH_DISTANCE).reflect(Vector3(0,0,1)) # don't ask me about this reflect.... :|
+			tgt_coordinates.y = ap_target_parsis.y # make sure we're in the same plane as the solar system, like Noctis does
+			feltyrion.set_dzat(tgt_coordinates.x, tgt_coordinates.y, tgt_coordinates.z)
+			current_parsis = tgt_coordinates
 			current_solar_system_star_parsis = ap_target_parsis
 			vimanaStop()
 			set_parsis(current_parsis)

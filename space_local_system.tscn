@@ -11,6 +11,8 @@ shader = ExtResource("3_jyyok")
 
 [sub_resource type="SphereMesh" id="SphereMesh_jjmm3"]
 material = SubResource("ShaderMaterial_oyqaa")
+radius = 2.5
+height = 5.0
 
 [node name="SpaceLocalSystem" type="Node3D"]
 process_thread_group = 1
@@ -33,6 +35,5 @@ omni_attenuation = 0.000345266
 [node name="Planets" type="Node3D" parent="SolarSystemContainer"]
 
 [node name="SolarSystemParentStar" type="MeshInstance3D" parent="SolarSystemContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("SphereMesh_jjmm3")
 skeleton = NodePath("../..")
