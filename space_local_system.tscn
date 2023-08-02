@@ -32,4 +32,5 @@ omni_attenuation = 0.000345266
 
 [node name="SolarSystemParentStar" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+visible = false
 mesh = SubResource("SphereMesh_jjmm3")

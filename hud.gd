@@ -13,7 +13,7 @@ func _ready():
 func _on_parsis_changed(vec):
 	parsis = vec
 	nearstar_info = Globals.feltyrion.get_current_star_info()
-	$HBoxContainer/ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [parsis.x, -parsis.y, parsis.z]
+	$HBoxContainer/ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [int(parsis.x), int(-parsis.y), int(parsis.z)]
 	$HBoxContainer/NumBodies.text = "[center]Number of bodies: %s[/center]" % [nearstar_info.nearstar_nob]
 	
 
