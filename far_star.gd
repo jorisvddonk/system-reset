@@ -18,6 +18,7 @@ func _ready():
 	Globals.on_ap_target_changed.connect(_on_ap_target_changed)
 	Globals.mouse_click_begin.connect(click_begin)
 	Globals.mouse_clicked.connect(clicked_end)
+	# TODO: invoke __mouse_exited() if UI MODE changed, via some kind of Signal
 	
 func click_begin():
 	if mouseover:
@@ -47,8 +48,7 @@ func __mouse_exited():
 	$Label3D.modulate = orig_color
 	$Label3D.fixed_size = false
 	$Label3D.pixel_size = 0.0709
-	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
-		$SelectionSprite.hide()
+	$SelectionSprite.hide()
 
 func _on_ap_target_changed(parsis, id_code):
 	$SelectionSprite.hide()

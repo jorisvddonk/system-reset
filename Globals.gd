@@ -62,6 +62,9 @@ func _process(delta):
 			current_parsis = ap_target_parsis
 			vimanaStop()
 			set_parsis(current_parsis)
+			
+	if ui_mode != UI_MODE.NONE && Input.is_key_pressed(KEY_ESCAPE): # TODO: use Input System instead for this
+		ui_mode = UI_MODE.NONE
 
 
 func vimanaStop():
