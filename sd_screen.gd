@@ -36,7 +36,7 @@ func _ready():
 func menu_fcd():
 	clear_connections()
 	item1.text = "Set remote target"
-	item2.text = "%s vimana flight" % ["Start" if true else "Stop"] # TODO: change depending on status
+	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana_active else "Stop"]
 	item3.text = "Set local target"
 	item4.text = "Deploy surface capsule"
 	#--
@@ -52,8 +52,9 @@ func menu_fcd():
 	line2.text = "current range: elapsed 0 kilodyams, remaining litihum: -1 grams." # TODO: change depending on status
 	#-
 	item1.pressed.connect(set_remote_target) # see FarStar scene for the part that handles actually setting the remote target
-	item2.pressed.connect(vimana)
-	add_connection(Globals.on_ap_target_changed, func(a,b): menu_fcd()) # redraw screen if current target changed
+	item2.pressed.connect(toggle_vimana_active)
+	add_connection(Globals.on_ap_target_changed, func(_a,_b): menu_fcd()) # redraw screen if current target changed
+	add_connection(Globals.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
 	
 func menu_od():
 	clear_connections()
@@ -166,6 +167,8 @@ func add_connection(signal_, callable):
 func set_remote_target():
 	Globals.ui_mode = Globals.UI_MODE.SET_REMOTE_TARGET
 
-func vimana():
-	# TODO: determine if currently in vimana flight or not
-	Globals.vimanaFlight()
+func toggle_vimana_active():
+	if Globals.vimana_active:
+		Globals.vimanaStop()
+	else:
+		Globals.vimanaStart()

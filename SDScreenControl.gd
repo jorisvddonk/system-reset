@@ -30,4 +30,3 @@ func pressed_check():
 		if mouse_over && last_click < Time.get_ticks_msec() - DEBOUNCE:
 			last_click = Time.get_ticks_msec()
 			pressed.emit()
-			_mouse_exited() # prevent stuck state - TODO; maybe introduce an 'active control' state? NIV had those for certain menu entries...

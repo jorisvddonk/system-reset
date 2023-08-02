@@ -60,18 +60,18 @@ func _process(delta):
 			printt("we have arrived")
 			feltyrion.set_dzat(ap_target_parsis.x, ap_target_parsis.y, ap_target_parsis.z)
 			current_parsis = ap_target_parsis
-			stopVimana()
+			vimanaStop()
 			set_parsis(current_parsis)
 
 
-func stopVimana():
+func vimanaStop():
 	vimana_active = false
 	vimana_status_change.emit(vimana_active)
 
-func vimanaFlight():
+func vimanaStart():
 	vimana_active = true
 	vimana_status_change.emit(vimana_active)
 
-func _unhandled_key_input(event):
+func _unhandled_key_input(event): # debug shortcut key - TODO: use Input system instead.
 	if event.keycode == KEY_F1 && event.is_pressed():
-		vimanaFlight()
+		vimanaStart()
