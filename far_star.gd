@@ -18,7 +18,7 @@ func _ready():
 	Globals.on_ap_target_changed.connect(_on_ap_target_changed)
 	Globals.mouse_click_begin.connect(click_begin)
 	Globals.mouse_clicked.connect(clicked_end)
-	# TODO: invoke __mouse_exited() if UI MODE changed, via some kind of Signal
+	Globals.ui_mode_changed.connect(func (ui_mode): __mouse_exited() if ui_mode == Globals.UI_MODE.NONE else null)
 	
 func click_begin():
 	if mouseover:

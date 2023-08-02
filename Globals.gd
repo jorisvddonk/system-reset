@@ -10,7 +10,13 @@ signal vimana_status_change(vimana_drive_active: bool)
 @export var current_parsis: Vector3 = Vector3(0,0,0)
 @export var ap_target_parsis: Vector3 = Vector3(0,0,0)
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
-@export var ui_mode: UI_MODE = UI_MODE.NONE
+signal ui_mode_changed(new_value)
+@export var ui_mode: UI_MODE = UI_MODE.NONE:
+	get:
+		return ui_mode
+	set(value):
+		ui_mode_changed.emit(value)
+		ui_mode = value
 
 const ROOT_SCENE_NAME = "MainControl"
 const CAMERA_CONTROLLER_SCENE_NAME = "SpaceNear"
