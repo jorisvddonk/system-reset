@@ -7,6 +7,7 @@ func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
 	#Globals.feltyrion.found_planet.connect(_on_found_planet) # temporarily disabled
 	Globals.vimana_status_change.connect(_on_vimana_status_change)
+	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	
 func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
@@ -23,18 +24,22 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	planet.translate(Vector3(-(Globals.feltyrion.ap_target.x - x), (Globals.feltyrion.ap_target.y - y), (Globals.feltyrion.ap_target.z - z))) # TODO: check if y should be flipped here..
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
 	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
-	$Planets.add_child(planet)
+	$SolarSystemContainer/Planets.add_child(planet)
 
 func _on_vimana_status_change(vimana_is_active):
 	if vimana_is_active:
-		$Planets.hide()
-		$SolarSystemParentStar.hide()
+		$SolarSystemContainer/Planets.hide()
+		$SolarSystemContainer/SolarSystemParentStar.hide()
 	else:
 		on_arrive_at_star()
 
+func _on_parsis_changed(parsis: Vector3):
+	var pos = (Globals.current_solar_system_star_parsis - parsis)
+	$SolarSystemContainer.position = Vector3(pos.x, pos.y, -pos.z) # yes, Z is swapped. Don't ask me why. # TODO: check if Y should be swapped here as well
+
 func on_arrive_at_star():
-	for item in $Planets.get_children():
-		$Planets.remove_child(item)
+	for item in $SolarSystemContainer/Planets.get_children():
+		$SolarSystemContainer/Planets.remove_child(item)
 	print("Creating planets...")
 	print(Time.get_unix_time_from_system())
 	Globals.feltyrion.prepare_star()
@@ -66,5 +71,5 @@ func on_arrive_at_star():
 			pl_data.nearstar_p_qsortdist)
 	print("done creating planets")
 	print(Time.get_unix_time_from_system())
-	$Planets.show()
-	$SolarSystemParentStar.show()
+	$SolarSystemContainer/Planets.show()
+	$SolarSystemContainer/SolarSystemParentStar.show()

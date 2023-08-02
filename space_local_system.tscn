@@ -21,15 +21,18 @@ script = ExtResource("1_tlx4b")
 [node name="Camera3D" type="Camera3D" parent="."]
 script = ExtResource("2_yq2a3")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="SolarSystemContainer" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="SolarSystemContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
 layers = 4
 light_cull_mask = 4293918724
 omni_range = 4096.0
 omni_attenuation = 0.000345266
 
-[node name="Planets" type="Node3D" parent="."]
+[node name="Planets" type="Node3D" parent="SolarSystemContainer"]
 
-[node name="SolarSystemParentStar" type="MeshInstance3D" parent="."]
+[node name="SolarSystemParentStar" type="MeshInstance3D" parent="SolarSystemContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("SphereMesh_jjmm3")
+skeleton = NodePath("../..")

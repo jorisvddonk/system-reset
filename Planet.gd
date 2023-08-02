@@ -37,7 +37,7 @@ func generate():
 
 
 func click_begin():
-	if mouseover:
+	if mouseover && Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
 		clicking = true
 
 func clicked_end():

@@ -37,7 +37,7 @@ func menu_fcd():
 	clear_connections()
 	item1.text = "Set remote target"
 	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana_active else "Stop"]
-	item3.text = "Set local target" if can_set_local_target() else ("Start fine approach" if can_start_fine_approach() else ("Stop fine approach" if can_stop_fine_approach() else ""))
+	item3.text = "Start fine approach" if can_start_fine_approach() else ("Stop fine approach" if can_stop_fine_approach() else ("Set local target" if can_set_local_target() else ""))
 	item4.text = "Deploy surface capsule" if can_deploy_surface_capsule() else ("Cancel local target" if can_cancel_local_target() else "")
 	#--
 	clear_lines()
@@ -172,12 +172,12 @@ func set_remote_target():
 	Globals.ui_mode = Globals.UI_MODE.SET_REMOTE_TARGET
 	
 func local_target_button():
-	if can_set_local_target():
-		Globals.ui_mode = Globals.UI_MODE.SET_LOCAL_TARGET
-	elif can_start_fine_approach():
+	if can_start_fine_approach():
 		Globals.fine_approach_active = true
 	elif can_stop_fine_approach():
 		Globals.fine_approach_active = false
+	elif can_set_local_target():
+		Globals.ui_mode = Globals.UI_MODE.SET_LOCAL_TARGET
 
 func interact_local_target_button():
 	if can_deploy_surface_capsule():

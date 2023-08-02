@@ -9,6 +9,7 @@ signal mouse_click_begin()
 signal vimana_status_change(vimana_drive_active: bool)
 @export var current_parsis: Vector3 = Vector3(0,0,0)
 @export var ap_target_parsis: Vector3 = Vector3(0,0,0)
+@export var current_solar_system_star_parsis: Vector3 = Vector3(0,0,0)
 
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
 signal ui_mode_changed(new_value)
@@ -25,15 +26,22 @@ signal _on_local_target_changed(planet_index: int)
 		return local_target_index
 	set(value):
 		local_target_index = value
+		if value != -1:
+			var pl_info = feltyrion.get_planet_info(value)
+			printt("Local target selected: ", pl_info)
+			local_target_coordinates = Vector3(pl_info.nearstar_p_plx, pl_info.nearstar_p_ply, pl_info.nearstar_p_plz)
+		else:
+			local_target_coordinates = Vector3(0,0,0) # blah!
 		_on_local_target_changed.emit(value)
 		
 signal _on_local_target_orbit_changed(planet_index: int)
+@export var local_target_coordinates: Vector3 = Vector3(0,0,0) # target coordinates, in LOCAL SPACE
 @export var local_target_orbit_index: int = -1: # the *orbiting* local target; -1 if none
 	get:
 		return local_target_orbit_index
 	set(value):
-		_on_local_target_orbit_changed.emit(value)
 		local_target_orbit_index = value
+		_on_local_target_orbit_changed.emit(value)
 
 const ROOT_SCENE_NAME = "MainControl"
 const CAMERA_CONTROLLER_SCENE_NAME = "SpaceNear"
@@ -42,6 +50,8 @@ const MOUSE_CLICK_THRESHOLD_LOW = 0.01
 const MOUSE_CLICK_THRESHOLD_HIGH = 1.5
 
 const VIMANA_SPEED = 50000
+const FINE_APPROACH_SPEED = 100
+const FINE_APPROACH_DISTANCE = 1
 
 @export var vimana_active = false
 signal fine_approach_status_change(val: bool)
@@ -50,6 +60,8 @@ signal fine_approach_status_change(val: bool)
 		return fine_approach_active
 	set(value):
 		fine_approach_active = value
+		if value == true:
+			local_target_orbit_index = -1
 		fine_approach_status_change.emit(value)
 
 func _ready():
@@ -87,11 +99,25 @@ func _process(delta):
 			current_parsis -= dist.normalized() * delta * VIMANA_SPEED
 			on_parsis_changed.emit(current_parsis)
 		else:
-			printt("we have arrived")
+			printt("we have arrived at remote target")
 			feltyrion.set_dzat(ap_target_parsis.x, ap_target_parsis.y, ap_target_parsis.z)
 			current_parsis = ap_target_parsis
+			current_solar_system_star_parsis = ap_target_parsis
 			vimanaStop()
 			set_parsis(current_parsis)
+	
+	if fine_approach_active:
+		var dist = current_parsis - local_target_coordinates
+		if dist.length() > FINE_APPROACH_DISTANCE + (FINE_APPROACH_SPEED * (delta*2)):
+			current_parsis -= dist.normalized() * delta * FINE_APPROACH_SPEED
+			on_parsis_changed.emit(current_parsis)
+		else:
+			printt("we have arrived at local target")
+			var tgt_coordinates = local_target_coordinates - (dist.normalized() * FINE_APPROACH_DISTANCE)
+			local_target_orbit_index = local_target_index
+			feltyrion.set_dzat(tgt_coordinates.x, tgt_coordinates.y, tgt_coordinates.z)
+			current_parsis = tgt_coordinates
+			fine_approach_active = false
 			
 	if ui_mode != UI_MODE.NONE && Input.is_key_pressed(KEY_ESCAPE): # TODO: use Input System instead for this
 		ui_mode = UI_MODE.NONE
@@ -102,6 +128,9 @@ func vimanaStop():
 	vimana_status_change.emit(vimana_active)
 
 func vimanaStart():
+	current_solar_system_star_parsis = Vector3(0,0,0)
+	local_target_orbit_index = -1
+	local_target_index = -1
 	vimana_active = true
 	vimana_status_change.emit(vimana_active)
 
