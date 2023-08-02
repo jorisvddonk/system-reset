@@ -67,4 +67,4 @@ func on_arrive_at_star():
 	print("done creating planets")
 	print(Time.get_unix_time_from_system())
 	$Planets.show()
-	# $SolarSystemParentStar.show() ## temporarily disabled to make debugging easier
+	$SolarSystemParentStar.show()
