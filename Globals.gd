@@ -24,6 +24,7 @@ signal _on_local_target_changed(planet_index: int)
 	set(value):
 		local_target_index = value
 		feltyrion.ip_targetted = value
+		local_target_orbit_index = -1 # if we were orbiting around a planet, we need to re-engage orbit with it now
 		if value != -1:
 			var pl_info = feltyrion.get_planet_info(value)
 			printt("Local target selected: ", pl_info)
@@ -182,9 +183,8 @@ func _physics_process(delta):
 				on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
 				chase_direction = -approach_vector.normalized()
 	
-	if local_target_orbit_index != -1:
+	if local_target_orbit_index != -1 && local_target_orbit_index == local_target_index:
 		# orbit tracking
-		# TODO: fix this to ip_ORBITING_x/y/z...
 		if chase_mode == CHASE_MODE.NEAR_CHASE:
 			# near chase
 			var vec = (chase_direction*TRACKING_DISTANCE__NEAR_CHASE)
