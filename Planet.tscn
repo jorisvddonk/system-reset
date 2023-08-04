@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://b4sei7kpms65m"]
+[gd_scene load_steps=10 format=3 uid="uid://b4sei7kpms65m"]
 
+[ext_resource type="Texture2D" uid="uid://di6r34ryh1qsq" path="res://addons/kenney_particle_pack/circle_05.png" id="2_8ymtv"]
 [ext_resource type="Script" path="res://Planet.gd" id="2_atbx8"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s081u"]
@@ -45,9 +46,7 @@ process_thread_group_order = 0
 process_thread_messages = 0
 script = ExtResource("2_atbx8")
 
-[node name="PlanetParent" type="Node3D" parent="."]
-
-[node name="SelectionSprite" type="Sprite3D" parent="PlanetParent"]
+[node name="SelectionSprite" type="Sprite3D" parent="."]
 transform = Transform3D(5.12494, 0, 0, 0, 5.12494, 0, 0, 0, 1, 0, 0, 0)
 visible = false
 sorting_offset = 9999.0
@@ -57,7 +56,7 @@ no_depth_test = true
 fixed_size = true
 texture = SubResource("CompressedTexture2D_s081u")
 
-[node name="CurrentLocalTargetSelectionSprite" type="Sprite3D" parent="PlanetParent"]
+[node name="CurrentLocalTargetSelectionSprite" type="Sprite3D" parent="."]
 transform = Transform3D(5.12494, 0, 0, 0, 5.12494, 0, 0, 0, 1, 0, 0, 0)
 visible = false
 sorting_offset = 9999.0
@@ -67,6 +66,15 @@ billboard = 1
 no_depth_test = true
 fixed_size = true
 texture = SubResource("CompressedTexture2D_buind")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+pixel_size = 0.005
+billboard = 1
+fixed_size = true
+texture = ExtResource("2_8ymtv")
+
+[node name="PlanetParent" type="Node3D" parent="."]
 
 [node name="Atmosphere" type="MeshInstance3D" parent="PlanetParent"]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
