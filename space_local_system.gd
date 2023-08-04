@@ -32,7 +32,7 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	planet.planet_viewpoint = viewpoint
 	planet.planet_rotation = rotation
 	#planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0)) # alternative placement; makes it easy to see all planets in an overview
-	planet.translate(Vector3(-(Globals.feltyrion.ap_target_x - x), -(Globals.feltyrion.ap_target_y - y), (Globals.feltyrion.ap_target_z - z)))
+	planet.translate(Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y), (z - Globals.feltyrion.ap_target_z)))
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
 	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$SolarSystemContainer/Planets.add_child(planet)
@@ -45,7 +45,7 @@ func _on_vimana_status_change(vimana_is_active):
 		on_arrive_at_star()
 
 func _on_parsis_changed(x: float, y: float, z: float):
-	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, -(Globals.feltyrion.ap_target_z - z)) # yes, Z is swapped. Don't ask me why. # TODO: check if Y should be swapped here as well
+	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, Globals.feltyrion.ap_target_z - z)
 
 func on_arrive_at_star():
 	for item in $SolarSystemContainer/Planets.get_children():
