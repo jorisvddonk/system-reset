@@ -52,7 +52,6 @@ theme_override_constants/shadow_offset_y = 0
 theme_override_constants/shadow_outline_size = 6
 theme_override_fonts/normal_font = SubResource("FontVariation_mieu8")
 bbcode_enabled = true
-text = "[center]Parsis: x=1000, y=123, z=-123[/center]"
 
 [node name="NumBodies" type="RichTextLabel" parent="HBoxContainer"]
 custom_minimum_size = Vector2(350, 50)
@@ -66,4 +65,3 @@ theme_override_constants/shadow_offset_y = 0
 theme_override_constants/shadow_outline_size = 6
 theme_override_fonts/normal_font = SubResource("FontVariation_mieu8")
 bbcode_enabled = true
-text = "[center]Parsis: x=1000, y=123, z=-123[/center]"

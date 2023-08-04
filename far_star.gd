@@ -1,5 +1,7 @@
 extends Node3D
-@export var parsis: Vector3
+@export var parsis_x: float
+@export var parsis_y: float
+@export var parsis_z: float
 @export var star_name: String
 @export var id_code: float
 const orig_color = Color.GHOST_WHITE
@@ -28,7 +30,7 @@ func clicked_end():
 	if clicking:
 		clicked.emit()
 		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
-			Globals.set_ap_target(parsis)
+			Globals.set_ap_target(parsis_x, parsis_y, parsis_z)
 			Globals.ui_mode = Globals.UI_MODE.NONE
 		clicking = false
 	
@@ -50,7 +52,7 @@ func __mouse_exited():
 	$Label3D.pixel_size = 0.0709
 	$SelectionSprite.hide()
 
-func _on_ap_target_changed(parsis, id_code):
+func _on_ap_target_changed(x, y, z, id_code):
 	$SelectionSprite.hide()
 	if self.id_code == id_code:
 		$CurrentAPTargetSelectionSprite.show()

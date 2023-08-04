@@ -55,7 +55,7 @@ func menu_fcd():
 	item2.pressed.connect(toggle_vimana_active)
 	item3.pressed.connect(local_target_button) # see Planet scene for the part that handles actually setting the local target
 	item4.pressed.connect(interact_local_target_button)
-	add_connection(Globals.on_ap_target_changed, func(_a,_b): menu_fcd()) # redraw screen if current remote target changed
+	add_connection(Globals.on_ap_target_changed, func(_x, _y, _z, _b): menu_fcd()) # redraw screen if current remote target changed
 	add_connection(Globals._on_local_target_changed, func(_a): menu_fcd()) # redraw screen if current local target changed
 	add_connection(Globals.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
 	add_connection(Globals.fine_approach_status_change, func(_a): menu_fcd()) # redraw screen if fine approach status changed
@@ -120,7 +120,7 @@ func menu_od_gc():
 	#--
 	clear_lines()
 	line1.text = "Epoc 6012 triads 1234,567,890" # TODO: change depending on status
-	line2.text = "Parsis universal coordinates: %s:%s:%s" % [Globals.current_parsis.x, -Globals.current_parsis.y, Globals.current_parsis.z]
+	line2.text = "Parsis universal coordinates: %s:%s:%s" % [Globals.feltyrion.dzat_x, -Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z]
 	line3.text = "Heading pitch: %s:%s" % [-42, -42] # TODO: change depending on status
 	
 func menu_prefs():

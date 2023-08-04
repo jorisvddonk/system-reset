@@ -27,7 +27,7 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	planet.planet_viewpoint = viewpoint
 	planet.planet_rotation = rotation
 	#planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0)) # alternative placement; makes it easy to see all planets in an overview
-	planet.translate(Vector3(-(Globals.feltyrion.ap_target.x - x), (Globals.feltyrion.ap_target.y - y), (Globals.feltyrion.ap_target.z - z))) # TODO: check if y should be flipped here..
+	planet.translate(Vector3(-(Globals.feltyrion.ap_target_x - x), (Globals.feltyrion.ap_target_y - y), (Globals.feltyrion.ap_target_z - z))) # TODO: check if y should be flipped here..
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
 	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$SolarSystemContainer/Planets.add_child(planet)
@@ -39,16 +39,14 @@ func _on_vimana_status_change(vimana_is_active):
 	else:
 		on_arrive_at_star()
 
-func _on_parsis_changed(parsis: Vector3):
-	var pos = (Globals.current_solar_system_star_parsis - parsis)
-	$SolarSystemContainer.position = Vector3(pos.x, pos.y, -pos.z) # yes, Z is swapped. Don't ask me why. # TODO: check if Y should be swapped here as well
+func _on_parsis_changed(x: float, y: float, z: float):
+	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, -(Globals.feltyrion.ap_target_z - z)) # yes, Z is swapped. Don't ask me why. # TODO: check if Y should be swapped here as well
 
 func on_arrive_at_star():
 	for item in $SolarSystemContainer/Planets.get_children():
 		$SolarSystemContainer/Planets.remove_child(item)
 	print("Creating planets...")
 	print(Time.get_unix_time_from_system())
-	Globals.feltyrion.prepare_star()
 	var data = Globals.feltyrion.get_current_star_info()
 	print(data)
 	for i in range(0,data.nearstar_nob):
