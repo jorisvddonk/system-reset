@@ -13,3 +13,7 @@ The Original travel mode uses the original code for both Vimana and Local star s
 The Recreated travel mode uses a completely recreated travel and orbiting engine. It's very simple and should be expanded on further, but allows for higher resolution, more responsive travel. In this mode, orbits around planets where the planet is kept centered in view are much more satisfying.
 
 To switch between these travel modes, set the "Physics Ticks per Second" project setting (`physics/common/physics_ticks_per_second`). If it's set to 24, then the Original travel mode is used. Otherwise, Recreated is used.
+
+## Dependencies
+
+This project depends on https://github.com/jorisvddonk/feltyrion-godot, which is not included by default. See `addons/feltyrion-godot`

@@ -1,0 +1,3 @@
+This project depends on "feltyrion-godot", a GDExtension that provides access to Noctis IV data.
+Please make sure you compile a compatible version yourself, or place a compiled version of it in this here folder.
+https://github.com/jorisvddonk/feltyrion-godot
