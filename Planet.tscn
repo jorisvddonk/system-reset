@@ -19,8 +19,8 @@ texture_filter = 0
 [sub_resource type="SphereMesh" id="SphereMesh_3om8j"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_rg7hy")
-radius = 0.15
-height = 0.3
+radius = 0.008
+height = 0.016
 radial_segments = 32
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lj37i"]
@@ -31,8 +31,8 @@ texture_filter = 0
 [sub_resource type="SphereMesh" id="SphereMesh_k1oab"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_lj37i")
-radius = 0.138
-height = 0.275
+radius = 0.008
+height = 0.016
 radial_segments = 32
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_abg5f"]
@@ -69,6 +69,7 @@ fixed_size = true
 texture = SubResource("CompressedTexture2D_buind")
 
 [node name="Atmosphere" type="MeshInstance3D" parent="PlanetParent"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
 layers = 7
 mesh = SubResource("SphereMesh_3om8j")
 
