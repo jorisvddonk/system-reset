@@ -27,7 +27,7 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	planet.planet_viewpoint = viewpoint
 	planet.planet_rotation = rotation
 	#planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0)) # alternative placement; makes it easy to see all planets in an overview
-	planet.translate(Vector3(-(Globals.feltyrion.ap_target_x - x), (Globals.feltyrion.ap_target_y - y), (Globals.feltyrion.ap_target_z - z))) # TODO: check if y should be flipped here..
+	planet.translate(Vector3(-(Globals.feltyrion.ap_target_x - x), -(Globals.feltyrion.ap_target_y - y), (Globals.feltyrion.ap_target_z - z)))
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
 	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$SolarSystemContainer/Planets.add_child(planet)
