@@ -14,6 +14,7 @@ script = ExtResource("1_y4fie")
 environment = SubResource("Environment_7pcfu")
 
 [node name="Camera3D" type="Camera3D" parent="."]
+near = 1.0
 script = ExtResource("2_yu2n3")
 
 [node name="Stars" type="Node3D" parent="."]
