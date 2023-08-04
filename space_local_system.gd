@@ -9,12 +9,17 @@ func _ready():
 	Globals.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	
-func _process(delta):
+func _physics_process(delta):
 	# TODO: determine how often this actually needs to be called
-	#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta))
-	Globals.feltyrion.update_time()
-	Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
-	
+	if Engine.physics_ticks_per_second == 24:
+		# 24 physics tics per second: use Noctis IV's engine for movement
+		# TODO: determine what to do here :)
+		pass
+	else:
+		#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta)) # use this if you want to simulate accelerated time
+		Globals.feltyrion.update_time()
+		Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
+		
 func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
 	#var planet_name = "planet_name"
