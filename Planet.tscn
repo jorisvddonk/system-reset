@@ -19,8 +19,8 @@ texture_filter = 0
 [sub_resource type="SphereMesh" id="SphereMesh_3om8j"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_rg7hy")
-radius = 1.5
-height = 3.0
+radius = 0.15
+height = 0.3
 radial_segments = 32
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lj37i"]
@@ -31,8 +31,8 @@ texture_filter = 0
 [sub_resource type="SphereMesh" id="SphereMesh_k1oab"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_lj37i")
-radius = 1.375
-height = 2.75
+radius = 0.138
+height = 0.275
 radial_segments = 32
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_abg5f"]
