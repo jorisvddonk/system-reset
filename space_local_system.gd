@@ -9,12 +9,17 @@ func _ready():
 	Globals.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	
-func _process(delta):
+func _physics_process(delta):
 	# TODO: determine how often this actually needs to be called
-	#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta))
-	Globals.feltyrion.update_time()
-	Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
-	
+	if Engine.physics_ticks_per_second == 24:
+		# 24 physics tics per second: use Noctis IV's engine for movement
+		# TODO: determine what to do here :)
+		pass
+	else:
+		#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta)) # use this if you want to simulate accelerated time
+		Globals.feltyrion.update_time()
+		Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
+		
 func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
 	#var planet_name = "planet_name"
@@ -27,7 +32,7 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	planet.planet_viewpoint = viewpoint
 	planet.planet_rotation = rotation
 	#planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0)) # alternative placement; makes it easy to see all planets in an overview
-	planet.translate(Vector3(-(Globals.feltyrion.ap_target_x - x), (Globals.feltyrion.ap_target_y - y), (Globals.feltyrion.ap_target_z - z))) # TODO: check if y should be flipped here..
+	planet.translate(Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y), (z - Globals.feltyrion.ap_target_z)))
 	var layer_fixer = func(item): item.set_layer_mask(4); return true
 	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$SolarSystemContainer/Planets.add_child(planet)
@@ -40,7 +45,7 @@ func _on_vimana_status_change(vimana_is_active):
 		on_arrive_at_star()
 
 func _on_parsis_changed(x: float, y: float, z: float):
-	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, -(Globals.feltyrion.ap_target_z - z)) # yes, Z is swapped. Don't ask me why. # TODO: check if Y should be swapped here as well
+	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, Globals.feltyrion.ap_target_z - z)
 
 func on_arrive_at_star():
 	for item in $SolarSystemContainer/Planets.get_children():

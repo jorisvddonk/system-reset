@@ -14,8 +14,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_o8fq7")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(0, 50)
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -23,10 +22,28 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="FCSStatus" type="RichTextLabel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(350, 50)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/normal_font = SubResource("FontVariation_mieu8")
+bbcode_enabled = true
+text = "[right]INITIALIZED[/right]"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="ParsisLabel" type="RichTextLabel" parent="HBoxContainer"]
+[node name="ParsisLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(350, 50)
 layout_mode = 2
 mouse_filter = 2
@@ -40,7 +57,7 @@ theme_override_fonts/normal_font = SubResource("FontVariation_mieu8")
 bbcode_enabled = true
 text = "[center]Parsis: x=1000, y=123, z=-123[/center]"
 
-[node name="APTarget" type="RichTextLabel" parent="HBoxContainer"]
+[node name="APTarget" type="RichTextLabel" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(350, 50)
 layout_mode = 2
 mouse_filter = 2
@@ -53,7 +70,7 @@ theme_override_constants/shadow_outline_size = 6
 theme_override_fonts/normal_font = SubResource("FontVariation_mieu8")
 bbcode_enabled = true
 
-[node name="NumBodies" type="RichTextLabel" parent="HBoxContainer"]
+[node name="NumBodies" type="RichTextLabel" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(350, 50)
 layout_mode = 2
 mouse_filter = 2

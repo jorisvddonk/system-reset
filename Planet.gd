@@ -35,6 +35,16 @@ func generate():
 	var atmimageTexture = ImageTexture.create_from_image(atmimg)
 	$PlanetParent/Atmosphere.mesh.material.albedo_texture = atmimageTexture
 
+func _process(delta):
+	var dist = $PlanetParent.global_position.length()
+	if dist > 5:
+		$PlanetParent.hide()
+		$Sprite3D.show()
+		$Sprite3D.pixel_size = min(0.0012, max(0.0002, 0.006 / dist))
+	else:
+		$PlanetParent.show()
+		$Sprite3D.hide()
+
 
 func click_begin():
 	if mouseover && Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
@@ -57,19 +67,19 @@ func __mouse_entered():
 	$PlanetNameLabel.pixel_size = 0.0015
 	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
 		$PlanetNameLabel.modulate = local_tgt_highlight_color
-		$PlanetParent/SelectionSprite.show()
+		$SelectionSprite.show()
 
 func __mouse_exited():
 	mouseover = false
 	clicking = false
 	$PlanetNameLabel.hide()
-	$PlanetParent/SelectionSprite.hide()
+	$SelectionSprite.hide()
 	
 
 func _on_local_target_changed(planet_index):
-	$PlanetParent/SelectionSprite.hide()
+	$SelectionSprite.hide()
 	if self.planet_index == planet_index:
-		$PlanetParent/CurrentLocalTargetSelectionSprite.show()
+		$CurrentLocalTargetSelectionSprite.show()
 	else:
-		$PlanetParent/CurrentLocalTargetSelectionSprite.hide()
+		$CurrentLocalTargetSelectionSprite.hide()
 
