@@ -26,13 +26,14 @@ blend_mode = 1
 cull_mode = 2
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_u8yx7")
+texture_filter = 0
 disable_receive_shadows = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_i3ms5"]
-size = Vector2(11.34, 1.4)
+size = Vector2(10, 0.45)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_mvi76"]
-points = PackedVector3Array(5.67, 0.699863, 0, 5.67, -0.7, 0, -5.67, 0.699863, 0, -5.67, -0.7, 0)
+points = PackedVector3Array(5, 0.225, 0, 5, -0.225, 0, -5, 0.225, 0, -5, -0.225, 0)
 
 [node name="SpaceNear" type="Node3D"]
 script = ExtResource("1_w6myo")
@@ -45,7 +46,7 @@ script = ExtResource("1_3gehl")
 disable_3d = true
 own_world_3d = true
 transparent_bg = true
-size = Vector2i(1135, 140)
+size = Vector2i(4000, 180)
 render_target_update_mode = 4
 
 [node name="SDScreen" parent="SubViewport" instance=ExtResource("6_6tqdb")]

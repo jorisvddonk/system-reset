@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dn7j527vmegka"]
+[gd_scene load_steps=6 format=3 uid="uid://dn7j527vmegka"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_03no5"]
+[ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://theme.tres" id="1_d2mbj"]
 [ext_resource type="PackedScene" uid="uid://mna8adl51ysw" path="res://space_remote_systems.tscn" id="1_og4bw"]
 [ext_resource type="PackedScene" uid="uid://donu4757x48qs" path="res://space_local_system.tscn" id="2_ea67m"]
 [ext_resource type="PackedScene" uid="uid://bbo63hpxfc223" path="res://space_near.tscn" id="2_xkawo"]
@@ -9,6 +10,7 @@
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 1
+theme = ExtResource("1_d2mbj")
 script = ExtResource("1_03no5")
 
 [node name="SubViewportContainer_SpaceLocal" type="SubViewportContainer" parent="."]
