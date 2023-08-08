@@ -14,13 +14,22 @@ signal clicked
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Label3D.text = star_name
+	$Label3D.hide()
 	__mouse_exited()
 	$Area3D.mouse_entered.connect(__mouse_entered)
 	$Area3D.mouse_exited.connect(__mouse_exited)
 	Globals.on_ap_target_changed.connect(_on_ap_target_changed)
 	Globals.mouse_click_begin.connect(click_begin)
 	Globals.mouse_clicked.connect(clicked_end)
-	Globals.ui_mode_changed.connect(func (ui_mode): __mouse_exited() if ui_mode == Globals.UI_MODE.NONE else null)
+	Globals.ui_mode_changed.connect(ui_mode_changed)
+	
+func ui_mode_changed(ui_mode):
+	if ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+		$Label3D.show()
+	else:
+		$Label3D.hide()
+		if ui_mode == Globals.UI_MODE.NONE:
+			__mouse_exited()
 	
 func click_begin():
 	if mouseover:
