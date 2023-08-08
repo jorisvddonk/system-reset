@@ -1,18 +1,55 @@
-[gd_resource type="VisualShader" load_steps=11 format=3 uid="uid://17p84k6mfsml"]
+[gd_resource type="VisualShader" load_steps=19 format=3 uid="uid://17p84k6mfsml"]
 
-[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_pc0py"]
-default_input_values = [0, Vector3(2, 1, 1), 1, Vector3(-0.225, 0, 0)]
-operator = 1
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_7xso2"]
+parameter_name = "color"
+default_value_enabled = true
+default_value = Color(0.986667, 1, 0.6, 1)
 
-[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_3x834"]
+[sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_y5t4o"]
+function = 2
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_pcavv"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 2, 1), 2, Vector3(0, 0, 0)]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_8jfkp"]
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0, 0, 0), 2, Vector3(1, 1, 1)]
 op_type = 4
 
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_2k5kq"]
-constant = Color(1, 0.739588, 0.16952, 1)
+[sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_5vtcn"]
+function = 2
 
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_nyovp"]
-constant = Color(1, 0.591222, 0.338332, 1)
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_ejabq"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 0.1, 3), 2, Vector3(0, 0, 0.5)]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_4vmpf"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0, 0, 0), 2, Vector3(1, 1, 1)]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_m1v5t"]
+output_port_for_preview = 0
+function = 1
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_0wpq7"]
+output_port_for_preview = 0
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.9, 0.9, 0.9)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_1na2q"]
+function = 2
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_kji4h"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 0, 3), 2, Vector3(0, 0, 0)]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_o6551"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0, 0.3, 1)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_oly7f"]
+output_port_for_preview = 0
+function = 1
 
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_q0po8"]
 constant = 1.0
@@ -21,6 +58,7 @@ constant = 1.0
 constant = 0.5
 
 [sub_resource type="VisualShaderNodeFresnel" id="VisualShaderNodeFresnel_urjxv"]
+default_input_values = [2, true, 3, 2.0]
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_40r5t"]
 input_name = "normal"
@@ -28,20 +66,52 @@ input_name = "normal"
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_d40th"]
 input_name = "view"
 
-[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_gbpn5"]
-default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0, 0, 0)]
-op_type = 2
-
 [resource]
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
+uniform vec4 color : source_color = vec4(0.986667, 1.000000, 0.600000, 1.000000);
 
 
 
 void fragment() {
-// ColorConstant:2
-	vec4 n_out2p0 = vec4(1.000000, 0.739588, 0.169520, 1.000000);
+// ColorParameter:16
+	vec4 n_out16p0 = color;
+
+
+	vec3 n_out21p0;
+// ColorFunc:21
+	{
+		vec3 c = vec3(n_out16p0.xyz);
+		vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+		vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+		vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+		float d = q.x - min(q.w, q.y);
+		float e = 1.0e-10;
+		n_out21p0 = vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+	}
+
+
+// MultiplyAdd:22
+	vec3 n_in22p1 = vec3(1.00000, 0.10000, 3.00000);
+	vec3 n_in22p2 = vec3(0.00000, 0.00000, 0.50000);
+	vec3 n_out22p0 = fma(n_out21p0, n_in22p1, n_in22p2);
+
+
+// Clamp:23
+	vec3 n_in23p1 = vec3(0.00000, 0.00000, 0.00000);
+	vec3 n_in23p2 = vec3(1.00000, 1.00000, 1.00000);
+	vec3 n_out23p0 = clamp(n_out22p0, n_in23p1, n_in23p2);
+
+
+	vec3 n_out24p0;
+// ColorFunc:24
+	{
+		vec3 c = n_out23p0;
+		vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+		vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+		n_out24p0 = c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+	}
 
 
 // FloatConstant:5
@@ -52,8 +122,29 @@ void fragment() {
 	float n_out4p0 = 1.000000;
 
 
-// ColorConstant:3
-	vec4 n_out3p0 = vec4(1.000000, 0.591222, 0.338332, 1.000000);
+	vec3 n_out17p0;
+// ColorFunc:17
+	{
+		vec3 c = vec3(n_out16p0.xyz);
+		vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+		vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+		vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+		float d = q.x - min(q.w, q.y);
+		float e = 1.0e-10;
+		n_out17p0 = vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+	}
+
+
+// MultiplyAdd:18
+	vec3 n_in18p1 = vec3(1.00000, 2.00000, 1.00000);
+	vec3 n_in18p2 = vec3(0.00000, 0.00000, 0.00000);
+	vec3 n_out18p0 = fma(n_out17p0, n_in18p1, n_in18p2);
+
+
+// Clamp:20
+	vec3 n_in20p1 = vec3(0.00000, 0.00000, 0.00000);
+	vec3 n_in20p2 = vec3(1.00000, 1.00000, 1.00000);
+	vec3 n_out20p0 = clamp(n_out18p0, n_in20p1, n_in20p2);
 
 
 // Input:7
@@ -65,54 +156,94 @@ void fragment() {
 
 
 // Fresnel:6
-	float n_in6p3 = 1.00000;
-	float n_out6p0 = pow(1.0 - clamp(dot(n_out7p0, n_out8p0), 0.0, 1.0), n_in6p3);
+	float n_in6p3 = 2.00000;
+	float n_out6p0 = pow(clamp(dot(n_out7p0, n_out8p0), 0.0, 1.0), n_in6p3);
 
 
-// VectorOp:10
-	vec3 n_in10p0 = vec3(2.00000, 1.00000, 1.00000);
-	vec3 n_out10p0 = n_in10p0 - vec3(n_out6p0);
+	vec3 n_out27p0;
+// ColorFunc:27
+	{
+		vec3 c = vec3(n_out6p0);
+		vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+		vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+		vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+		float d = q.x - min(q.w, q.y);
+		float e = 1.0e-10;
+		n_out27p0 = vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+	}
 
 
-// MultiplyAdd:9
-	vec3 n_in9p2 = vec3(0.00000, 0.00000, 0.00000);
-	vec3 n_out9p0 = fma(vec3(n_out3p0.xyz), n_out10p0, n_in9p2);
+// MultiplyAdd:28
+	vec3 n_in28p1 = vec3(1.00000, 0.00000, 3.00000);
+	vec3 n_in28p2 = vec3(0.00000, 0.00000, 0.00000);
+	vec3 n_out28p0 = fma(n_out27p0, n_in28p1, n_in28p2);
 
 
-// Clamp:11
-	vec3 n_in11p1 = vec3(0.00000, 0.00000, 0.00000);
-	vec3 n_in11p2 = vec3(1.00000, 1.00000, 1.00000);
-	vec3 n_out11p0 = clamp(n_out9p0, n_in11p1, n_in11p2);
+// Mix:30
+	vec3 n_in30p2 = vec3(0.00000, 0.30000, 1.00000);
+	vec3 n_out30p0 = mix(n_out20p0, n_out28p0, n_in30p2);
+
+
+	vec3 n_out32p0;
+// ColorFunc:32
+	{
+		vec3 c = n_out30p0;
+		vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+		vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+		n_out32p0 = c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+	}
+
+
+// Mix:25
+	vec3 n_in25p2 = vec3(0.90000, 0.90000, 0.90000);
+	vec3 n_out25p0 = mix(n_out24p0, n_out32p0, n_in25p2);
 
 
 // Output:0
-	ALBEDO = vec3(n_out2p0.xyz);
+	ALBEDO = n_out24p0;
 	METALLIC = n_out5p0;
 	ROUGHNESS = n_out4p0;
-	EMISSION = n_out11p0;
+	EMISSION = n_out25p0;
 
 
 }
 "
-nodes/fragment/0/position = Vector2(1180, 120)
-nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_2k5kq")
-nodes/fragment/2/position = Vector2(140, 260)
-nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_nyovp")
-nodes/fragment/3/position = Vector2(140, 360)
+graph_offset = Vector2(-364.352, 52.811)
+nodes/fragment/0/position = Vector2(1400, 120)
 nodes/fragment/4/node = SubResource("VisualShaderNodeFloatConstant_q0po8")
-nodes/fragment/4/position = Vector2(120, 460)
+nodes/fragment/4/position = Vector2(1060, 240)
 nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_21xs1")
-nodes/fragment/5/position = Vector2(280, 120)
+nodes/fragment/5/position = Vector2(1060, 160)
 nodes/fragment/6/node = SubResource("VisualShaderNodeFresnel_urjxv")
-nodes/fragment/6/position = Vector2(260, 580)
+nodes/fragment/6/position = Vector2(0, 580)
 nodes/fragment/7/node = SubResource("VisualShaderNodeInput_40r5t")
-nodes/fragment/7/position = Vector2(-100, 580)
+nodes/fragment/7/position = Vector2(-340, 560)
 nodes/fragment/8/node = SubResource("VisualShaderNodeInput_d40th")
-nodes/fragment/8/position = Vector2(-60, 680)
-nodes/fragment/9/node = SubResource("VisualShaderNodeMultiplyAdd_gbpn5")
-nodes/fragment/9/position = Vector2(740, 480)
-nodes/fragment/10/node = SubResource("VisualShaderNodeVectorOp_pc0py")
-nodes/fragment/10/position = Vector2(480, 560)
-nodes/fragment/11/node = SubResource("VisualShaderNodeClamp_3x834")
-nodes/fragment/11/position = Vector2(900, 360)
-nodes/fragment/connections = PackedInt32Array(5, 0, 0, 2, 4, 0, 0, 3, 7, 0, 6, 0, 8, 0, 6, 1, 6, 0, 10, 1, 10, 0, 9, 1, 9, 0, 11, 0, 11, 0, 0, 5, 2, 0, 0, 0, 3, 0, 9, 0)
+nodes/fragment/8/position = Vector2(-340, 660)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorParameter_7xso2")
+nodes/fragment/16/position = Vector2(-560, -160)
+nodes/fragment/17/node = SubResource("VisualShaderNodeColorFunc_y5t4o")
+nodes/fragment/17/position = Vector2(-680, 200)
+nodes/fragment/18/node = SubResource("VisualShaderNodeMultiplyAdd_pcavv")
+nodes/fragment/18/position = Vector2(-520, 160)
+nodes/fragment/20/node = SubResource("VisualShaderNodeClamp_8jfkp")
+nodes/fragment/20/position = Vector2(-320, 200)
+nodes/fragment/21/node = SubResource("VisualShaderNodeColorFunc_5vtcn")
+nodes/fragment/21/position = Vector2(-220, -100)
+nodes/fragment/22/node = SubResource("VisualShaderNodeMultiplyAdd_ejabq")
+nodes/fragment/22/position = Vector2(20, -160)
+nodes/fragment/23/node = SubResource("VisualShaderNodeClamp_4vmpf")
+nodes/fragment/23/position = Vector2(240, -140)
+nodes/fragment/24/node = SubResource("VisualShaderNodeColorFunc_m1v5t")
+nodes/fragment/24/position = Vector2(500, -100)
+nodes/fragment/25/node = SubResource("VisualShaderNodeMix_0wpq7")
+nodes/fragment/25/position = Vector2(1140, 360)
+nodes/fragment/27/node = SubResource("VisualShaderNodeColorFunc_1na2q")
+nodes/fragment/27/position = Vector2(220, 700)
+nodes/fragment/28/node = SubResource("VisualShaderNodeMultiplyAdd_kji4h")
+nodes/fragment/28/position = Vector2(440, 740)
+nodes/fragment/30/node = SubResource("VisualShaderNodeMix_o6551")
+nodes/fragment/30/position = Vector2(620, 580)
+nodes/fragment/32/node = SubResource("VisualShaderNodeColorFunc_oly7f")
+nodes/fragment/32/position = Vector2(880, 600)
+nodes/fragment/connections = PackedInt32Array(5, 0, 0, 2, 4, 0, 0, 3, 7, 0, 6, 0, 8, 0, 6, 1, 16, 0, 17, 0, 17, 0, 18, 0, 18, 0, 20, 0, 16, 0, 21, 0, 21, 0, 22, 0, 22, 0, 23, 0, 23, 0, 24, 0, 24, 0, 0, 0, 24, 0, 25, 0, 25, 0, 0, 5, 6, 0, 27, 0, 27, 0, 28, 0, 28, 0, 30, 1, 32, 0, 25, 1, 30, 0, 32, 0, 20, 0, 30, 0)
