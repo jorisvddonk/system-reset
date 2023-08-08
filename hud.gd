@@ -5,6 +5,7 @@ var ap_target_info
 func _ready():
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.on_ap_target_changed.connect(_on_ap_target_changed)
+	Globals._on_local_target_changed.connect(_on_local_target_changed)
 	Globals.vimana_status_change.connect(_on_vimana_status_changed)
 	_on_parsis_changed(Globals.feltyrion.ap_target_x, Globals.feltyrion.ap_target_y, Globals.feltyrion.ap_target_z)
 	var timer = Timer.new()
@@ -28,6 +29,15 @@ func _on_vimana_status_changed(vimana_is_active):
 func _on_ap_target_changed(x, y, z, id_code):
 	ap_target_info = Globals.feltyrion.get_ap_target_info()
 	$VBoxContainer/HBoxContainer/APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [x, -y, z]
+	$VBoxContainer_Selected/SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
+	$VBoxContainer_Selected/SelectedPlanet.text = ""
+
+func _on_local_target_changed(planet_index):
+	if planet_index != -1:
+		ap_target_info = Globals.feltyrion.get_ap_target_info()
+		$VBoxContainer_Selected/SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, planet_index)
+	else:
+		$VBoxContainer_Selected/SelectedPlanet.text = ""
 
 func update_fcs_status():
 	$VBoxContainer/FCSStatus.text = "[right]%s[/right]" % Globals.feltyrion.get_fcs_status()
