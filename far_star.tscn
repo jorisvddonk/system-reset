@@ -20,6 +20,7 @@ modulate = Color(0.972549, 0.972549, 1, 1)
 font = ExtResource("2_4lad0")
 horizontal_alignment = 0
 vertical_alignment = 0
+uppercase = true
 
 [node name="StarSprite" type="Sprite3D" parent="."]
 pixel_size = 0.014

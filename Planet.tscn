@@ -93,6 +93,7 @@ billboard = 1
 modulate = Color(0.239216, 0.6, 1, 1)
 font = ExtResource("3_xyiqe")
 vertical_alignment = 2
+uppercase = true
 
 [node name="Area3D" type="Area3D" parent="."]
 input_capture_on_drag = true
