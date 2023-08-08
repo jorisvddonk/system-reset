@@ -1,17 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://mna8adl51ysw"]
+[gd_scene load_steps=4 format=3 uid="uid://mna8adl51ysw"]
 
 [ext_resource type="Script" path="res://space_remote_systems.gd" id="1_y4fie"]
 [ext_resource type="Script" path="res://camera.gd" id="2_yu2n3"]
 [ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="3_laskp"]
 
-[sub_resource type="Environment" id="Environment_7pcfu"]
-background_mode = 1
-
 [node name="SpaceRemoteSystems" type="Node3D"]
 script = ExtResource("1_y4fie")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_7pcfu")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 near = 1.0
