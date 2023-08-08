@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://b4sei7kpms65m"]
+[gd_scene load_steps=11 format=3 uid="uid://b4sei7kpms65m"]
 
 [ext_resource type="Texture2D" uid="uid://di6r34ryh1qsq" path="res://addons/kenney_particle_pack/circle_05.png" id="2_8ymtv"]
 [ext_resource type="Script" path="res://Planet.gd" id="2_atbx8"]
+[ext_resource type="FontFile" uid="uid://buhumvkmjrj34" path="res://font.png" id="3_xyiqe"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s081u"]
 load_path = "res://.godot/imported/crosshair026.png-4bfbce0f5388f4c155453e66fcac6f8f.s3tc.ctex"
@@ -90,6 +91,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62781, 0)
 pixel_size = 0.0344
 billboard = 1
 modulate = Color(0.239216, 0.6, 1, 1)
+font = ExtResource("3_xyiqe")
 vertical_alignment = 2
 
 [node name="Area3D" type="Area3D" parent="."]
