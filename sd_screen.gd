@@ -82,16 +82,17 @@ func menu_od_ef():
 	#--
 	clear_lines()
 	
+const CHASE_MODES = ["tracking disabled", "fixed-point chase", "far chase", "syncrone orbit", "high-speed orbit", "near chase", "high speed viewpoint chase"]
 func menu_od_nav():
 	clear_connections()
 	item1.text = "Starfield amplificator"
 	item2.text = "Local planets finder"
-	item3.text = "Near chase" # TODO: change depending on status
+	item3.text = CHASE_MODES[Globals.feltyrion.nsync]
 	item4.text = "Force radiations limit"
 	#--
 	clear_lines()
 	line1.text = "Starfield amplification enabled/disabled. High radiation fields are ignored/avoided."  # TODO: change depending on status
-	line2.text = "Tracking status: disconnected."  # TODO: change depending on status
+	line2.text = "Tracking status: performing %s." % CHASE_MODES[Globals.feltyrion.nsync] if Globals.feltyrion.ip_reached && Globals.feltyrion.ip_targetted != -1 else "Tracking status: disconnected."
 	var starInfo = Globals.feltyrion.get_current_star_info()
 	line3.text = "Planet finder report: system has %s %s%s, and %s minor bodies. %s labeled out of %s." % [
 		starInfo.nearstar_nop, 
