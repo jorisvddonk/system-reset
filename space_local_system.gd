@@ -57,6 +57,8 @@ func on_arrive_at_star():
 	var material = $SolarSystemContainer/SolarSystemParentStar.get_active_material(0)
 	var clr = Color(float(data.nearstar_r)/64, float(data.nearstar_g)/64, float(data.nearstar_b)/64, 1)
 	material.set_shader_parameter("color", clr)
+	var scale_factor = float(data.nearstar_ray) / 13
+	$SolarSystemContainer/SolarSystemParentStar.scale = Vector3(scale_factor, scale_factor, scale_factor)
 	for i in range(0,data.nearstar_nob):
 		var pl_data = Globals.feltyrion.get_planet_info(i)
 		print("Found planet: ", pl_data)
