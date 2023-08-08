@@ -87,12 +87,15 @@ func menu_od_nav():
 	clear_connections()
 	item1.text = "Starfield amplificator"
 	item2.text = "Local planets finder"
-	item3.text = CHASE_MODES[Globals.feltyrion.nsync]
+	item3.text = CHASE_MODES[Globals.chase_mode]
 	item4.text = "Force radiations limit"
 	#--
 	clear_lines()
 	line1.text = "Starfield amplification enabled/disabled. High radiation fields are ignored/avoided."  # TODO: change depending on status
-	line2.text = "Tracking status: performing %s." % CHASE_MODES[Globals.feltyrion.nsync] if Globals.feltyrion.ip_reached && Globals.feltyrion.ip_targetted != -1 else "Tracking status: disconnected."
+	if Globals.chase_mode == Globals.CHASE_MODE.TRACKING_DISABLED:
+		line2.text = "Tracking status: inactive."
+	else:
+		line2.text = "Tracking status: performing %s." % CHASE_MODES[Globals.chase_mode] if Globals.feltyrion.ip_reached && Globals.feltyrion.ip_targetted != -1 else "Tracking status: disconnected."
 	var starInfo = Globals.feltyrion.get_current_star_info()
 	line3.text = "Planet finder report: system has %s %s%s, and %s minor bodies. %s labeled out of %s." % [
 		starInfo.nearstar_nop, 
@@ -102,6 +105,8 @@ func menu_od_nav():
 		starInfo.nearstar_labeled,
 		starInfo.nearstar_nob
 	]
+	item3.pressed.connect(change_tracking_mode)
+	add_connection(Globals.chase_mode_changed, func(_a): menu_od_nav()) # redraw screen if chase mode changed
 	
 func menu_od_misc():
 	clear_connections()
@@ -207,3 +212,6 @@ func can_deploy_surface_capsule():
 
 func can_cancel_local_target():
 	return Globals.local_target_index != -1
+
+func change_tracking_mode():
+	Globals.chase_mode = 0 if Globals.chase_mode >= 6 else Globals.chase_mode + 1
