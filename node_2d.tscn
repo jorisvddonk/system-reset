@@ -1,22 +1,39 @@
 [gd_scene load_steps=3 format=3 uid="uid://bjql6dlrtm3ls"]
 
-[ext_resource type="Script" path="res://TextureRect.gd" id="2_aw5h2"]
+[ext_resource type="Script" path="res://planetgenerationexperiment.gd" id="1_bb8g7"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_pw6a8"]
 
 [node name="PlanetGenerationExperiment" type="Node2D"]
+script = ExtResource("1_bb8g7")
 
-[node name="TextureRect" type="TextureRect" parent="." node_paths=PackedStringArray("button", "optionButton", "seedInput", "planetIndex")]
-offset_left = 133.0
-offset_top = 182.0
-offset_right = 853.0
-offset_bottom = 418.0
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 25.0
+offset_top = 91.0
+offset_right = 745.0
+offset_bottom = 327.0
 texture = SubResource("ImageTexture_pw6a8")
-script = ExtResource("2_aw5h2")
-button = NodePath("../Button")
-optionButton = NodePath("../OptionButton")
-seedInput = NodePath("../SeedInput")
-planetIndex = NodePath("../PlanetIndex")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_left = 13.0
+offset_top = 460.0
+offset_right = 733.0
+offset_bottom = 696.0
+texture = SubResource("ImageTexture_pw6a8")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+offset_left = 748.0
+offset_top = 435.0
+offset_right = 948.0
+offset_bottom = 635.0
+texture = SubResource("ImageTexture_pw6a8")
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+offset_left = 959.0
+offset_top = 427.0
+offset_right = 1159.0
+offset_bottom = 627.0
+texture = SubResource("ImageTexture_pw6a8")
 
 [node name="Button" type="Button" parent="."]
 offset_left = 1027.0
@@ -74,3 +91,22 @@ placeholder_text = "seed - set this to generate based on predefined seed"
 [node name="Feltyrion" type="Feltyrion" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="LandingPtLon" type="HSlider" parent="."]
+offset_left = 31.0
+offset_top = 332.0
+offset_right = 739.0
+offset_bottom = 352.0
+max_value = 359.0
+value = 1.0
+rounded = true
+
+[node name="LandingPtLat" type="VSlider" parent="."]
+offset_left = 724.0
+offset_top = 93.0
+offset_right = 788.0
+offset_bottom = 337.0
+min_value = 1.0
+max_value = 119.0
+value = 1.0
+rounded = true
