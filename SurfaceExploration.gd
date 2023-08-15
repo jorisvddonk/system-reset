@@ -52,6 +52,7 @@ func go(planet_index, lat, lon):
 
 	var xdiff = xmax - xmin;
 	var ydiff = ymax - ymin;
+	var midvert
 	
 	for y in range(ymin, ymax + 1):
 		for x in range(xmin, xmax + 1):
@@ -72,6 +73,9 @@ func go(planet_index, lat, lon):
 					uvs.append(Vector2(0,1))
 				else:
 					uvs.append(Vector2(1,1))
+			
+			if y == 100 && x == 100:
+				midvert = vert
 
 	# tri1
 	for y in range(0, ydiff):
@@ -112,6 +116,7 @@ func go(planet_index, lat, lon):
 	
 	$Surface.material_override.albedo_texture = txtrTexture
 	$WorldEnvironment.environment.sky.sky_material.panorama = skyTexture
+	$Camera3D.position = $Surface.to_global(midvert + Vector3(0,0,1))
 	
 func getVertexIndex(x, y, xdiff):
 	return y * (xdiff + 1) + x
