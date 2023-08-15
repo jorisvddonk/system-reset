@@ -15,11 +15,11 @@ func _process(delta):
 	time_passed += delta
 	if time_passed > 0.10 && initialized == false:
 		initialized = true
-		go(51, 110)
+		go(20, 47, 63)
 		
-func go(lat, lon):
+func go(planet_index, lat, lon):
 	Globals.feltyrion.prepare_star()
-	Globals.feltyrion.ip_targetted = 3
+	Globals.feltyrion.ip_targetted = planet_index
 	Globals.feltyrion.ip_reached = 1
 	Globals.set_ap_target(-18928, -29680, -67336)
 	Globals.feltyrion.set_nearstar(-18928, -29680, -67336)
@@ -37,6 +37,10 @@ func go(lat, lon):
 	
 	var txtrimg = Globals.feltyrion.return_txtr_image()
 	var txtrTexture = ImageTexture.create_from_image(txtrimg)
+	
+	var skyimg = Globals.feltyrion.return_sky_image()
+	skyimg.crop(skyimg.get_width(), skyimg.get_height() * 2)
+	var skyTexture = ImageTexture.create_from_image(skyimg)
 
 	var surface_array = []
 	surface_array.resize(Mesh.ARRAY_MAX)
@@ -107,6 +111,7 @@ func go(lat, lon):
 	mdt.commit_to_surface($Surface.mesh)
 	
 	$Surface.material_override.albedo_texture = txtrTexture
+	$WorldEnvironment.environment.sky.sky_material.panorama = skyTexture
 	
 func getVertexIndex(x, y, xdiff):
 	return y * (xdiff + 1) + x

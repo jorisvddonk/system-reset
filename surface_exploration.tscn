@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dy2du658i44d5"]
+[gd_scene load_steps=11 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://SurfaceExploration.gd" id="1_kkm40"]
 [ext_resource type="Script" path="res://camera.gd" id="2_1lex7"]
@@ -23,8 +23,18 @@ metallic_specular = 0.0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_0kx4r"]
 
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_nmvc4"]
+
+[sub_resource type="Sky" id="Sky_swx01"]
+sky_material = SubResource("PanoramaSkyMaterial_nmvc4")
+
 [sub_resource type="Environment" id="Environment_psuhi"]
+background_mode = 2
+sky = SubResource("Sky_swx01")
 fog_enabled = true
+fog_light_energy = 0.35
+fog_density = 0.002
+fog_sky_affect = 0.045
 
 [node name="SurfaceExploration" type="Node3D"]
 script = ExtResource("1_kkm40")
@@ -37,9 +47,6 @@ mesh = SubResource("ArrayMesh_0kx4r")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
 script = ExtResource("2_1lex7")
-
-[node name="FogVolume" type="FogVolume" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -1)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.952193, -0.191695, 0.237867, -0.264567, -0.128128, 0.955818, -0.152748, -0.973055, -0.172719, 0, 0, 0)
