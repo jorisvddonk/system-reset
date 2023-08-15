@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://dy2du658i44d5"]
+
+[ext_resource type="Script" path="res://SurfaceExploration.gd" id="1_kkm40"]
+[ext_resource type="Script" path="res://camera.gd" id="2_1lex7"]
+
+[sub_resource type="Gradient" id="Gradient_knbjn"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lo3d4"]
+frequency = 0.3885
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1cd17"]
+width = 256
+height = 256
+color_ramp = SubResource("Gradient_knbjn")
+noise = SubResource("FastNoiseLite_lo3d4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqw7s"]
+cull_mode = 2
+specular_mode = 2
+albedo_color = Color(0.65098, 0.705882, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_1cd17")
+metallic_specular = 0.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_0kx4r"]
+
+[sub_resource type="Environment" id="Environment_psuhi"]
+fog_enabled = true
+
+[node name="SurfaceExploration" type="Node3D"]
+script = ExtResource("1_kkm40")
+
+[node name="Surface" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_rqw7s")
+mesh = SubResource("ArrayMesh_0kx4r")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+script = ExtResource("2_1lex7")
+
+[node name="FogVolume" type="FogVolume" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.952193, -0.191695, 0.237867, -0.264567, -0.128128, 0.955818, -0.152748, -0.973055, -0.172719, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_psuhi")

@@ -15,6 +15,7 @@ func _on_generate_pressed():
 func generate(planet_index, type, seed):
 	Globals.feltyrion.landing_pt_lat = $LandingPtLat.value
 	Globals.feltyrion.landing_pt_lon = $LandingPtLon.value
+	printt("lat/lon:", Globals.feltyrion.landing_pt_lat, Globals.feltyrion.landing_pt_lon)
 	Globals.feltyrion.lock()
 	
 	Globals.feltyrion.load_planet(planet_index, type, seed, true, false)
