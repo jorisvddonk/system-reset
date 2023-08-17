@@ -8,11 +8,12 @@
 script = ExtResource("1_bb8g7")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 25.0
-offset_top = 91.0
-offset_right = 745.0
-offset_bottom = 327.0
+offset_left = 18.0
+offset_top = 184.0
+offset_right = 738.0
+offset_bottom = 420.0
 texture = SubResource("ImageTexture_pw6a8")
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 offset_left = 13.0
@@ -20,6 +21,7 @@ offset_top = 460.0
 offset_right = 733.0
 offset_bottom = 696.0
 texture = SubResource("ImageTexture_pw6a8")
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect3" type="TextureRect" parent="."]
 offset_left = 748.0
@@ -27,6 +29,7 @@ offset_top = 435.0
 offset_right = 948.0
 offset_bottom = 635.0
 texture = SubResource("ImageTexture_pw6a8")
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect4" type="TextureRect" parent="."]
 offset_left = 959.0
@@ -34,13 +37,23 @@ offset_top = 427.0
 offset_right = 1159.0
 offset_bottom = 627.0
 texture = SubResource("ImageTexture_pw6a8")
+metadata/_edit_use_anchors_ = true
 
 [node name="Button" type="Button" parent="."]
-offset_left = 1027.0
-offset_top = 72.0
-offset_right = 1126.0
-offset_bottom = 114.0
+offset_left = 1175.0
+offset_top = 20.0
+offset_right = 1274.0
+offset_bottom = 62.0
 text = "Generate!"
+metadata/_edit_use_anchors_ = true
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 1038.0
+offset_top = 73.0
+offset_right = 1274.0
+offset_bottom = 115.0
+text = "Generate from parsis & index"
+metadata/_edit_use_anchors_ = true
 
 [node name="OptionButton" type="OptionButton" parent="."]
 offset_left = 14.0
@@ -71,14 +84,16 @@ popup/item_9/text = "10. Very large, substellar object, not consistent."
 popup/item_9/id = 9
 popup/item_10/text = "11. Companion star - not a planet. "
 popup/item_10/id = 10
+metadata/_edit_use_anchors_ = true
 
 [node name="PlanetIndex" type="TextEdit" parent="."]
-offset_left = 1032.0
-offset_top = 20.0
-offset_right = 1124.0
-offset_bottom = 61.0
-text = "0"
+offset_left = 893.0
+offset_top = 75.0
+offset_right = 985.0
+offset_bottom = 116.0
+text = "3"
 placeholder_text = "planet index"
+metadata/_edit_use_anchors_ = true
 
 [node name="SeedInput" type="TextEdit" parent="."]
 offset_left = 596.0
@@ -87,26 +102,65 @@ offset_right = 1023.0
 offset_bottom = 61.0
 text = "607248.30769023"
 placeholder_text = "seed - set this to generate based on predefined seed"
+metadata/_edit_use_anchors_ = true
+
+[node name="ParsisX" type="TextEdit" parent="."]
+offset_left = 258.0
+offset_top = 76.0
+offset_right = 458.0
+offset_bottom = 117.0
+text = "-18928"
+placeholder_text = "parsis x"
+metadata/_edit_use_anchors_ = true
+
+[node name="ParsisY" type="TextEdit" parent="."]
+offset_left = 468.0
+offset_top = 76.0
+offset_right = 668.0
+offset_bottom = 117.0
+text = "29680"
+placeholder_text = "parsis y (in \"NIV display coordinates\")"
+metadata/_edit_use_anchors_ = true
+
+[node name="ParsisZ" type="TextEdit" parent="."]
+offset_left = 676.0
+offset_top = 76.0
+offset_right = 876.0
+offset_bottom = 117.0
+text = "-67336"
+placeholder_text = "parsis z"
+metadata/_edit_use_anchors_ = true
 
 [node name="Feltyrion" type="Feltyrion" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="LandingPtLon" type="HSlider" parent="."]
-offset_left = 31.0
-offset_top = 332.0
-offset_right = 739.0
-offset_bottom = 352.0
+offset_left = 24.0
+offset_top = 425.0
+offset_right = 732.0
+offset_bottom = 445.0
 max_value = 359.0
 value = 1.0
 rounded = true
+metadata/_edit_use_anchors_ = true
 
 [node name="LandingPtLat" type="VSlider" parent="."]
-offset_left = 724.0
-offset_top = 93.0
-offset_right = 788.0
-offset_bottom = 337.0
+offset_left = 774.0
+offset_top = 428.0
+offset_right = 838.0
+offset_bottom = 672.0
+rotation = 3.14159
 min_value = 1.0
 max_value = 119.0
 value = 1.0
 rounded = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = 551.0
+offset_top = 438.0
+offset_right = 635.0
+offset_bottom = 464.0
+text = "lat/lon: 0/0"
