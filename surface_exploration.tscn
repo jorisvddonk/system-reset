@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dy2du658i44d5"]
+[gd_scene load_steps=9 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://SurfaceExploration.gd" id="1_kkm40"]
 [ext_resource type="Script" path="res://camera.gd" id="2_1lex7"]
+[ext_resource type="PackedScene" uid="uid://b8ystkhcrj80s" path="res://surface_sky_background_scene.tscn" id="3_hma5u"]
 
 [sub_resource type="Gradient" id="Gradient_knbjn"]
 
@@ -23,33 +24,45 @@ metallic_specular = 0.0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_0kx4r"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_nmvc4"]
-
-[sub_resource type="Sky" id="Sky_swx01"]
-sky_material = SubResource("PanoramaSkyMaterial_nmvc4")
-
-[sub_resource type="Environment" id="Environment_psuhi"]
-background_mode = 2
-sky = SubResource("Sky_swx01")
-fog_enabled = true
-fog_light_energy = 0.35
-fog_density = 0.002
-fog_sky_affect = 0.045
-
 [node name="SurfaceExploration" type="Node3D"]
 script = ExtResource("1_kkm40")
 
-[node name="Surface" type="MeshInstance3D" parent="."]
+[node name="SubViewportContainer_Sky" type="SubViewportContainer" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_force_pass_scroll_events = false
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_Sky"]
+own_world_3d = true
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="SurfaceSkyBackgroundScene" parent="SubViewportContainer_Sky/SubViewport" instance=ExtResource("3_hma5u")]
+
+[node name="SubViewportContainer_Surface" type="SubViewportContainer" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_force_pass_scroll_events = false
+
+[node name="SurfaceExplorationViewPort" type="SubViewport" parent="SubViewportContainer_Surface"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Surface" type="MeshInstance3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_rqw7s")
 mesh = SubResource("ArrayMesh_0kx4r")
+skeleton = NodePath("../../..")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
 script = ExtResource("2_1lex7")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 transform = Transform3D(0.952193, -0.191695, 0.237867, -0.264567, -0.128128, 0.955818, -0.152748, -0.973055, -0.172719, 0, 0, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_psuhi")

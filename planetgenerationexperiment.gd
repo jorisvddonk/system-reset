@@ -30,7 +30,7 @@ func _on_generate_pressed():
 		generate(-1, $OptionButton.selected, float($SeedInput.text))
 	
 func update_latlon(_a):
-	$Label.text = "lat/lon: %s/%s" % [$LandingPtLat.value, $LandingPtLon.value]
+	$Label.text = "tgt: %s:%s" % [$LandingPtLon.value, $LandingPtLat.value]
 
 func fix_coordinates(x,y,z):
 	Globals.feltyrion.set_nearstar(x,y,z)

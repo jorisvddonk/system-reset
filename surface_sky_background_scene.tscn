@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8ystkhcrj80s"]
+
+[ext_resource type="Script" path="res://camera.gd" id="1_64unp"]
+[ext_resource type="Script" path="res://surface_sky_background_scene.gd" id="1_kmdqm"]
+[ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="3_6rtj1"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3xtbv"]
+
+[sub_resource type="Sky" id="Sky_swx01"]
+sky_material = SubResource("PanoramaSkyMaterial_3xtbv")
+
+[sub_resource type="Environment" id="Environment_7h5rh"]
+background_mode = 2
+sky = SubResource("Sky_swx01")
+fog_light_energy = 0.35
+fog_density = 0.002
+fog_sky_affect = 0.045
+
+[node name="SurfaceSkyBackgroundScene" type="Node3D"]
+script = ExtResource("1_kmdqm")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7h5rh")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+script = ExtResource("1_64unp")
+
+[node name="Stars" type="Node3D" parent="."]
+
+[node name="Star" type="Sprite3D" parent="Stars"]
+visibility_range_begin = 1.0
+pixel_size = 0.014
+billboard = 1
+texture = ExtResource("3_6rtj1")

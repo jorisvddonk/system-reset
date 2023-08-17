@@ -67,6 +67,7 @@ var chase_direction: Vector3 = Vector3(1,0,0)
 
 const ROOT_SCENE_NAME = "MainControl"
 const CAMERA_CONTROLLER_SCENE_NAME = "SpaceNear"
+const CAMERA_CONTROLLER_SCENE_NAME_2 = "SurfaceExplorationViewPort"
 
 const MOUSE_CLICK_THRESHOLD_LOW = 0.01
 const MOUSE_CLICK_THRESHOLD_HIGH = 1.5

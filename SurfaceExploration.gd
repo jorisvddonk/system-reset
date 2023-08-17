@@ -11,6 +11,9 @@ const TERRAINMULT_Z = 60
 var initialized = false
 var time_passed = 0
 
+@onready var surface = $SubViewportContainer_Surface/SurfaceExplorationViewPort/Surface
+@onready var camera = $SubViewportContainer_Surface/SurfaceExplorationViewPort/Camera3D
+
 func _process(delta):
 	time_passed += delta
 	if time_passed > 0.10 && initialized == false:
@@ -35,18 +38,13 @@ func go(planet_index, lat, lon):
 	
 	Globals.feltyrion.load_planet_at_current_system(planet_index)
 	Globals.feltyrion.prepare_planet_surface()
+	$SubViewportContainer_Sky/SubViewport/SurfaceSkyBackgroundScene.recalculate()
 	var surfimg = Globals.feltyrion.return_surfacemap_image()
 	var surfTexture = ImageTexture.create_from_image(surfimg)
 	
 	var txtrimg = Globals.feltyrion.return_txtr_image()
 	var txtrTexture = ImageTexture.create_from_image(txtrimg)
 	
-	var skyimg = Globals.feltyrion.return_sky_image()
-	var rect = Rect2i(0, skyimg.get_height(), skyimg.get_width(), skyimg.get_height())
-	skyimg.crop(skyimg.get_width(), skyimg.get_height() * 2)
-	skyimg.fill_rect(rect, skyimg.get_pixel(0, skyimg.get_height() * 0.5 - 1).darkened(0.1))
-	var skyTexture = ImageTexture.create_from_image(skyimg)
-
 	var surface_array = []
 	surface_array.resize(Mesh.ARRAY_MAX)
 
@@ -106,9 +104,9 @@ func go(planet_index, lat, lon):
 	surface_array[Mesh.ARRAY_INDEX] = indices
 
 	# Recalculate the normals
-	$Surface.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
+	surface.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
 	var mdt = MeshDataTool.new()
-	mdt.create_from_surface($Surface.mesh, 0)
+	mdt.create_from_surface(surface.mesh, 0)
 	for i in range(mdt.get_face_count()):
 		var normal = mdt.get_face_normal(i)
 		
@@ -116,12 +114,12 @@ func go(planet_index, lat, lon):
 		mdt.set_vertex_normal(mdt.get_face_vertex(i, 1), normal)
 		mdt.set_vertex_normal(mdt.get_face_vertex(i, 2), normal)
 	
-	$Surface.mesh.clear_surfaces()
-	mdt.commit_to_surface($Surface.mesh)
+	surface.mesh.clear_surfaces()
+	mdt.commit_to_surface(surface.mesh)
 	
-	$Surface.material_override.albedo_texture = txtrTexture
-	$WorldEnvironment.environment.sky.sky_material.panorama = skyTexture
-	$Camera3D.position = $Surface.to_global(midvert + Vector3(0,0,1))
+	surface.material_override.albedo_texture = txtrTexture
+	
+	camera.position = surface.to_global(midvert + Vector3(0,0,1))
 	
 func getVertexIndex(x, y, xdiff):
 	return y * (xdiff + 1) + x
