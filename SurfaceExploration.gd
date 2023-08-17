@@ -18,21 +18,22 @@ func _process(delta):
 	time_passed += delta
 	if time_passed > 0.10 && initialized == false:
 		initialized = true
-		go(3, 47, 63)
+		go(3, 128, 1)
 		
-func go(planet_index, lat, lon):
+func go(planet_index, lon, lat):
 	Globals.feltyrion.lock() 
 	
 	Globals.feltyrion.update_time()
 	Globals.feltyrion.ip_targetted = planet_index
 	Globals.feltyrion.ip_reached = 1
 	Globals.feltyrion.set_nearstar(-18928, -29680, -67336) # balastrackonastreya
-	Globals.feltyrion.set_nearstar(-56784, -15693, -129542) # ylastravenya
+	#Globals.feltyrion.set_nearstar(-56784, -15693, -129542) # ylastravenya
 	Globals.set_ap_target(Globals.feltyrion.get_nearstar_x(), Globals.feltyrion.get_nearstar_y(), Globals.feltyrion.get_nearstar_z())
 	Globals.feltyrion.dzat_x = Globals.feltyrion.get_nearstar_x()
 	Globals.feltyrion.dzat_y = Globals.feltyrion.get_nearstar_y()
 	Globals.feltyrion.dzat_z = Globals.feltyrion.get_nearstar_z()
 	Globals.feltyrion.prepare_star()
+	Globals.feltyrion.landing_point = 1 # without this, albedo isn't calculated in load_planet_at_current_system() below
 	Globals.feltyrion.landing_pt_lat = lat
 	Globals.feltyrion.landing_pt_lon = lon
 	

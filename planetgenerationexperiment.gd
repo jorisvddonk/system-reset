@@ -3,7 +3,6 @@ extends Node2D
 func _ready():
 	#fix_coordinates(-18928, -29680, -67336) # balastrackonastreya
 	#fix_coordinates(-56784, -15693, -129542) # ylastravenya
-	Globals.feltyrion.landing_point = 1 # enable "setting landing point" mode. Without this, nightzone isn't calculated correctly.
 	$Button.pressed.connect(_on_generate_pressed)
 	$Button2.pressed.connect(_on_generate_from_parsis_pressed)
 	$LandingPtLat.value_changed.connect(update_latlon)
@@ -44,6 +43,7 @@ func generate(planet_index, type, seed):
 	Globals.feltyrion.update_time() # strange, this does not take into effect the first time this function is called?
 	Globals.feltyrion.ip_targetted = planet_index if planet_index != -1 else 0
 	Globals.feltyrion.ip_reached = 1
+	Globals.feltyrion.landing_point = 1 # enable "setting landing point" mode. Without this, nightzone isn't calculated correctly.
 	Globals.feltyrion.landing_pt_lat = $LandingPtLat.value
 	Globals.feltyrion.landing_pt_lon = $LandingPtLon.value
 	
@@ -56,6 +56,8 @@ func generate(planet_index, type, seed):
 	
 	var img = Globals.feltyrion.return_image(true, false)
 	#img = Globals.feltyrion.return_atmosphere_image()
+	if planet_index != -1:
+		img.set_pixel(Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat-1, Color.MAGENTA)
 	var imageTexture = ImageTexture.create_from_image(img)
 	$TextureRect.texture = imageTexture
 	$TextureRect.queue_redraw()
