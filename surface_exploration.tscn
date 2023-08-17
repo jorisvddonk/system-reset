@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dy2du658i44d5"]
+[gd_scene load_steps=7 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://SurfaceExploration.gd" id="1_kkm40"]
 [ext_resource type="Script" path="res://camera.gd" id="2_1lex7"]
@@ -6,10 +6,16 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqw7s"]
 cull_mode = 2
+shading_mode = 2
 specular_mode = 2
 metallic_specular = 0.0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_0kx4r"]
+
+[sub_resource type="Environment" id="Environment_5ku5r"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.48
 
 [node name="SurfaceExploration" type="Node3D"]
 script = ExtResource("1_kkm40")
@@ -41,6 +47,10 @@ physics_object_picking = true
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268512, -0.791229, 0.597143, 0.131821, 0, 0, 0)
+light_energy = 3.405
+
 [node name="Surface" type="MeshInstance3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_rqw7s")
@@ -51,5 +61,5 @@ skeleton = NodePath("../../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
 script = ExtResource("2_1lex7")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
-transform = Transform3D(0.952193, -0.191695, 0.237867, -0.264567, -0.128128, 0.955818, -0.152748, -0.973055, -0.172719, 0, 0, 0)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+environment = SubResource("Environment_5ku5r")
