@@ -80,5 +80,9 @@ func generate(planet_index, type, seed):
 	$TextureRect4.texture = txtrTexture
 	$TextureRect4.queue_redraw()
 	
+	var surfpaletteimg = Globals.feltyrion.get_surface_palette_as_image()
+	$SurfacePalette.texture = imageTexture.create_from_image(surfpaletteimg)
+	$SurfacePalette.queue_redraw()
+	
 	Globals.feltyrion.unlock()
 	

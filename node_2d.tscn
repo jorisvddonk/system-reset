@@ -39,6 +39,14 @@ offset_bottom = 627.0
 texture = SubResource("ImageTexture_pw6a8")
 metadata/_edit_use_anchors_ = true
 
+[node name="SurfacePalette" type="TextureRect" parent="."]
+offset_left = 14.0
+offset_top = 709.0
+offset_right = 526.0
+offset_bottom = 713.0
+texture = SubResource("ImageTexture_pw6a8")
+metadata/_edit_use_anchors_ = true
+
 [node name="Button" type="Button" parent="."]
 offset_left = 1175.0
 offset_top = 20.0
