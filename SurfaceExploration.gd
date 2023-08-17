@@ -18,7 +18,17 @@ func _process(delta):
 	time_passed += delta
 	if time_passed > 0.10 && initialized == false:
 		initialized = true
-		go(3, 128, 1)
+		go(6, 159, 51)
+		
+func _ready():
+	get_viewport().connect("size_changed", _on_resize)
+		
+func _on_resize():
+	printt("Root viewport size changed", get_viewport().size)
+	$SubViewportContainer_Sky/SubViewport.size.x = get_viewport().size.x
+	$SubViewportContainer_Sky/SubViewport.size.y = get_viewport().size.y
+	$SubViewportContainer_Surface/SurfaceExplorationViewPort.size.x = get_viewport().size.x
+	$SubViewportContainer_Surface/SurfaceExplorationViewPort.size.y = get_viewport().size.y
 		
 func go(planet_index, lon, lat):
 	Globals.feltyrion.lock() 
