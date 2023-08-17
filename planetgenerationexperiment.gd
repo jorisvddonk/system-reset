@@ -3,6 +3,7 @@ extends Node2D
 func _ready():
 	#fix_coordinates(-18928, -29680, -67336) # balastrackonastreya
 	#fix_coordinates(-56784, -15693, -129542) # ylastravenya
+	Globals.feltyrion.landing_point = 1 # enable "setting landing point" mode. Without this, nightzone isn't calculated correctly.
 	$Button.pressed.connect(_on_generate_pressed)
 	$Button2.pressed.connect(_on_generate_from_parsis_pressed)
 	$LandingPtLat.value_changed.connect(update_latlon)
@@ -67,7 +68,7 @@ func generate(planet_index, type, seed):
 	$TextureRect2.queue_redraw()
 
 	var surfimg = Globals.feltyrion.return_surfacemap_image()
-	surfimg.adjust_bcs(4, 1, 1) # fix brightness so that maximum heightmap value is white
+	surfimg.adjust_bcs(2, 1, 1) # fix brightness so that maximum heightmap value is white
 	var surfTexture = ImageTexture.create_from_image(surfimg)
 	$TextureRect3.texture = surfTexture
 	$TextureRect3.queue_redraw()
