@@ -39,7 +39,9 @@ func go(planet_index, lat, lon):
 	var txtrTexture = ImageTexture.create_from_image(txtrimg)
 	
 	var skyimg = Globals.feltyrion.return_sky_image()
+	var rect = Rect2i(0, skyimg.get_height(), skyimg.get_width(), skyimg.get_height())
 	skyimg.crop(skyimg.get_width(), skyimg.get_height() * 2)
+	skyimg.fill_rect(rect, skyimg.get_pixel(0, skyimg.get_height() * 0.5 - 1).darkened(0.1))
 	var skyTexture = ImageTexture.create_from_image(skyimg)
 
 	var surface_array = []
