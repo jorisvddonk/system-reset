@@ -103,6 +103,7 @@ signal fine_approach_status_change(val: bool)
 		fine_approach_status_change.emit(value)
 
 func _ready():
+	feltyrion.update_time()
 	self.add_child(feltyrion) # need to add Feltyrion to the tree so we can get nodes via the tree in C++
 	chase_mode = CHASE_MODE.HIGH_SPEED_VIEWPOINT_CHASE
 	# fix starting position to something sensible
