@@ -8,6 +8,7 @@ signal on_camera_rotation(rotation)
 signal on_ap_target_changed(parsis_x: float, parsis_y: float, parsis_z: float, id_code)
 signal mouse_clicked()
 signal mouse_click_begin()
+signal game_loaded()
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
 signal ui_mode_changed(new_value)
 @export var ui_mode: UI_MODE = UI_MODE.NONE:
@@ -222,9 +223,24 @@ func vimanaStart():
 	vimana_active = true
 	vimana_status_change.emit(vimana_active)
 
-func _unhandled_key_input(event): # debug shortcut key - TODO: use Input system instead.
+func save_game():
+	feltyrion.freeze()
+
+func load_game():
+	feltyrion.unfreeze()
+	local_target_orbit_index = feltyrion.ip_targetted # this is not exactly correct... meh.
+	local_target_index = feltyrion.ip_targetted
+	set_ap_target(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
+	game_loaded.emit()
+	
+
+func _unhandled_key_input(event): # debug shortcut keys - TODO: use Input system instead.
 	if event.keycode == KEY_F1 && event.is_pressed():
 		vimanaStart()
+	if event.keycode == KEY_F2 && event.is_pressed():
+		save_game()
+	if event.keycode == KEY_F3 && event.is_pressed():
+		load_game()
 
 func slew_to(parsis_x: float, parsis_y: float, parsis_z: float, speed: float):
 	feltyrion.dzat_x = parsis_x

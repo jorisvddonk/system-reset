@@ -2,3 +2,4 @@
 .godot/
 *.tmp
 addons/feltyrion-godot/*
+data/current.bin

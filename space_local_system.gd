@@ -5,9 +5,9 @@ var Planet = preload("res://Planet.tscn")
 
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
-	#Globals.feltyrion.found_planet.connect(_on_found_planet) # temporarily disabled
 	Globals.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
+	Globals.game_loaded.connect(on_game_loaded)
 	
 func _physics_process(delta):
 	# TODO: determine how often this actually needs to be called
@@ -19,11 +19,12 @@ func _physics_process(delta):
 		#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta)) # use this if you want to simulate accelerated time
 		Globals.feltyrion.update_time()
 		Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
-		
-func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):
+
+func on_game_loaded():
+	check_arrived_at_star()
+
+func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
-	#var planet_name = "planet_name"
-	#printt("Found planet: ", planet_name, index, planet_id, seedval, x, y, z, "----", type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, "rotation", rotation, term_start, term_end, qsortindex, qsortdist)
 	var planet = Planet.instantiate()
 	planet.type = type
 	planet.seed = seedval
@@ -31,59 +32,56 @@ func _on_found_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, r
 	planet.planet_name = planet_name
 	planet.planet_viewpoint = viewpoint
 	planet.planet_rotation = rotation
-	#planet.translate(Vector3(index * 5 if owner == -1 else owner * 5, 0 if owner == -1 else (moonid + 1) * -5, 0)) # alternative placement; makes it easy to see all planets in an overview
 	planet.translate(Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y), (z - Globals.feltyrion.ap_target_z)))
-	var layer_fixer = func(item): item.set_layer_mask(4); return true
-	planet.find_children("?*", "CSGSphere3D", true).all(layer_fixer)
 	$SolarSystemContainer/Planets.add_child(planet)
 
 func _on_vimana_status_change(vimana_is_active):
-	if vimana_is_active:
-		$SolarSystemContainer/Planets.hide()
-		$SolarSystemContainer/SolarSystemParentStar.hide()
-	else:
-		on_arrive_at_star()
+	check_arrived_at_star()
 
 func _on_parsis_changed(x: float, y: float, z: float):
 	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, Globals.feltyrion.ap_target_z - z)
 
-func on_arrive_at_star():
-	for item in $SolarSystemContainer/Planets.get_children():
-		$SolarSystemContainer/Planets.remove_child(item)
-	print("Creating planets...")
-	print(Time.get_unix_time_from_system())
-	var data = Globals.feltyrion.get_current_star_info()
-	print(data)
-	var material = $SolarSystemContainer/SolarSystemParentStar.get_active_material(0)
-	var clr = Color(float(data.nearstar_r)/64, float(data.nearstar_g)/64, float(data.nearstar_b)/64, 1)
-	material.set_shader_parameter("color", clr)
-	var scale_factor = float(data.nearstar_ray) / 13
-	$SolarSystemContainer/SolarSystemParentStar.scale = Vector3(scale_factor, scale_factor, scale_factor)
-	for i in range(0,data.nearstar_nob):
-		var pl_data = Globals.feltyrion.get_planet_info(i)
-		print("Found planet: ", pl_data)
-		_on_found_planet(i, pl_data.nearstar_p_identity, pl_data.nearstar_p_seedval,
-			pl_data.nearstar_p_plx,
-			pl_data.nearstar_p_ply,
-			pl_data.nearstar_p_plz,
-			pl_data.nearstar_p_type,
-			pl_data.nearstar_p_owner,
-			pl_data.nearstar_p_moonid,
-			pl_data.nearstar_p_ring,
-			pl_data.nearstar_p_tilt,
-			pl_data.nearstar_p_ray,
-			pl_data.nearstar_p_orb_ray,
-			pl_data.nearstar_p_orb_tilt,
-			pl_data.nearstar_p_orb_orient,
-			pl_data.nearstar_p_orb_ecc,
-			pl_data.nearstar_p_rtperiod,
-			pl_data.nearstar_p_rotation,
-			pl_data.nearstar_p_viewpoint,
-			pl_data.nearstar_p_term_start,
-			pl_data.nearstar_p_term_end,
-			pl_data.nearstar_p_qsortindex,
-			pl_data.nearstar_p_qsortdist)
-	print("done creating planets")
-	print(Time.get_unix_time_from_system())
-	$SolarSystemContainer/Planets.show()
-	$SolarSystemContainer/SolarSystemParentStar.show()
+func check_arrived_at_star():
+	if Globals.vimana_active:
+		$SolarSystemContainer/Planets.hide()
+		$SolarSystemContainer/SolarSystemParentStar.hide()
+	else:
+		for item in $SolarSystemContainer/Planets.get_children():
+			$SolarSystemContainer/Planets.remove_child(item)
+		print("Creating planets...")
+		print(Time.get_unix_time_from_system())
+		var data = Globals.feltyrion.get_current_star_info()
+		print(data)
+		var material = $SolarSystemContainer/SolarSystemParentStar.get_active_material(0)
+		var clr = Color(float(data.nearstar_r)/64, float(data.nearstar_g)/64, float(data.nearstar_b)/64, 1)
+		material.set_shader_parameter("color", clr)
+		var scale_factor = float(data.nearstar_ray) / 13
+		$SolarSystemContainer/SolarSystemParentStar.scale = Vector3(scale_factor, scale_factor, scale_factor)
+		for i in range(0,data.nearstar_nob):
+			var pl_data = Globals.feltyrion.get_planet_info(i)
+			print("Found planet: ", pl_data)
+			load_planet(i, pl_data.nearstar_p_identity, pl_data.nearstar_p_seedval,
+				pl_data.nearstar_p_plx,
+				pl_data.nearstar_p_ply,
+				pl_data.nearstar_p_plz,
+				pl_data.nearstar_p_type,
+				pl_data.nearstar_p_owner,
+				pl_data.nearstar_p_moonid,
+				pl_data.nearstar_p_ring,
+				pl_data.nearstar_p_tilt,
+				pl_data.nearstar_p_ray,
+				pl_data.nearstar_p_orb_ray,
+				pl_data.nearstar_p_orb_tilt,
+				pl_data.nearstar_p_orb_orient,
+				pl_data.nearstar_p_orb_ecc,
+				pl_data.nearstar_p_rtperiod,
+				pl_data.nearstar_p_rotation,
+				pl_data.nearstar_p_viewpoint,
+				pl_data.nearstar_p_term_start,
+				pl_data.nearstar_p_term_end,
+				pl_data.nearstar_p_qsortindex,
+				pl_data.nearstar_p_qsortdist)
+		print("done creating planets")
+		print(Time.get_unix_time_from_system())
+		$SolarSystemContainer/Planets.show()
+		$SolarSystemContainer/SolarSystemParentStar.show()

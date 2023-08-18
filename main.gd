@@ -4,6 +4,11 @@ func _ready():
 	get_viewport().connect("size_changed", _on_resize)
 	set_process_unhandled_input(true)
 	Globals.ui_mode_changed.connect(ui_mode_changed)
+	Globals.vimana_status_change.connect(vimana_status_change)
+	
+func vimana_status_change(status):
+	if status == false:
+		Globals.feltyrion.freeze()
 
 func _on_resize():
 	printt("Root viewport size changed", get_viewport().size)
