@@ -99,9 +99,8 @@ input_capture_on_drag = true
 shape = SubResource("ConvexPolygonShape3D_mvi76")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="StardrifterParent"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3533, 2.61559, 9.52047)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2609, 2.93544, 9.74507)
 light_color = Color(0.556863, 0.764706, 1, 1)
-light_energy = 6.313
 light_cull_mask = 4293918722
 omni_range = 139.288
 
