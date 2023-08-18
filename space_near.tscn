@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=15 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="Script" path="res://camera.gd" id="1_3gehl"]
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
@@ -34,6 +34,11 @@ size = Vector2(10, 0.45)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_mvi76"]
 points = PackedVector3Array(5, 0.225, 0, 5, -0.225, 0, -5, 0.225, 0, -5, -0.225, 0)
+
+[sub_resource type="Environment" id="Environment_jxpqy"]
+ambient_light_source = 2
+ambient_light_color = Color(0.619608, 0.65098, 1, 1)
+ambient_light_energy = 0.01
 
 [node name="SpaceNear" type="Node3D"]
 script = ExtResource("1_w6myo")
@@ -99,3 +104,6 @@ light_color = Color(0.556863, 0.764706, 1, 1)
 light_energy = 6.313
 light_cull_mask = 4293918722
 omni_range = 139.288
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jxpqy")
