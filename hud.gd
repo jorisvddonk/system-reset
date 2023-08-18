@@ -48,23 +48,23 @@ func refresh_hud():
 	update_fcs_status()
 
 func refresh_parsis_text():
-	$VBoxContainer/HBoxContainer/ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [int(Globals.feltyrion.ap_target_x), int(-Globals.feltyrion.ap_target_y), int(Globals.feltyrion.ap_target_z)]
+	$HUDTexts/VBoxContainer/HBoxContainer/ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [int(Globals.feltyrion.ap_target_x), int(-Globals.feltyrion.ap_target_y), int(Globals.feltyrion.ap_target_z)]
 
 func refresh_numbodies():
 	if Globals.vimana_active:
-		$VBoxContainer/HBoxContainer/NumBodies.hide()
+		$HUDTexts/VBoxContainer/HBoxContainer/NumBodies.hide()
 	else:
 		var nearstar_info = Globals.feltyrion.get_current_star_info()
-		$VBoxContainer/HBoxContainer/NumBodies.show()
-		$VBoxContainer/HBoxContainer/NumBodies.text = "[center]Number of bodies: %s[/center]" % [nearstar_info.nearstar_nob]
+		$HUDTexts/VBoxContainer/HBoxContainer/NumBodies.show()
+		$HUDTexts/VBoxContainer/HBoxContainer/NumBodies.text = "[center]Number of bodies: %s[/center]" % [nearstar_info.nearstar_nob]
 
 func refresh_selected_targets():
 	var ap_target_info = Globals.feltyrion.get_ap_target_info()
-	$VBoxContainer/HBoxContainer/APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [ap_target_info.ap_target_x, -ap_target_info.ap_target_y, ap_target_info.ap_target_z]
-	$VBoxContainer_Selected/SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
-	$VBoxContainer_Selected/SelectedPlanet.text = ""
+	$HUDTexts/VBoxContainer/HBoxContainer/APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [ap_target_info.ap_target_x, -ap_target_info.ap_target_y, ap_target_info.ap_target_z]
+	$HUDTexts/VBoxContainer_Selected/SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
+	$HUDTexts/VBoxContainer_Selected/SelectedPlanet.text = ""
 	if Globals.feltyrion.ip_targetted:
-		$VBoxContainer_Selected/SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
+		$HUDTexts/VBoxContainer_Selected/SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
 
 func update_fcs_status():
-	$VBoxContainer/FCSStatus.text = "[right]%s[/right]" % Globals.feltyrion.get_fcs_status()
+	$HUDTexts/VBoxContainer/FCSStatus.text = "[right]%s[/right]" % Globals.feltyrion.get_fcs_status()
