@@ -228,9 +228,9 @@ func save_game():
 
 func load_game():
 	feltyrion.unfreeze()
-	local_target_orbit_index = feltyrion.ip_targetted # this is not exactly correct... meh.
-	local_target_index = feltyrion.ip_targetted
 	set_ap_target(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
+	local_target_index = feltyrion.ip_targetted
+	local_target_orbit_index = feltyrion.ip_targetted # this is not exactly correct... meh.  - note: make sure to set this AFTER setting local_target_index!
 	game_loaded.emit()
 	
 
