@@ -78,8 +78,9 @@ script = ExtResource("2_e2e7d")
 rootNode = NodePath("../../..")
 
 [node name="ColorRect" type="ColorRect" parent="RootContainer"]
-custom_minimum_size = Vector2(1, 1)
+custom_minimum_size = Vector2(5, 1)
 layout_mode = 2
+color = Color(1, 1, 1, 0.537255)
 
 [node name="RightSideContainer" type="VBoxContainer" parent="RootContainer"]
 layout_mode = 2
@@ -128,6 +129,7 @@ rootNode = NodePath("../../../..")
 [node name="ColorRect" type="ColorRect" parent="RootContainer/RightSideContainer"]
 custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
+color = Color(1, 1, 1, 0)
 
 [node name="LinesContainer" type="VBoxContainer" parent="RootContainer/RightSideContainer"]
 layout_mode = 2
