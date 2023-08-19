@@ -42,6 +42,7 @@ func on_deploy_surface_capsule_status_change(active):
 	if active:
 		var material = StandardMaterial3D.new()
 		$StardrifterParent/DeploymentSelectionScreen.material_override = material
+		Globals.feltyrion.load_planet_at_current_system(Globals.feltyrion.ip_targetted)
 		planet_img = Globals.feltyrion.return_image(true, false)
 		p_console_img = planet_img.duplicate()
 		updatePConsoleImage(true)
