@@ -18,10 +18,11 @@ func _process(delta):
 	time_passed += delta
 	if time_passed > 0.10 && initialized == false:
 		initialized = true
-		go(6, 159, 51)
+		go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		
 func _ready():
 	get_viewport().connect("size_changed", _on_resize)
+	_on_resize()
 		
 func _on_resize():
 	printt("Root viewport size changed", get_viewport().size)
