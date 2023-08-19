@@ -112,6 +112,7 @@ func _ready():
 	feltyrion.dzat_x = -18930
 	feltyrion.dzat_z = -67340
 	set_ap_target(-18928, -29680, -67336)
+	game_loaded.emit()
 
 func set_ap_target(x: float, y: float, z: float):
 	feltyrion.lock()
