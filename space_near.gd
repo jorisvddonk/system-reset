@@ -22,7 +22,6 @@ func _process(delta):
 		$StardrifterParent/vehicle/vehicle_007.transparency = 0.0
 	
 	if $StardrifterParent/DeploymentSelectionScreen.material_override != null:
-		printt(Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		updatePConsoleImage(false)
 
 func updatePConsoleImage(redraw):
@@ -66,6 +65,8 @@ func _unhandled_input(event):
 				Globals.feltyrion.landing_pt_lat = 1
 			if Globals.feltyrion.landing_pt_lat > 119:
 				Globals.feltyrion.landing_pt_lat = 119
+			
+			Globals.feltyrion.set_fcs_status("%s:%s" % [Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat])
 				
 			if event.keycode == KEY_ENTER:
 				# Drop down!
