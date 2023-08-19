@@ -187,7 +187,7 @@ func local_target_button():
 
 func interact_local_target_button():
 	if can_deploy_surface_capsule():
-		print("TODO") #TODO
+		start_deploy_surface_capsule()
 	elif can_cancel_local_target():
 		Globals.local_target_index = -1
 
@@ -215,3 +215,6 @@ func can_cancel_local_target():
 
 func change_tracking_mode():
 	Globals.chase_mode = 0 if Globals.chase_mode >= 6 else Globals.chase_mode + 1
+	
+func start_deploy_surface_capsule():
+	Globals.deploy_surface_capsule_status_change.emit(true)

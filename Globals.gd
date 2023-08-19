@@ -9,6 +9,7 @@ signal on_ap_target_changed(parsis_x: float, parsis_y: float, parsis_z: float, i
 signal mouse_clicked()
 signal mouse_click_begin()
 signal game_loaded()
+signal deploy_surface_capsule_status_change(active)
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
 signal ui_mode_changed(new_value)
 @export var ui_mode: UI_MODE = UI_MODE.NONE:
@@ -191,7 +192,7 @@ func _physics_process(delta):
 				on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
 				chase_direction = -approach_vector.normalized()
 	
-	if local_target_orbit_index != -1 && local_target_orbit_index == local_target_index:
+	if stardrifter != null and local_target_orbit_index != -1 && local_target_orbit_index == local_target_index:
 		# orbit tracking
 		if chase_mode == CHASE_MODE.NEAR_CHASE:
 			# near chase
