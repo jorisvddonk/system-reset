@@ -110,20 +110,6 @@ offset_top = -104.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="FCSStatus" type="RichTextLabel" parent="HUDTexts/VBoxContainer"]
-custom_minimum_size = Vector2(350, 50)
-layout_mode = 2
-mouse_filter = 2
-theme = ExtResource("2_hq42y")
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 0
-theme_override_constants/shadow_outline_size = 6
-bbcode_enabled = true
-text = "[right]INITIALIZED[/right]"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="HUDTexts/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -169,6 +155,20 @@ theme_override_constants/shadow_offset_y = 0
 theme_override_constants/shadow_outline_size = 6
 theme_override_fonts/normal_font = SubResource("FontVariation_mieu8")
 bbcode_enabled = true
+
+[node name="FCSStatus" type="RichTextLabel" parent="HUDTexts/VBoxContainer"]
+custom_minimum_size = Vector2(350, 50)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("2_hq42y")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 6
+bbcode_enabled = true
+text = "[right]INITIALIZED[/right]"
 
 [node name="HUDBackground" type="Control" parent="."]
 layout_mode = 1
