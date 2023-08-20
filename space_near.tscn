@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=17 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="Script" path="res://camera.gd" id="1_3gehl"]
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://space_near.gd" id="1_w6myo"]
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
-[ext_resource type="PackedScene" uid="uid://fuj2xt1sh8nm" path="res://hud.tscn" id="6_1bch5"]
 [ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://sd_screen.tscn" id="6_6tqdb"]
 [ext_resource type="Script" path="res://SD_3dScreen.gd" id="8_4bukw"]
 
@@ -67,11 +66,6 @@ size = Vector2i(4000, 180)
 render_target_update_mode = 4
 
 [node name="SDScreen" parent="SubViewport" instance=ExtResource("6_6tqdb")]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="HUD" parent="CanvasLayer" instance=ExtResource("6_1bch5")]
-metadata/_edit_use_anchors_ = true
 
 [node name="StardrifterParent" type="Node3D" parent="."]
 

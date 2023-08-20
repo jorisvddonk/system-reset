@@ -18,6 +18,8 @@ func _on_resize():
 	$SubViewportContainer_SpaceLocal/SubViewport.size.y = get_viewport().size.y
 	$SubViewportContainer_SpaceNear/SubViewport.size.x = get_viewport().size.x
 	$SubViewportContainer_SpaceNear/SubViewport.size.y = get_viewport().size.y
+	$SubViewportContainer_HUD/SubViewport.size.x = get_viewport().size.x
+	$SubViewportContainer_HUD/SubViewport.size.y = get_viewport().size.y
 	$Background.size.x = get_viewport().size.x
 	$Background.size.y = get_viewport().size.y
 
