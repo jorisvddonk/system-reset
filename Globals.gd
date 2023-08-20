@@ -9,6 +9,8 @@ signal on_ap_target_changed(parsis_x: float, parsis_y: float, parsis_z: float, i
 signal mouse_clicked()
 signal mouse_click_begin()
 signal game_loaded()
+signal initiate_landing_sequence()
+signal initiate_return_sequence()
 signal deploy_surface_capsule_status_change(active)
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
 signal ui_mode_changed(new_value)
@@ -76,14 +78,7 @@ const MOUSE_CLICK_THRESHOLD_HIGH = 1.5
 
 const DEGREES_TO_RADIANS = 0.0174532925
 
-const VIMANA_SPEED = 50000
-const VIMANA_APPROACH_DISTANCE = 10
-const FINE_APPROACH_SPEED = 10
-const FINE_APPROACH_DISTANCE = 0.25
-const TRACKING_SPEED = 1
-const TRACKING_DISTANCE__NEAR_CHASE = 0.03
-const TRACKING_DISTANCE__HIGH_SPEED_CHASE = 0.05
-const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * DEGREES_TO_RADIANS # in radians per second
+
 
 signal vimana_status_change(vimana_drive_active: bool)
 @export var vimana_active: bool = false:
@@ -137,84 +132,6 @@ func _process(delta):
 				mouse_clicked.emit()
 			mouse_left_held = 0
 	
-func _physics_process(delta):
-	if Engine.physics_ticks_per_second == 24:
-		# 24 physics tics per second: use Noctis IV's engine for movement
-		var old_stspeed = feltyrion.stspeed
-		feltyrion.loop_iter()
-		on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-		if feltyrion.stspeed != old_stspeed:
-			printt("Detected vimana status change", feltyrion.stspeed)
-			# vimana status changed
-			if feltyrion.stspeed == 0:
-				# we just got out of vimana
-				feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
-				feltyrion.prepare_star()
-			vimana_status_change.emit(true if feltyrion.stspeed == 1 else false)
-	else:
-		# Some other physics tics per second rating: use the custom engine for movement
-		if vimana_active:
-			# this has some precision issues initially as you Vimana far across the universe, but will become more precise as you get closer
-			var approach_vector = Vector3(feltyrion.ap_target_x - feltyrion.dzat_x, feltyrion.ap_target_y - feltyrion.dzat_y, feltyrion.ap_target_z - feltyrion.dzat_z)
-			if approach_vector.length() > VIMANA_APPROACH_DISTANCE + (VIMANA_SPEED * (delta*2)):
-				approach_vector = approach_vector.normalized() * delta * VIMANA_SPEED
-				feltyrion.dzat_x += approach_vector.x
-				feltyrion.dzat_y += approach_vector.y
-				feltyrion.dzat_z += approach_vector.z
-				on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-			else:
-				printt("we have arrived at remote target")
-				feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
-				feltyrion.prepare_star()
-				approach_vector = (approach_vector.normalized() * VIMANA_APPROACH_DISTANCE)
-				feltyrion.dzat_x = feltyrion.ap_target_x - approach_vector.x
-				feltyrion.dzat_y = feltyrion.ap_target_y # make sure we're in the same plane as the solar system, like Noctis does
-				feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
-				on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-				vimanaStop()
-		
-		if fine_approach_active:
-			var approach_vector = Vector3(feltyrion.get_ip_targetted_x() - feltyrion.dzat_x, feltyrion.get_ip_targetted_y() - feltyrion.dzat_y, feltyrion.get_ip_targetted_z() - feltyrion.dzat_z)
-			if approach_vector.length() > FINE_APPROACH_DISTANCE + (FINE_APPROACH_SPEED * (delta*2)):
-				approach_vector = approach_vector.normalized() * delta * FINE_APPROACH_SPEED
-				feltyrion.dzat_x += approach_vector.x
-				feltyrion.dzat_y += approach_vector.y
-				feltyrion.dzat_z += approach_vector.z
-				on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-			else:
-				printt("we have arrived at local target")
-				approach_vector = approach_vector.normalized() * FINE_APPROACH_DISTANCE
-				local_target_orbit_index = local_target_index
-				feltyrion.dzat_x = feltyrion.get_ip_targetted_x() - approach_vector.x
-				feltyrion.dzat_y = feltyrion.get_ip_targetted_y() # make sure we're in the same plane as the solar system, like Noctis does
-				feltyrion.dzat_z = feltyrion.get_ip_targetted_z() - approach_vector.z
-				fine_approach_active = false
-				on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-				chase_direction = -approach_vector.normalized()
-	
-	if stardrifter != null and local_target_orbit_index != -1 && local_target_orbit_index == local_target_index:
-		# orbit tracking
-		if chase_mode == CHASE_MODE.NEAR_CHASE:
-			# near chase
-			var vec = (chase_direction*TRACKING_DISTANCE__NEAR_CHASE)
-			slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_y() + vec.y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
-			rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
-		elif chase_mode == CHASE_MODE.HIGH_SPEED_CHASE:
-			chase_direction = chase_direction.rotated(Vector3.UP, TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED * delta)
-			var vec = (chase_direction*TRACKING_DISTANCE__HIGH_SPEED_CHASE)
-			slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_y() + vec.y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
-			# do not rotate!
-		elif chase_mode == CHASE_MODE.HIGH_SPEED_VIEWPOINT_CHASE:
-			# same as HIGH_SPEED_CHASE, but we rotate as well
-			chase_direction = chase_direction.rotated(Vector3.UP, TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED * delta)
-			var vec = (chase_direction*TRACKING_DISTANCE__HIGH_SPEED_CHASE)
-			slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_y() + vec.y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
-			rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
-			
-	if ui_mode != UI_MODE.NONE && Input.is_key_pressed(KEY_ESCAPE): # TODO: use Input System instead for this
-		ui_mode = UI_MODE.NONE
-
-
 func vimanaStop():
 	vimana_active = false
 	vimana_status_change.emit(vimana_active)

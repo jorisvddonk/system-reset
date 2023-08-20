@@ -4,15 +4,14 @@ const ymin = 0
 const ymax = 199
 const xmin = 0
 const xmax = 199
-const TERRAINMULT_X = 3
-const TERRAINMULT_Y = 3
-const TERRAINMULT_Z = 60
+const TERRAINMULT_X = -3
+const TERRAINMULT_Y = 60
+const TERRAINMULT_Z = -3
 
 var initialized = false
 var time_passed = 0
 
 @onready var surface = $SubViewportContainer_Surface/SurfaceExplorationViewPort/Surface
-@onready var camera = $SubViewportContainer_Surface/SurfaceExplorationViewPort/Camera3D
 
 func _process(delta):
 	time_passed += delta
@@ -37,13 +36,6 @@ func go(planet_index, lon, lat):
 	Globals.feltyrion.update_time()
 	Globals.feltyrion.ip_targetted = planet_index
 	Globals.feltyrion.ip_reached = 1
-	Globals.feltyrion.set_nearstar(-18928, -29680, -67336) # balastrackonastreya
-	#Globals.feltyrion.set_nearstar(-56784, -15693, -129542) # ylastravenya
-	Globals.set_ap_target(Globals.feltyrion.get_nearstar_x(), Globals.feltyrion.get_nearstar_y(), Globals.feltyrion.get_nearstar_z())
-	Globals.feltyrion.dzat_x = Globals.feltyrion.get_nearstar_x()
-	Globals.feltyrion.dzat_y = Globals.feltyrion.get_nearstar_y()
-	Globals.feltyrion.dzat_z = Globals.feltyrion.get_nearstar_z()
-	Globals.feltyrion.prepare_star()
 	Globals.feltyrion.landing_point = 1 # without this, albedo isn't calculated in load_planet_at_current_system() below
 	Globals.feltyrion.landing_pt_lat = lat
 	Globals.feltyrion.landing_pt_lon = lon
@@ -73,8 +65,8 @@ func go(planet_index, lon, lat):
 		for x in range(xmin, xmax + 1):
 			var vert = Vector3(
 				x * TERRAINMULT_X,
-				y * TERRAINMULT_Y,
-				surfimg.get_pixel(x, y).get_luminance() * TERRAINMULT_Z
+				surfimg.get_pixel(x, y).get_luminance() * TERRAINMULT_Y,
+				y * TERRAINMULT_Z
 	  		)
 			verts.append(vert)
 			normals.append(vert.normalized())
@@ -130,8 +122,9 @@ func go(planet_index, lon, lat):
 	mdt.commit_to_surface(surface.mesh)
 	
 	surface.material_override.albedo_texture = txtrTexture
+	surface.create_trimesh_collision()
 	
-	camera.position = surface.to_global(midvert + Vector3(0,0,1))
+	%PlayerCharacterController.position = surface.to_global(midvert + Vector3(0,4,0))
 	
 func getVertexIndex(x, y, xdiff):
 	return y * (xdiff + 1) + x
@@ -144,3 +137,8 @@ func getNormal(index_base, indices, vertices):
 	var v = p3 - p1
 	var normal = u * v
 	return normal
+	
+func _unhandled_input(event):
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_ESCAPE:
+			Globals.initiate_return_sequence.emit()

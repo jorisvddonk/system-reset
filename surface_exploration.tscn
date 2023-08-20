@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dy2du658i44d5"]
+[gd_scene load_steps=8 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://SurfaceExploration.gd" id="1_kkm40"]
-[ext_resource type="Script" path="res://camera.gd" id="2_1lex7"]
+[ext_resource type="Script" path="res://SurfaceCharacterController.gd" id="3_0ty67"]
 [ext_resource type="PackedScene" uid="uid://b8ystkhcrj80s" path="res://surface_sky_background_scene.tscn" id="3_hma5u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2ga3q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rqw7s"]
 cull_mode = 2
@@ -47,19 +49,26 @@ physics_object_picking = true
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
+[node name="PlayerCharacterController" type="CharacterBody3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+unique_name_in_owner = true
+floor_stop_on_slope = false
+script = ExtResource("3_0ty67")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/PlayerCharacterController"]
+shape = SubResource("CapsuleShape3D_2ga3q")
+
+[node name="camera" type="Camera3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/PlayerCharacterController/CollisionShape3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268512, -0.791229, 0.597143, 0.131821, 0, 0, 0)
 light_energy = 3.405
 
 [node name="Surface" type="MeshInstance3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_rqw7s")
 mesh = SubResource("ArrayMesh_0kx4r")
 skeleton = NodePath("../../..")
-
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
-script = ExtResource("2_1lex7")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 environment = SubResource("Environment_5ku5r")

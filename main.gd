@@ -1,10 +1,15 @@
 extends Control
 
+var SurfaceScene = preload("res://surface_exploration.tscn")
+var surfaceScene
+
 func _ready():
 	get_viewport().connect("size_changed", _on_resize)
 	set_process_unhandled_input(true)
 	Globals.ui_mode_changed.connect(ui_mode_changed)
 	Globals.vimana_status_change.connect(vimana_status_change)
+	Globals.initiate_landing_sequence.connect(initiate_landing_sequence)
+	Globals.initiate_return_sequence.connect(initiate_return_sequence)
 	
 func vimana_status_change(status):
 	if status == false:
@@ -12,16 +17,13 @@ func vimana_status_change(status):
 
 func _on_resize():
 	printt("Root viewport size changed", get_viewport().size)
-	$SubViewportContainer_SpaceRemote/SubViewport.size.x = get_viewport().size.x
-	$SubViewportContainer_SpaceRemote/SubViewport.size.y = get_viewport().size.y
-	$SubViewportContainer_SpaceLocal/SubViewport.size.x = get_viewport().size.x
-	$SubViewportContainer_SpaceLocal/SubViewport.size.y = get_viewport().size.y
-	$SubViewportContainer_SpaceNear/SubViewport.size.x = get_viewport().size.x
-	$SubViewportContainer_SpaceNear/SubViewport.size.y = get_viewport().size.y
-	$SubViewportContainer_HUD/SubViewport.size.x = get_viewport().size.x
-	$SubViewportContainer_HUD/SubViewport.size.y = get_viewport().size.y
-	$Background.size.x = get_viewport().size.x
-	$Background.size.y = get_viewport().size.y
+	var size_x = get_viewport().size.x
+	var size_y = get_viewport().size.y
+	for viewport in get_tree().get_nodes_in_group("subviewports"):
+		viewport.size.x = size_x
+		viewport.size.y = size_y
+	$Background.size.x = size_x
+	$Background.size.y = size_y
 
 func _unhandled_input(event):
 	var evt1 = event.duplicate()
@@ -42,3 +44,14 @@ func ui_mode_changed(ui_mode):
 		$SubViewportContainer_SpaceRemote.z_index = 0
 		$SubViewportContainer_SpaceLocal.z_index = 1
 		$SubViewportContainer_SpaceNear.z_index = 2
+
+
+func initiate_landing_sequence():
+	%SpaceNear.process_mode = Node.PROCESS_MODE_DISABLED
+	surfaceScene = SurfaceScene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+	$SubViewportContainer_SpaceNear/SubViewport.add_child(surfaceScene)
+
+func initiate_return_sequence():
+	%SpaceNear.process_mode = Node.PROCESS_MODE_INHERIT
+	$SubViewportContainer_SpaceNear/SubViewport.remove_child(surfaceScene)
+	surfaceScene.queue_free()

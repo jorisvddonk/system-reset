@@ -34,7 +34,7 @@ layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceLocal"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceLocal" groups=["subviewports"]]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -43,6 +43,7 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="SpaceLocalSystem" parent="SubViewportContainer_SpaceLocal/SubViewport" instance=ExtResource("2_ea67m")]
+unique_name_in_owner = true
 
 [node name="SubViewportContainer_SpaceRemote" type="SubViewportContainer" parent="."]
 layout_mode = 0
@@ -50,7 +51,7 @@ offset_right = 1280.0
 offset_bottom = 720.0
 mouse_force_pass_scroll_events = false
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceRemote"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceRemote" groups=["subviewports"]]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -59,6 +60,7 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="SpaceRemoteSystems" parent="SubViewportContainer_SpaceRemote/SubViewport" instance=ExtResource("1_og4bw")]
+unique_name_in_owner = true
 
 [node name="SubViewportContainer_SpaceNear" type="SubViewportContainer" parent="."]
 z_index = 2
@@ -66,7 +68,7 @@ layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceNear"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_SpaceNear" groups=["subviewports"]]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -75,6 +77,7 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="SpaceNear" parent="SubViewportContainer_SpaceNear/SubViewport" instance=ExtResource("2_xkawo")]
+unique_name_in_owner = true
 
 [node name="SubViewportContainer_HUD" type="SubViewportContainer" parent="."]
 z_index = 9
@@ -83,13 +86,14 @@ offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_HUD"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer_HUD" groups=["subviewports"]]
 disable_3d = true
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 gui_disable_input = true
 size = Vector2i(1280, 720)
+render_target_update_mode = 4
 
 [node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer_HUD/SubViewport"]
 
