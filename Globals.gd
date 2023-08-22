@@ -158,14 +158,14 @@ func _input(event):
 	if event.is_action_pressed("toggle_debug_tools"):
 		debug_tools_enabled = !debug_tools_enabled
 		on_debug_tools_enabled_changed.emit(debug_tools_enabled)
+	if event.is_action_pressed("save_game"):
+		save_game()
+	if event.is_action_pressed("load_game"):
+		load_game()
 
 func _unhandled_key_input(event): # debug shortcut keys - TODO: use Input system instead.
 	if event.keycode == KEY_F1 && event.is_pressed():
 		vimanaStart()
-	if event.keycode == KEY_F2 && event.is_pressed():
-		save_game()
-	if event.keycode == KEY_F3 && event.is_pressed():
-		load_game()
 
 func slew_to(parsis_x: float, parsis_y: float, parsis_z: float, speed: float):
 	feltyrion.dzat_x = parsis_x
