@@ -1,14 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=20 format=3 uid="uid://bbo63hpxfc223"]
 
-[ext_resource type="Script" path="res://camera.gd" id="1_3gehl"]
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://space_near.gd" id="1_w6myo"]
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://sd_screen.tscn" id="6_6tqdb"]
 [ext_resource type="Script" path="res://SD_3dScreen.gd" id="8_4bukw"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_s55un"]
+[ext_resource type="Script" path="res://SurfaceCharacterController.gd" id="8_dt0qn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
 blend_mode = 1
@@ -16,6 +14,10 @@ cull_mode = 2
 shading_mode = 2
 albedo_color = Color(1, 0.992157, 0.733333, 1)
 roughness = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_s3h55"]
+height = 0.125
+radius = 17.295
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_u8yx7"]
 viewport_path = NodePath("SubViewport")
@@ -41,22 +43,20 @@ points = PackedVector3Array(5, 0.225, 0, 5, -0.225, 0, -5, 0.225, 0, -5, -0.225,
 [sub_resource type="BoxShape3D" id="BoxShape3D_h58dm"]
 size = Vector3(2.5, 4, 2.5)
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_inhwv"]
+plane = Plane(0, 0, -10, 0)
+
 [sub_resource type="Environment" id="Environment_jxpqy"]
 ambient_light_source = 2
 ambient_light_color = Color(0.619608, 0.65098, 1, 1)
 ambient_light_energy = 0.01
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0yy18"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mdjbl"]
+
 [node name="SpaceNear" type="Node3D"]
 script = ExtResource("1_w6myo")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.5, 0)
-script = ExtResource("1_3gehl")
-
-[node name="Area3D" type="Area3D" parent="Camera3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/Area3D"]
-shape = SubResource("BoxShape3D_s55un")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
@@ -77,6 +77,11 @@ transparency = 0.4
 mesh = ExtResource("1_i3c1o")
 skeleton = NodePath("../../..")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="StardrifterParent/cupolaFloor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StardrifterParent/cupolaFloor/StaticBody3D"]
+shape = SubResource("CylinderShape3D_s3h55")
+
 [node name="cupolaRoof" type="MeshInstance3D" parent="StardrifterParent"]
 transform = Transform3D(0.341021, 0, 0, 0, -0.33, 0, 0, 0, 0.315306, 0.20256, 1.80988, 0.0934858)
 layers = 2
@@ -86,6 +91,7 @@ mesh = ExtResource("2_dedv8")
 skeleton = NodePath("../cupolaFloor")
 
 [node name="vehicle" parent="StardrifterParent" instance=ExtResource("3_u5gxh")]
+unique_name_in_owner = true
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
 [node name="3dScreen" type="MeshInstance3D" parent="StardrifterParent" node_paths=PackedStringArray("viewport", "sdscreen", "camera")]
@@ -96,9 +102,11 @@ skeleton = NodePath("../..")
 script = ExtResource("8_4bukw")
 viewport = NodePath("../../SubViewport")
 sdscreen = NodePath("../../SubViewport/SDScreen")
-camera = NodePath("../../Camera3D")
+camera = NodePath("../../PlayerCharacterController/CollisionShape3D/camera")
 
 [node name="Area3D" type="Area3D" parent="StardrifterParent/3dScreen"]
+collision_layer = 128
+collision_mask = 128
 input_capture_on_drag = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StardrifterParent/3dScreen/Area3D"]
@@ -120,5 +128,32 @@ mesh = SubResource("PlaneMesh_myfsh")
 transform = Transform3D(1, -3.55271e-15, -3.55271e-15, 3.55271e-15, 1, 4.23516e-22, 3.55271e-15, -4.23516e-22, 1, -5.48363e-06, 1.97245, 0)
 shape = SubResource("BoxShape3D_h58dm")
 
+[node name="Node3D" type="Node3D" parent="StardrifterParent"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StardrifterParent/Node3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StardrifterParent/Node3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.6225)
+shape = SubResource("WorldBoundaryShape3D_inhwv")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jxpqy")
+
+[node name="PlayerCharacterController" type="CharacterBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70675, 0)
+floor_stop_on_slope = false
+script = ExtResource("8_dt0qn")
+register_as_global_camera = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacterController"]
+shape = SubResource("CapsuleShape3D_0yy18")
+
+[node name="camera" type="Camera3D" parent="PlayerCharacterController/CollisionShape3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+
+[node name="Area3D" type="Area3D" parent="PlayerCharacterController"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacterController/Area3D"]
+shape = SubResource("BoxShape3D_mdjbl")

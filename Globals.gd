@@ -2,7 +2,7 @@ extends Node
 
 @onready var feltyrion: Feltyrion = Feltyrion.new()
 @export var stardrifter: Node3D
-@export var maincamera: Camera3D
+@export var playercharacter: CharacterBody3D
 signal on_parsis_changed(parsis_x: float, parsis_y: float, parsis_z: float)
 signal on_camera_rotation(rotation)
 signal on_ap_target_changed(parsis_x: float, parsis_y: float, parsis_z: float, id_code)
@@ -175,6 +175,7 @@ func rotate_to(x: float, y: float, z: float):
 	stardrifter.look_at(-(look_at))
 	var rotated = stardrifter.rotation
 	var rotated_rads = fmod(rotated.y - cur_rot.y + deg_to_rad(540), deg_to_rad(360)) - deg_to_rad(180)
-	maincamera.rotation.y += rotated_rads
-	maincamera.position = maincamera.position.rotated(Vector3.UP, rotated_rads)
-	Globals.on_camera_rotation.emit(maincamera.rotation)
+	if playercharacter != null:
+		playercharacter.rotation.y += rotated_rads
+		playercharacter.position = playercharacter.position.rotated(Vector3.UP, rotated_rads)
+		Globals.on_camera_rotation.emit(playercharacter.camera.global_rotation)

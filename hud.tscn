@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://fuj2xt1sh8nm"]
+[gd_scene load_steps=9 format=3 uid="uid://fuj2xt1sh8nm"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_o8fq7"]
 [ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://theme.tres" id="2_hq42y"]
+[ext_resource type="Texture2D" uid="uid://dvwxod1u8jtnl" path="res://addons/kenney_crosshair_pack/crosshair001.png" id="3_kl6mr"]
 
 [sub_resource type="FontVariation" id="FontVariation_mieu8"]
 
@@ -217,3 +218,20 @@ grow_horizontal = 2
 grow_vertical = 0
 texture = SubResource("GradientTexture2D_ukfu3")
 flip_v = true
+
+[node name="Aimpoint" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(64, 64)
+texture = ExtResource("3_kl6mr")

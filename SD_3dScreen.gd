@@ -9,12 +9,17 @@ func _ready():
 	$Area3D.mouse_exited.connect(_mouse_exited)
 	
 func _process(delta):
-	if mouseover:
+	var s = get_viewport().size
+	
+	if true:
 		var space_state = get_world_3d().direct_space_state
-		var mousepos = get_viewport().get_mouse_position()
+		var mousepos = Vector2(s.x / 2, s.y / 2)
+		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+			# use mouse position instead!
+			mousepos = get_viewport().get_mouse_position()
 		var origin = camera.project_ray_origin(mousepos)
 		var end = origin + camera.project_ray_normal(mousepos) * 1000
-		var query = PhysicsRayQueryParameters3D.create(origin, end)
+		var query = PhysicsRayQueryParameters3D.create(origin, end, 128)
 		query.collide_with_areas = true
 
 		var result = space_state.intersect_ray(query)

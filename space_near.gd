@@ -15,6 +15,7 @@ const TRACKING_DISTANCE__HIGH_SPEED_CHASE = 0.05
 const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * Globals.DEGREES_TO_RADIANS # in radians per second
 
 func _ready():
+	%vehicle/vehicle_007/StaticBody3D/CollisionShape3D.shape.backface_collision = true 
 	var layer_fixer = func(item): item.set_layer_mask(2); return true
 	$StardrifterParent/vehicle.find_children("?*", "MeshInstance3D").all(layer_fixer)
 	Globals.stardrifter = $StardrifterParent
@@ -162,9 +163,9 @@ func _unhandled_input(event):
 				Globals.initiate_landing_sequence.emit()
 
 func deployment_console_entered(area):
-	if area == $Camera3D/Area3D:
+	if area == %PlayerCharacterController/Area3D:
 		camera_is_around_deployment_console = true
 		
 func deployment_console_exited(area):
-	if area == $Camera3D/Area3D:
+	if area == %PlayerCharacterController/Area3D:
 		camera_is_around_deployment_console = false

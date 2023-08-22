@@ -8,9 +8,13 @@ var gravity = 5 # TODO: get from planet gravity
 var _mouse_position = Vector2(0.0, 0.0)
 var _total_pitch = 0.0
 const sensitivity = 0.25
+@onready var camera = $CollisionShape3D/camera
+@export var register_as_global_camera: bool = false
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if register_as_global_camera:
+		Globals.playercharacter = self
 	
 func _exit_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -36,7 +40,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 	
-	if true:
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		_mouse_position *= sensitivity
 		var yaw = _mouse_position.x
 		var pitch = _mouse_position.y
@@ -48,9 +52,15 @@ func _physics_process(delta):
 	
 		rotate_y(deg_to_rad(-yaw))
 		%camera.rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
+	
+	if Input.is_action_just_pressed("cancel_mouse_capture"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	if Input.is_action_just_released("cancel_mouse_capture"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		_mouse_position = Vector2(0, 0)
 
 
 func _input(event):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		_mouse_position = event.relative
 		Globals.on_camera_rotation.emit(%camera.global_rotation)
