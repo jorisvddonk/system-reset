@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dy2du658i44d5"]
+[gd_scene load_steps=7 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://SurfaceExploration.gd" id="1_kkm40"]
 [ext_resource type="Script" path="res://PlayerCharacterController.gd" id="3_e41ui"]
@@ -11,8 +11,6 @@ cull_mode = 2
 shading_mode = 2
 specular_mode = 2
 metallic_specular = 0.0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_0kx4r"]
 
 [sub_resource type="Environment" id="Environment_5ku5r"]
 ambient_light_source = 2
@@ -67,8 +65,20 @@ light_energy = 3.405
 
 [node name="Surface" type="MeshInstance3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 material_override = SubResource("StandardMaterial3D_rqw7s")
-mesh = SubResource("ArrayMesh_0kx4r")
 skeleton = NodePath("../../..")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 environment = SubResource("Environment_5ku5r")
+
+[node name="DebuggingTools" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="PlanetHeightmap" type="TextureRect" parent="DebuggingTools"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = -20.0
+offset_right = 140.0
+offset_bottom = 20.0
+grow_vertical = 2

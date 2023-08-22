@@ -31,8 +31,6 @@ func _on_resize():
 	$SubViewportContainer_Surface/SurfaceExplorationViewPort.size.y = get_viewport().size.y
 		
 func go(planet_index, lon, lat):
-	Globals.feltyrion.lock() 
-	
 	Globals.feltyrion.update_time()
 	Globals.feltyrion.ip_targetted = planet_index
 	Globals.feltyrion.ip_reached = 1
@@ -45,6 +43,7 @@ func go(planet_index, lon, lat):
 	$SubViewportContainer_Sky/SubViewport/SurfaceSkyBackgroundScene.recalculate()
 	var surfimg = Globals.feltyrion.return_surfacemap_image()
 	var surfTexture = ImageTexture.create_from_image(surfimg)
+	$DebuggingTools/PlanetHeightmap.texture = surfTexture
 	
 	var txtrimg = Globals.feltyrion.return_txtr_image()
 	var txtrTexture = ImageTexture.create_from_image(txtrimg)
@@ -107,7 +106,8 @@ func go(planet_index, lon, lat):
 	surface_array[Mesh.ARRAY_TEX_UV] = uvs
 	surface_array[Mesh.ARRAY_INDEX] = indices
 
-	# Recalculate the normals
+	# Recalculate the normals and set the mesh
+	surface.mesh = ArrayMesh.new()
 	surface.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
 	var mdt = MeshDataTool.new()
 	mdt.create_from_surface(surface.mesh, 0)
