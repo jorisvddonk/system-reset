@@ -5,8 +5,8 @@
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://sd_screen.tscn" id="6_6tqdb"]
+[ext_resource type="Script" path="res://PlayerCharacterController.gd" id="7_uxqhh"]
 [ext_resource type="Script" path="res://SD_3dScreen.gd" id="8_4bukw"]
-[ext_resource type="Script" path="res://SurfaceCharacterController.gd" id="8_dt0qn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
 blend_mode = 1
@@ -143,7 +143,7 @@ environment = SubResource("Environment_jxpqy")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70675, 0)
 floor_stop_on_slope = false
-script = ExtResource("8_dt0qn")
+script = ExtResource("7_uxqhh")
 register_as_global_camera = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacterController"]

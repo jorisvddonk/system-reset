@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://SurfaceExploration.gd" id="1_kkm40"]
-[ext_resource type="Script" path="res://SurfaceCharacterController.gd" id="3_0ty67"]
+[ext_resource type="Script" path="res://PlayerCharacterController.gd" id="3_e41ui"]
 [ext_resource type="PackedScene" uid="uid://b8ystkhcrj80s" path="res://surface_sky_background_scene.tscn" id="3_hma5u"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2ga3q"]
@@ -52,7 +52,7 @@ render_target_update_mode = 4
 [node name="PlayerCharacterController" type="CharacterBody3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 unique_name_in_owner = true
 floor_stop_on_slope = false
-script = ExtResource("3_0ty67")
+script = ExtResource("3_e41ui")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/PlayerCharacterController"]
 shape = SubResource("CapsuleShape3D_2ga3q")
