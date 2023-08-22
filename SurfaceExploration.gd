@@ -20,6 +20,8 @@ func _process(delta):
 		go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		
 func _ready():
+	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
+	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 	get_viewport().connect("size_changed", _on_resize)
 	_on_resize()
 		
@@ -142,3 +144,9 @@ func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_ESCAPE:
 			Globals.initiate_return_sequence.emit()
+
+func _on_debug_tools_enabled_changed(enabled: bool):
+	if enabled:
+		$DebuggingTools.show()
+	else:
+		$DebuggingTools.hide()

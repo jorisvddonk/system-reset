@@ -3,6 +3,8 @@ extends Node
 @onready var feltyrion: Feltyrion = Feltyrion.new()
 @export var stardrifter: Node3D
 @export var playercharacter: CharacterBody3D
+var debug_tools_enabled = false
+signal on_debug_tools_enabled_changed(value: bool)
 signal on_parsis_changed(parsis_x: float, parsis_y: float, parsis_z: float)
 signal on_camera_rotation(rotation)
 signal on_ap_target_changed(parsis_x: float, parsis_y: float, parsis_z: float, id_code)
@@ -152,6 +154,10 @@ func load_game():
 	local_target_orbit_index = feltyrion.ip_targetted # this is not exactly correct... meh.  - note: make sure to set this AFTER setting local_target_index!
 	game_loaded.emit()
 	
+func _input(event):
+	if event.is_action_pressed("toggle_debug_tools"):
+		debug_tools_enabled = !debug_tools_enabled
+		on_debug_tools_enabled_changed.emit(debug_tools_enabled)
 
 func _unhandled_key_input(event): # debug shortcut keys - TODO: use Input system instead.
 	if event.keycode == KEY_F1 && event.is_pressed():
