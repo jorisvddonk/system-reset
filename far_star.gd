@@ -14,7 +14,7 @@ signal clicked
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Label3D.text = star_name
-	$Label3D.hide()
+	updateLabelVisibility()
 	__mouse_exited()
 	$Area3D.mouse_entered.connect(__mouse_entered)
 	$Area3D.mouse_exited.connect(__mouse_exited)
@@ -22,14 +22,18 @@ func _ready():
 	Globals.mouse_click_begin.connect(click_begin)
 	Globals.mouse_clicked.connect(clicked_end)
 	Globals.ui_mode_changed.connect(ui_mode_changed)
+	Globals.on_debug_tools_enabled_changed.connect(on_debug_tools_enabled_changed)
 	
-func ui_mode_changed(ui_mode):
-	if ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+func updateLabelVisibility():
+	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 		$Label3D.show()
 	else:
-		$Label3D.hide()
-		if ui_mode == Globals.UI_MODE.NONE:
-			__mouse_exited()
+		($Label3D.hide if !Globals.debug_tools_enabled else $Label3D.show).call()
+	
+func ui_mode_changed(ui_mode):
+	updateLabelVisibility()
+	if ui_mode == Globals.UI_MODE.NONE:
+		__mouse_exited()
 	
 func click_begin():
 	if mouseover:
@@ -67,3 +71,6 @@ func _on_ap_target_changed(x, y, z, id_code):
 		$CurrentAPTargetSelectionSprite.show()
 	else:
 		$CurrentAPTargetSelectionSprite.hide()
+
+func on_debug_tools_enabled_changed(_a):
+	updateLabelVisibility()
