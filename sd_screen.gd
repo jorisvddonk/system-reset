@@ -32,6 +32,25 @@ func _ready():
 	onboard_devices.pressed.connect(menu_od)
 	preferences.pressed.connect(menu_prefs)
 	disable_display.pressed.connect(menu_dd)
+	
+
+func _input(event):
+	if event.is_action_pressed("osd_category_1"):
+		flight_control_drive.pressed.emit()
+	if event.is_action_pressed("osd_category_2"):
+		onboard_devices.pressed.emit()
+	if event.is_action_pressed("osd_category_3"):
+		preferences.pressed.emit()
+	if event.is_action_pressed("osd_category_4"):
+		disable_display.pressed.emit()
+	if event.is_action_pressed("osd_item_1"):
+		item1.pressed.emit()
+	if event.is_action_pressed("osd_item_2"):
+		item2.pressed.emit()
+	if event.is_action_pressed("osd_item_3"):
+		item3.pressed.emit()
+	if event.is_action_pressed("osd_item_4"):
+		item4.pressed.emit()
 
 func menu_fcd():
 	clear_connections()
@@ -59,6 +78,7 @@ func menu_fcd():
 	add_connection(Globals._on_local_target_changed, func(_a): menu_fcd()) # redraw screen if current local target changed
 	add_connection(Globals.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
 	add_connection(Globals.fine_approach_status_change, func(_a): menu_fcd()) # redraw screen if fine approach status changed
+	setup_extra_default_connections()
 	
 func menu_od():
 	clear_connections()
@@ -72,6 +92,7 @@ func menu_od():
 	item2.pressed.connect(menu_od_misc)
 	item3.pressed.connect(menu_od_gc)
 	item4.pressed.connect(menu_od_ef)
+	setup_extra_default_connections()
 	
 func menu_od_ef():
 	clear_connections()
@@ -81,6 +102,7 @@ func menu_od_ef():
 	item4.text = "Clear status"
 	#--
 	clear_lines()
+	setup_extra_default_connections()
 	
 const CHASE_MODES = ["tracking disabled", "fixed-point chase", "far chase", "syncrone orbit", "high-speed orbit", "near chase", "high speed viewpoint chase"]
 func menu_od_nav():
@@ -107,6 +129,7 @@ func menu_od_nav():
 	]
 	item3.pressed.connect(change_tracking_mode)
 	add_connection(Globals.chase_mode_changed, func(_a): menu_od_nav()) # redraw screen if chase mode changed
+	setup_extra_default_connections()
 	
 func menu_od_misc():
 	clear_connections()
@@ -116,6 +139,7 @@ func menu_od_misc():
 	item4.text = "Environment data"
 	#--
 	clear_lines()
+	setup_extra_default_connections()
 	
 func menu_od_gc():
 	clear_connections()
@@ -128,6 +152,7 @@ func menu_od_gc():
 	line1.text = "Epoc 6012 triads 1234,567,890" # TODO: change depending on status
 	line2.text = "Parsis universal coordinates: %s:%s:%s" % [Globals.feltyrion.dzat_x, -Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z]
 	line3.text = "Heading pitch: %s:%s" % [-42, -42] # TODO: change depending on status
+	setup_extra_default_connections()
 	
 func menu_prefs():
 	clear_connections()
@@ -137,6 +162,7 @@ func menu_prefs():
 	item4.text = "Depolarize" if true else "Polarize" # TODO: change depending on status
 	#--
 	clear_lines()
+	setup_extra_default_connections()
 	
 func menu_dd():
 	clear_connections()
@@ -218,3 +244,19 @@ func change_tracking_mode():
 	
 func start_deploy_surface_capsule():
 	Globals.deploy_surface_capsule_status_change.emit(true)
+
+# Set up some additional connections to ensure that we send the on_hud_pressed signal (used for the HUD)
+func setup_extra_default_connections():
+	item1.pressed.connect(on_hud_pressed)
+	item2.pressed.connect(on_hud_pressed)
+	item3.pressed.connect(on_hud_pressed)
+	item4.pressed.connect(on_hud_pressed)
+	flight_control_drive.pressed.connect(on_hud_pressed)
+	onboard_devices.pressed.connect(on_hud_pressed)
+	preferences.pressed.connect(on_hud_pressed)
+	disable_display.pressed.connect(on_hud_pressed)
+	# simulate immediately
+	on_hud_pressed()
+
+func on_hud_pressed():
+	Globals.osd_updated.emit(item1.text, item2.text, item3.text, item4.text) # Note: this signal seems to be emitted a bit too much! - not an issue, but maybe something to look into sometime...

@@ -46,6 +46,7 @@ offset_bottom = 180.0
 layout_mode = 2
 
 [node name="LabelFCD" type="Label" parent="RootContainer/CommandsContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "Flight control drive"
@@ -54,6 +55,7 @@ script = ExtResource("2_e2e7d")
 rootNode = NodePath("../../..")
 
 [node name="LabelOD" type="Label" parent="RootContainer/CommandsContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "Onboard devices"
@@ -62,6 +64,7 @@ script = ExtResource("2_e2e7d")
 rootNode = NodePath("../../..")
 
 [node name="LabelPREFS" type="Label" parent="RootContainer/CommandsContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "Preferences"
@@ -70,6 +73,7 @@ script = ExtResource("2_e2e7d")
 rootNode = NodePath("../../..")
 
 [node name="LabelDD" type="Label" parent="RootContainer/CommandsContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "Disable display"
@@ -91,6 +95,7 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
 [node name="LabelItem1" type="Label" parent="RootContainer/RightSideContainer/ItemContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(800, 30)
 layout_mode = 2
 mouse_filter = 0
@@ -100,6 +105,7 @@ script = ExtResource("2_e2e7d")
 rootNode = NodePath("../../../..")
 
 [node name="LabelItem2" type="Label" parent="RootContainer/RightSideContainer/ItemContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(800, 30)
 layout_mode = 2
 mouse_filter = 0
@@ -109,6 +115,7 @@ script = ExtResource("2_e2e7d")
 rootNode = NodePath("../../../..")
 
 [node name="LabelItem3" type="Label" parent="RootContainer/RightSideContainer/ItemContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(800, 30)
 layout_mode = 2
 mouse_filter = 0
@@ -118,6 +125,7 @@ script = ExtResource("2_e2e7d")
 rootNode = NodePath("../../../..")
 
 [node name="LabelItem4" type="Label" parent="RootContainer/RightSideContainer/ItemContainer" node_paths=PackedStringArray("rootNode")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(800, 30)
 layout_mode = 2
 mouse_filter = 0
@@ -135,18 +143,21 @@ color = Color(1, 1, 1, 0)
 layout_mode = 2
 
 [node name="LabelLine1" type="Label" parent="RootContainer/RightSideContainer/LinesContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "Line 1"
 uppercase = true
 
 [node name="LabelLine2" type="Label" parent="RootContainer/RightSideContainer/LinesContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "Line 2"
 uppercase = true
 
 [node name="LabelLine3" type="Label" parent="RootContainer/RightSideContainer/LinesContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "Line 3"

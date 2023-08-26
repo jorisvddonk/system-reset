@@ -162,6 +162,17 @@ func _unhandled_input(event):
 				# Drop down!
 				Globals.initiate_landing_sequence.emit()
 
+func _input(event):
+	if event.is_action("osd_category_1")\
+		or event.is_action("osd_category_2")\
+		or event.is_action("osd_category_3")\
+		or event.is_action("osd_category_4")\
+		or event.is_action("osd_item_1")\
+		or event.is_action("osd_item_2")\
+		or event.is_action("osd_item_3")\
+		or event.is_action("osd_item_4"):
+		$SubViewport.push_input(event)
+
 func deployment_console_entered(area):
 	if area == %PlayerCharacterController/Area3D:
 		camera_is_around_deployment_console = true

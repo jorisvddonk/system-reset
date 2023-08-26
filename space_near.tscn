@@ -66,6 +66,7 @@ size = Vector2i(4000, 180)
 render_target_update_mode = 4
 
 [node name="SDScreen" parent="SubViewport" instance=ExtResource("6_6tqdb")]
+unique_name_in_owner = true
 
 [node name="StardrifterParent" type="Node3D" parent="."]
 

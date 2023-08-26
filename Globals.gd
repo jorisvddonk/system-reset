@@ -16,6 +16,7 @@ signal initiate_return_sequence()
 signal deploy_surface_capsule_status_change(active)
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
 signal ui_mode_changed(new_value)
+signal osd_updated(item1_text: String, item2_text: String, item3_text: String, item4_text: String) # emitted whenever the Stardrifter's OSD (window display) got updated
 @export var ui_mode: UI_MODE = UI_MODE.NONE:
 	get:
 		return ui_mode

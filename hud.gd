@@ -7,6 +7,7 @@ func _ready():
 	Globals._on_local_target_changed.connect(on_local_target_changed)
 	Globals.vimana_status_change.connect(on_vimana_status_changed)
 	Globals.game_loaded.connect(on_game_loaded)
+	Globals.osd_updated.connect(on_osd_updated)
 	
 	# Set up timer to periodically refresh FCS
 	var timer = Timer.new()
@@ -15,6 +16,9 @@ func _ready():
 	timer.one_shot = false
 	add_child(timer)
 	timer.start()
+	
+	# Defalt to "OSD off" display
+	show_menulabel_for_osd_off()
 
 
 #
@@ -46,6 +50,7 @@ func refresh_hud():
 	refresh_numbodies()
 	refresh_selected_targets()
 	update_fcs_status()
+	# NOTE: because the Stardrifter OSD updates are purely signal-based, we can't update those here.
 
 func refresh_parsis_text():
 	%ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [int(Globals.feltyrion.ap_target_x), int(-Globals.feltyrion.ap_target_y), int(Globals.feltyrion.ap_target_z)]
@@ -68,3 +73,12 @@ func refresh_selected_targets():
 
 func update_fcs_status():
 	%FCSStatus.text = "[right]%s[/right]" % Globals.feltyrion.get_fcs_status()
+
+func on_osd_updated(item1_text: String, item2_text: String, item3_text: String, item4_text: String):
+	if item1_text != "": # if the first item is set, we know we haven't turned the screen off
+		%MenuLabel.text = "6\\%-20s 7\\%-20s 8\\%-20s  9\\%-20s" % [item1_text.substr(0,20), item2_text.substr(0,20), item3_text.substr(0,20), item4_text.substr(0,20)]
+	else:
+		show_menulabel_for_osd_off()
+		
+func show_menulabel_for_osd_off():
+	%MenuLabel.text = "1\\%-20s 2\\%-20s 3\\%-20s  4\\%-20s" % ["FLIGHT CONTROL DRIVE", "DEVICES", "PREFERENCES", "SCREEN OFF"]

@@ -30,6 +30,12 @@ func _unhandled_input(event):
 	$SubViewportContainer_SpaceRemote/SubViewport.push_input(evt1, false)
 	$SubViewportContainer_SpaceNear/SubViewport.push_input(evt2, false)
 
+func _input(event):
+	var evt1 = event.duplicate()
+	var evt2 = event.duplicate()
+	$SubViewportContainer_SpaceRemote/SubViewport.push_input(evt1, false)
+	$SubViewportContainer_SpaceNear/SubViewport.push_input(evt2, false)
+
 func ui_mode_changed(ui_mode):
 	if ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 		$SubViewportContainer_SpaceLocal.z_index = 1
