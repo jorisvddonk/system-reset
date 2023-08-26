@@ -260,4 +260,4 @@ func setup_extra_default_connections():
 	on_hud_pressed()
 
 func on_hud_pressed():
-	Globals.osd_updated.emit(item1.text, item2.text, item3.text, item4.text) # Note: this signal seems to be emitted a bit too much! - not an issue, but maybe something to look into sometime...
+	Globals.osd_updated.emit(item1.text, item2.text, item3.text, item4.text)
