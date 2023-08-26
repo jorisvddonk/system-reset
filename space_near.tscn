@@ -47,8 +47,8 @@ size = Vector3(2.5, 4, 2.5)
 plane = Plane(0, 0, -10, 0)
 
 [sub_resource type="Environment" id="Environment_jxpqy"]
-ambient_light_source = 2
-ambient_light_color = Color(0.619608, 0.65098, 1, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.729412, 0.745098, 1, 1)
 ambient_light_energy = 0.01
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0yy18"]
@@ -113,9 +113,23 @@ input_capture_on_drag = true
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StardrifterParent/3dScreen/Area3D"]
 shape = SubResource("ConvexPolygonShape3D_mvi76")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="StardrifterParent"]
+[node name="InternalLightMain" type="OmniLight3D" parent="StardrifterParent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2609, 2.93544, 9.74507)
 light_color = Color(0.556863, 0.764706, 1, 1)
+light_cull_mask = 4293918722
+omni_range = 139.288
+
+[node name="InternalLightExtra1" type="OmniLight3D" parent="StardrifterParent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0640647, 6.96882, -0.0494409)
+light_color = Color(0.556863, 0.764706, 1, 1)
+light_energy = 0.225
+light_cull_mask = 4293918722
+omni_range = 139.288
+
+[node name="InternalLightExtra2" type="OmniLight3D" parent="StardrifterParent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0640647, -0.239769, -0.0494409)
+light_color = Color(0.556863, 0.764706, 1, 1)
+light_energy = 0.15
 light_cull_mask = 4293918722
 omni_range = 139.288
 
