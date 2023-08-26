@@ -14,6 +14,8 @@ const TRACKING_DISTANCE__NEAR_CHASE = 0.03
 const TRACKING_DISTANCE__HIGH_SPEED_CHASE = 0.05
 const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * Globals.DEGREES_TO_RADIANS # in radians per second
 
+var nearstar_ray = 1
+
 func _ready():
 	%vehicle/vehicle_007/StaticBody3D/CollisionShape3D.shape.backface_collision = true 
 	var layer_fixer = func(item): item.set_layer_mask(2); return true
@@ -96,7 +98,9 @@ func _physics_process(delta):
 	if !Globals.vimana_active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
 		# we are in a solar system and not in Vimana flight; update the local star's light!
 		var star_vector = Vector3(feltyrion.dzat_x - feltyrion.get_nearstar_x(), feltyrion.dzat_y - feltyrion.get_nearstar_y(), feltyrion.dzat_z - feltyrion.get_nearstar_z())
+		var light_energy = tanh(nearstar_ray/max(0.0001, star_vector.length()/10))
 		$SolarSystemParentStarLight.look_at(star_vector)
+		$SolarSystemParentStarLight.light_energy = light_energy
 	
 	if Globals.stardrifter != null and Globals.local_target_orbit_index != -1 && Globals.local_target_orbit_index == Globals.local_target_index:
 		# orbit tracking
@@ -201,6 +205,7 @@ func update_star_lights():
 	if !Globals.vimana_active and Globals.feltyrion.get_nearstar_x() != 0 and Globals.feltyrion.get_nearstar_y() != 0 and Globals.feltyrion.get_nearstar_z() != 0:
 		# We have possibly arrived at a star!
 		var data = Globals.feltyrion.get_ap_target_info()
+		nearstar_ray = data.ap_target_ray
 		lightcolor = Color(data.ap_target_r / 64.0, data.ap_target_g / 64.0, data.ap_target_b / 64.0)
 		$SolarSystemParentStarLight.visible = true
 	else:
