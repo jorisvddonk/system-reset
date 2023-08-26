@@ -4,4 +4,3 @@
 
 [resource]
 default_font = ExtResource("1_wmt2j")
-Label/fonts/font = ExtResource("1_wmt2j")
