@@ -9,9 +9,10 @@ func _ready():
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.osd_updated.connect(on_osd_updated)
 	
-	# Set up timer to periodically refresh FCS
+	# Set up timer to periodically refresh FCS and EpocLabel
 	var timer = Timer.new()
 	timer.timeout.connect(update_fcs_status)
+	timer.timeout.connect(update_epoc_label)
 	timer.wait_time = 1
 	timer.one_shot = false
 	add_child(timer)
@@ -19,6 +20,9 @@ func _ready():
 	
 	# Defalt to "OSD off" display
 	show_menulabel_for_osd_off()
+	
+	# Refresh the hud immediately
+	refresh_hud()
 
 
 #
@@ -50,6 +54,7 @@ func refresh_hud():
 	refresh_numbodies()
 	refresh_selected_targets()
 	update_fcs_status()
+	update_epoc_label()
 	# NOTE: because the Stardrifter OSD updates are purely signal-based, we can't update those here.
 
 func refresh_parsis_text():
@@ -73,6 +78,14 @@ func refresh_selected_targets():
 
 func update_fcs_status():
 	%FCSStatus.text = "[right]%s[/right]" % Globals.feltyrion.get_fcs_status()
+
+func update_epoc_label():
+	var secs = Globals.feltyrion.get_secs()
+	var epoc = floor(6011 + secs / 1e9)
+	var sinisters = floor(fmod(secs, 1e9) / 1e6)
+	var medii = floor(fmod(secs, 1e6) / 1e3)
+	var dexters = floor(fmod(secs, 1e3))
+	%EpocLabel.text = "EPOC %04s & %03s.%03s.%03s" % [epoc, sinisters, medii, dexters]
 
 func on_osd_updated(item1_text: String, item2_text: String, item3_text: String, item4_text: String):
 	if item1_text != "": # if the first item is set, we know we haven't turned the screen off

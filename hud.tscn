@@ -194,6 +194,7 @@ theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
 theme_override_constants/shadow_outline_size = 6
 text = "EPOC 6012 & 0000.000.000"
+scroll_active = false
 
 [node name="VSeparator" type="VSeparator" parent="HUDRim/Top/HBoxContainer"]
 modulate = Color(1, 1, 1, 0)
