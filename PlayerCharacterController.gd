@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 
 const SPEED = 10
-const JUMP_VELOCITY = 5
+const JUMP_VELOCITY = 7
 var gravity = 5 # TODO: get from planet gravity
 
 var _mouse_position = Vector2(0.0, 0.0)

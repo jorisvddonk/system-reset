@@ -136,6 +136,18 @@ shape = SubResource("BoxShape3D_h58dm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.6225)
 shape = SubResource("WorldBoundaryShape3D_inhwv")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StardrifterParent/Node3D/StaticBody3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -10.7256)
+shape = SubResource("WorldBoundaryShape3D_inhwv")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StardrifterParent/Node3D/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 11.8961, 0, -0.00408268)
+shape = SubResource("WorldBoundaryShape3D_inhwv")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StardrifterParent/Node3D/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12.0555, 0, -0.305247)
+shape = SubResource("WorldBoundaryShape3D_inhwv")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jxpqy")
 
