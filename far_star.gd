@@ -25,10 +25,16 @@ func _ready():
 	Globals.on_debug_tools_enabled_changed.connect(on_debug_tools_enabled_changed)
 	
 func updateLabelVisibility():
-	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+	if Globals.debug_tools_enabled:
 		$Label3D.show()
 	else:
-		($Label3D.hide if !Globals.debug_tools_enabled else $Label3D.show).call()
+		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+			if mouseover:
+				$Label3D.show()
+			else:
+				$Label3D.hide()
+		else:
+			$Label3D.hide()
 	
 func ui_mode_changed(ui_mode):
 	updateLabelVisibility()
@@ -51,19 +57,17 @@ func clicked_end():
 func __mouse_entered():
 	mouseover = true
 	$Label3D.modulate = highlight_color
-	$Label3D.fixed_size = true
-	$Label3D.pixel_size = 0.003
 	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 		$Label3D.modulate = remote_tgt_highlight_color
 		$SelectionSprite.show()
+	updateLabelVisibility()
 
 func __mouse_exited():
 	mouseover = false
 	clicking = false
 	$Label3D.modulate = orig_color
-	$Label3D.fixed_size = false
-	$Label3D.pixel_size = 0.0709
 	$SelectionSprite.hide()
+	updateLabelVisibility()
 
 func _on_ap_target_changed(x, y, z, id_code):
 	$SelectionSprite.hide()

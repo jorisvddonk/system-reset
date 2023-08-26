@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqp07p8i506lb"]
+[gd_scene load_steps=7 format=3 uid="uid://bqp07p8i506lb"]
 
 [ext_resource type="Script" path="res://far_star.gd" id="1_8mgae"]
 [ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="1_d6ke2"]
-[ext_resource type="FontFile" uid="uid://buhumvkmjrj34" path="res://font.png" id="2_4lad0"]
+[ext_resource type="FontFile" uid="uid://c327cb0xm5a2h" path="res://charmap_alpha_2x.png" id="2_q6mao"]
 [ext_resource type="Texture2D" uid="uid://dmt0y2irs4ws4" path="res://addons/kenney_crosshair_pack/crosshair026.png" id="3_ko2uk"]
+
+[sub_resource type="FontVariation" id="FontVariation_4bh6k"]
+base_font = ExtResource("2_q6mao")
+spacing_glyph = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qw13d"]
 resource_local_to_scene = true
@@ -14,10 +18,12 @@ script = ExtResource("1_8mgae")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.69796, 0)
-pixel_size = 0.0709
+pixel_size = 0.0025
 billboard = 1
+fixed_size = true
+texture_filter = 0
 modulate = Color(0.972549, 0.972549, 1, 1)
-font = ExtResource("2_4lad0")
+font = SubResource("FontVariation_4bh6k")
 horizontal_alignment = 0
 vertical_alignment = 0
 uppercase = true
