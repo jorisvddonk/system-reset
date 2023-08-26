@@ -12,8 +12,7 @@ func _ready():
 	Globals.initiate_return_sequence.connect(initiate_return_sequence)
 	
 func vimana_status_change(status):
-	if status == false:
-		Globals.feltyrion.freeze()
+	pass
 
 func _on_resize():
 	printt("Root viewport size changed", get_viewport().size)
