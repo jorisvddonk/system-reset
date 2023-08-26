@@ -35,22 +35,23 @@ func _ready():
 	
 
 func _input(event):
-	if event.is_action_pressed("osd_category_1"):
-		flight_control_drive.pressed.emit()
-	if event.is_action_pressed("osd_category_2"):
-		onboard_devices.pressed.emit()
-	if event.is_action_pressed("osd_category_3"):
-		preferences.pressed.emit()
-	if event.is_action_pressed("osd_category_4"):
-		disable_display.pressed.emit()
-	if event.is_action_pressed("osd_item_1"):
-		item1.pressed.emit()
-	if event.is_action_pressed("osd_item_2"):
-		item2.pressed.emit()
-	if event.is_action_pressed("osd_item_3"):
-		item3.pressed.emit()
-	if event.is_action_pressed("osd_item_4"):
-		item4.pressed.emit()
+	if Globals.ui_mode == Globals.UI_MODE.NONE:
+		if event.is_action_pressed("osd_category_1"):
+			flight_control_drive.pressed.emit()
+		if event.is_action_pressed("osd_category_2"):
+			onboard_devices.pressed.emit()
+		if event.is_action_pressed("osd_category_3"):
+			preferences.pressed.emit()
+		if event.is_action_pressed("osd_category_4"):
+			disable_display.pressed.emit()
+		if event.is_action_pressed("osd_item_1"):
+			item1.pressed.emit()
+		if event.is_action_pressed("osd_item_2"):
+			item2.pressed.emit()
+		if event.is_action_pressed("osd_item_3"):
+			item3.pressed.emit()
+		if event.is_action_pressed("osd_item_4"):
+			item4.pressed.emit()
 
 func menu_fcd():
 	clear_connections()
