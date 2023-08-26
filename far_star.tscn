@@ -30,6 +30,7 @@ vertical_alignment = 0
 uppercase = true
 
 [node name="StarSprite" type="Sprite3D" parent="."]
+visibility_range_begin = 10.0
 pixel_size = 0.014
 billboard = 1
 texture = ExtResource("1_d6ke2")
