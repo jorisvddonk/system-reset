@@ -50,6 +50,12 @@ plane = Plane(0, 0, -10, 0)
 ambient_light_source = 1
 ambient_light_color = Color(0.729412, 0.745098, 1, 1)
 ambient_light_energy = 0.01
+sdfgi_use_occlusion = true
+sdfgi_read_sky_light = false
+sdfgi_bounce_feedback = 1.99
+sdfgi_cascades = 8
+sdfgi_max_distance = 3276.8
+sdfgi_energy = 3.045
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0yy18"]
 
@@ -120,16 +126,18 @@ light_cull_mask = 4293918722
 omni_range = 139.288
 
 [node name="InternalLightExtra1" type="OmniLight3D" parent="StardrifterParent"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0640647, 6.96882, -0.0494409)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0640647, 22.9539, -0.0494409)
 light_color = Color(0.556863, 0.764706, 1, 1)
 light_energy = 0.225
+light_specular = 0.0
 light_cull_mask = 4293918722
 omni_range = 139.288
 
 [node name="InternalLightExtra2" type="OmniLight3D" parent="StardrifterParent"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0640647, -0.239769, -0.0494409)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0640647, -7.73842, -0.0494409)
 light_color = Color(0.556863, 0.764706, 1, 1)
 light_energy = 0.15
+light_specular = 0.0
 light_cull_mask = 4293918722
 omni_range = 139.288
 
@@ -184,3 +192,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacterController/Area3D"]
 shape = SubResource("BoxShape3D_mdjbl")
+
+[node name="SolarSystemParentStarLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02773, 0)
+light_color = Color(1, 0.0235294, 0, 1)
+directional_shadow_mode = 0
+sky_mode = 1

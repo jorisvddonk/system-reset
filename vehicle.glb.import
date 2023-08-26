@@ -20,15 +20,27 @@ nodes/root_scale=1.0
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
-meshes/light_baking=1
+meshes/light_baking=3
 meshes/lightmap_texel_size=0.2
 skins/use_named_skins=true
-animation/import=true
+animation/import=false
 animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={
+"meshes": {
+"vehicle_vehicle_007": {
+"generate/lightmap_uv": 1,
+"generate/lods": 1,
+"generate/shadow_meshes": 1,
+"lods/normal_merge_angle": 60.0,
+"lods/normal_split_angle": 25.0,
+"save_to_file/enabled": false,
+"save_to_file/make_streamable": "",
+"save_to_file/path": ""
+}
+},
 "nodes": {
 "PATH:vehicle_007": {
 "generate/physics": true,

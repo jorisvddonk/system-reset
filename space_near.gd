@@ -22,6 +22,9 @@ func _ready():
 	Globals.deploy_surface_capsule_status_change.connect(on_deploy_surface_capsule_status_change)
 	$StardrifterParent/DeploymentSelectionScreen/Area3D.area_entered.connect(deployment_console_entered)
 	$StardrifterParent/DeploymentSelectionScreen/Area3D.area_exited.connect(deployment_console_exited)
+	Globals.vimana_status_change.connect(on_vimana_status_change)
+	Globals.game_loaded.connect(on_game_load)
+	update_star_lights()
 
 func _process(delta):
 	# Make the SD semitransparent when selecting local or remote target
@@ -89,6 +92,11 @@ func _physics_process(delta):
 				Globals.fine_approach_active = false
 				Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
 				Globals.chase_direction = -approach_vector.normalized()
+	
+	if !Globals.vimana_active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
+		# we are in a solar system and not in Vimana flight; update the local star's light!
+		var star_vector = Vector3(feltyrion.dzat_x - feltyrion.get_nearstar_x(), feltyrion.dzat_y - feltyrion.get_nearstar_y(), feltyrion.dzat_z - feltyrion.get_nearstar_z())
+		$SolarSystemParentStarLight.look_at(star_vector)
 	
 	if Globals.stardrifter != null and Globals.local_target_orbit_index != -1 && Globals.local_target_orbit_index == Globals.local_target_index:
 		# orbit tracking
@@ -180,3 +188,25 @@ func deployment_console_entered(area):
 func deployment_console_exited(area):
 	if area == %PlayerCharacterController/Area3D:
 		camera_is_around_deployment_console = false
+
+func on_vimana_status_change(active):
+	update_star_lights()
+	
+func on_game_load():
+	update_star_lights()
+	
+func update_star_lights():
+	var lightcolor = Color(0.2, 0.3, 0.6) # _very_ 'ambient' light if in interstellar space
+	
+	if !Globals.vimana_active and Globals.feltyrion.get_nearstar_x() != 0 and Globals.feltyrion.get_nearstar_y() != 0 and Globals.feltyrion.get_nearstar_z() != 0:
+		# We have possibly arrived at a star!
+		var data = Globals.feltyrion.get_ap_target_info()
+		lightcolor = Color(data.ap_target_r / 64.0, data.ap_target_g / 64.0, data.ap_target_b / 64.0)
+		$SolarSystemParentStarLight.visible = true
+	else:
+		$SolarSystemParentStarLight.visible = false
+	
+	$SolarSystemParentStarLight.light_color = lightcolor
+	$StardrifterParent/InternalLightExtra1.light_color = lightcolor
+	$StardrifterParent/InternalLightExtra2.light_color = lightcolor
+	
