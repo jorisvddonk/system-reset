@@ -32,6 +32,14 @@ offset_bottom = 635.0
 texture = SubResource("ImageTexture_pw6a8")
 metadata/_edit_use_anchors_ = true
 
+[node name="ObjectsChartMap" type="TextureRect" parent="."]
+offset_left = 746.0
+offset_top = 669.0
+offset_right = 946.0
+offset_bottom = 869.0
+texture = SubResource("ImageTexture_pw6a8")
+metadata/_edit_use_anchors_ = true
+
 [node name="TextureRect4" type="TextureRect" parent="."]
 offset_left = 959.0
 offset_top = 427.0

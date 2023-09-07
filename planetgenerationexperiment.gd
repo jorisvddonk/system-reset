@@ -75,6 +75,11 @@ func generate(planet_index, type, seed):
 	$TextureRect3.texture = surfTexture
 	$TextureRect3.queue_redraw()
 	
+	var chartimg = Globals.feltyrion.return_ruinschart_image()
+	var objchartTexture = ImageTexture.create_from_image(chartimg)
+	$ObjectsChartMap.texture = objchartTexture
+	$ObjectsChartMap.queue_redraw()
+	
 	var txtrimg = Globals.feltyrion.return_txtr_image()
 	var txtrTexture = ImageTexture.create_from_image(txtrimg)
 	$TextureRect4.texture = txtrTexture
