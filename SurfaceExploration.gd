@@ -44,8 +44,13 @@ func go(planet_index, lon, lat):
 	Globals.feltyrion.prepare_planet_surface()
 	$SubViewportContainer_Sky/SubViewport/SurfaceSkyBackgroundScene.recalculate()
 	var surfimg = Globals.feltyrion.return_surfacemap_image()
+	surfimg.adjust_bcs(2, 1, 1) # fix brightness so that maximum heightmap value is white
 	var surfTexture = ImageTexture.create_from_image(surfimg)
 	$DebuggingTools/PlanetHeightmap.texture = surfTexture
+	
+	var ruinsimg = Globals.feltyrion.return_ruinschart_image()
+	var ruinsTexture = ImageTexture.create_from_image(ruinsimg)
+	$DebuggingTools/PlanetRuinsChart.texture = ruinsTexture
 	
 	var txtrimg = Globals.feltyrion.return_txtr_image()
 	var txtrTexture = ImageTexture.create_from_image(txtrimg)
