@@ -313,7 +313,7 @@ alignment = 2
 
 [node name="ParsisLabel" type="RichTextLabel" parent="HUDRim/Bottom/HBoxContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 10)
+custom_minimum_size = Vector2(350, 10)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
@@ -329,7 +329,7 @@ text = "[center]Parsis: x=1000, y=123, z=-123[/center]"
 
 [node name="APTarget" type="RichTextLabel" parent="HUDRim/Bottom/HBoxContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 10)
+custom_minimum_size = Vector2(350, 10)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
