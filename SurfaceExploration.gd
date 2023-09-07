@@ -4,7 +4,7 @@ const ymin = 0
 const ymax = 199
 const xmin = 0
 const xmax = 199
-const TERRAINMULT_X = -3
+const TERRAINMULT_X = 3
 const TERRAINMULT_Y = 60
 const TERRAINMULT_Z = -3
 
@@ -130,6 +130,8 @@ func go(planet_index, lon, lat):
 	
 	surface.material_override.albedo_texture = txtrTexture
 	surface.create_trimesh_collision()
+	surface.get_child(0).get_child(0).shape.backface_collision = true
+	
 	
 	%PlayerCharacterController.position = surface.to_global(midvert + Vector3(0,4,0))
 	
