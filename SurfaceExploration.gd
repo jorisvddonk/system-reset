@@ -8,22 +8,18 @@ const TERRAINMULT_X = 3
 const TERRAINMULT_Y = 60
 const TERRAINMULT_Z = -3
 
-var initialized = false
-var time_passed = 0
-
-@onready var surface = $SubViewportContainer_Surface/SurfaceExplorationViewPort/Surface
-
-func _process(delta):
-	time_passed += delta
-	if time_passed > 0.10 && initialized == false:
-		initialized = true
-		go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
-		
 func _ready():
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 	get_viewport().connect("size_changed", _on_resize)
 	_on_resize()
+	if get_tree().get_current_scene().name == "SurfaceExploration": # Force-load if we run the scene directly
+		print("Running SurfaceExploration scene directly; forcing surface load...")
+		Globals.load_game()
+		Globals.feltyrion.landing_pt_lon = 182
+		Globals.feltyrion.landing_pt_lat = 16
+	
+	go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		
 func _on_resize():
 	printt("Root viewport size changed", get_viewport().size)
@@ -60,7 +56,6 @@ func go(planet_index, lon, lat):
 
 	var verts = PackedVector3Array()
 	var uvs = PackedVector2Array()
-	var normals = PackedVector3Array()
 	var indices = PackedInt32Array()
 
 	var xdiff = xmax - xmin;
@@ -75,7 +70,6 @@ func go(planet_index, lon, lat):
 				y * TERRAINMULT_Z
 	  		)
 			verts.append(vert)
-			normals.append(vert.normalized())
 			if y % 2 == 0:
 				if x % 2 == 0:
 					uvs.append(Vector2(0,0))
@@ -94,46 +88,40 @@ func go(planet_index, lon, lat):
 	for y in range(0, ydiff):
 		for x in range(0, xdiff):
 			indices.append(getVertexIndex(x + 0, y + 0, xdiff))
-			indices.append(getVertexIndex(x + 1, y + 0, xdiff))
 			indices.append(getVertexIndex(x + 0, y + 1, xdiff))
+			indices.append(getVertexIndex(x + 1, y + 0, xdiff))
 
 	# tri2
 	for y in range(1, ydiff + 1):
 		for x in range(0, xdiff):
 			indices.append(getVertexIndex(x + 0, y + 0, xdiff))
-			indices.append(getVertexIndex(x + 1, y - 1, xdiff))
 			indices.append(getVertexIndex(x + 1, y + 0, xdiff))
+			indices.append(getVertexIndex(x + 1, y - 1, xdiff))
 			
-	# normals
-	for i in range(0, indices.size(), 3):
-		normals.append(getNormal(i, indices, verts))
-
 	# Assign arrays to surface array.
 	surface_array[Mesh.ARRAY_VERTEX] = verts
 	surface_array[Mesh.ARRAY_TEX_UV] = uvs
 	surface_array[Mesh.ARRAY_INDEX] = indices
-
-	# Recalculate the normals and set the mesh
-	surface.mesh = ArrayMesh.new()
-	surface.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
-	var mdt = MeshDataTool.new()
-	mdt.create_from_surface(surface.mesh, 0)
-	for i in range(mdt.get_face_count()):
-		var normal = mdt.get_face_normal(i)
-		
-		mdt.set_vertex_normal(mdt.get_face_vertex(i, 0), normal)
-		mdt.set_vertex_normal(mdt.get_face_vertex(i, 1), normal)
-		mdt.set_vertex_normal(mdt.get_face_vertex(i, 2), normal)
-	
-	surface.mesh.clear_surfaces()
-	mdt.commit_to_surface(surface.mesh)
-	
-	surface.material_override.albedo_texture = txtrTexture
-	surface.create_trimesh_collision()
-	surface.get_child(0).get_child(0).shape.backface_collision = true
 	
 	
-	%PlayerCharacterController.position = surface.to_global(midvert + Vector3(0,4,0))
+	# Use SurfaceTool to calculate our normals and generate our actual mesh
+	var st = SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	st.set_color(Color(1, 1, 1))
+	st.set_smooth_group(-1) # set the smooth group to -1; this gives us flat shading, which is more Noctis-like
+	for i in range(0, indices.size(), 3):
+		for j in range(0, 3):
+			st.set_uv(uvs[indices[i + j]])
+			st.add_vertex(verts[indices[i + j]])
+	st.generate_normals()
+	
+	# Set the mesh, material, and create collision shape...
+	%Surface.mesh = st.commit()
+	%Surface.material_override.set_shader_parameter("albedo_texture", txtrTexture)
+	%Surface.create_trimesh_collision()
+	%Surface.get_child(0).get_child(0).shape.backface_collision = true
+	
+	%PlayerCharacterController.position = %Surface.to_global(midvert + Vector3(0,4,0))
 	
 func getVertexIndex(x, y, xdiff):
 	return y * (xdiff + 1) + x
