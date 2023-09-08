@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://x3fwc1fu4hlb"]
+
+[ext_resource type="Script" path="res://test_3d.gd" id="1_1lriu"]
+[ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://surface_exploration.tres" id="1_qmlhj"]
+[ext_resource type="Script" path="res://camera.gd" id="2_oi22k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fm4uk"]
+render_priority = 0
+shader = ExtResource("1_qmlhj")
+
+[sub_resource type="PrismMesh" id="PrismMesh_v8j2p"]
+
+[node name="Test3D" type="Node3D"]
+script = ExtResource("1_1lriu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("ShaderMaterial_fm4uk")
+mesh = SubResource("PrismMesh_v8j2p")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+script = ExtResource("2_oi22k")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
