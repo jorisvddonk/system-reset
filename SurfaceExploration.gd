@@ -48,8 +48,10 @@ func go(planet_index, lon, lat):
 	var ruinsTexture = ImageTexture.create_from_image(ruinsimg)
 	$DebuggingTools/PlanetRuinsChart.texture = ruinsTexture
 	
-	var txtrimg = Globals.feltyrion.return_txtr_image()
-	var txtrTexture = ImageTexture.create_from_image(txtrimg)
+	var txtrTexture = ImageTexture.create_from_image(Globals.feltyrion.return_txtr_image())
+	var paletteimg = Globals.feltyrion.get_surface_palette_as_image()
+	var paletteTexture = ImageTexture.create_from_image(paletteimg)
+	$DebuggingTools/PaletteImage.texture = paletteTexture
 	
 	var surface_array = []
 	surface_array.resize(Mesh.ARRAY_MAX)
@@ -57,6 +59,7 @@ func go(planet_index, lon, lat):
 	var verts = PackedVector3Array()
 	var uvs = PackedVector2Array()
 	var indices = PackedInt32Array()
+	var colors = PackedColorArray()
 
 	var xdiff = xmax - xmin;
 	var ydiff = ymax - ymin;
@@ -70,16 +73,24 @@ func go(planet_index, lon, lat):
 				y * TERRAINMULT_Z
 	  		)
 			verts.append(vert)
+			
+			var color_index = min(255,ruinsimg.get_pixel(x, y).r8 + 32)
+			var color = paletteimg.get_pixel(color_index, 0)
+			
 			if y % 2 == 0:
 				if x % 2 == 0:
 					uvs.append(Vector2(0,0))
+					colors.append(color)
 				else:
 					uvs.append(Vector2(1,0))
+					colors.append(color)
 			else:
 				if x % 2 == 0:
 					uvs.append(Vector2(0,1))
+					colors.append(color)
 				else:
 					uvs.append(Vector2(1,1))
+					colors.append(color)
 			
 			if y == 100 && x == 100:
 				midvert = vert
@@ -111,6 +122,7 @@ func go(planet_index, lon, lat):
 	st.set_smooth_group(-1) # set the smooth group to -1; this gives us flat shading, which is more Noctis-like
 	for i in range(0, indices.size(), 3):
 		for j in range(0, 3):
+			st.set_color(colors[indices[i + j]])
 			st.set_uv(uvs[indices[i + j]])
 			st.add_vertex(verts[indices[i + j]])
 	st.generate_normals()
@@ -118,6 +130,8 @@ func go(planet_index, lon, lat):
 	# Set the mesh, material, and create collision shape...
 	%Surface.mesh = st.commit()
 	%Surface.material_override.set_shader_parameter("albedo_texture", txtrTexture)
+	%Surface.material_override.set_shader_parameter("ruinschart_texture", ruinsTexture)
+	%Surface.material_override.set_shader_parameter("surface_palette", paletteTexture)
 	%Surface.create_trimesh_collision()
 	%Surface.get_child(0).get_child(0).shape.backface_collision = true
 	
