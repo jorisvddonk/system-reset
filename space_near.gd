@@ -137,7 +137,7 @@ func updatePConsoleImage(redraw):
 		$StardrifterParent/DeploymentSelectionScreen.material_override.texture_filter = $StardrifterParent/DeploymentSelectionScreen.material_override.TEXTURE_FILTER_NEAREST
 		$StardrifterParent/DeploymentSelectionScreen.material_override.uv1_scale = Vector3(100.0 / 360, (100.0 / 118) * 0.5, 1)
 		
-	$StardrifterParent/DeploymentSelectionScreen.material_override.uv1_offset = Vector3(float(Globals.feltyrion.landing_pt_lon / 360.0), float(0 + (Globals.feltyrion.landing_pt_lat / 236.0)), 1)
+	$StardrifterParent/DeploymentSelectionScreen.material_override.uv1_offset = Vector3(float(34 + Globals.feltyrion.landing_pt_lon / 360.0) - 0.1375, float(0 + (Globals.feltyrion.landing_pt_lat / 236.0)) + 0.0315, 1)
 
 func on_deploy_surface_capsule_status_change(active):
 	if active:

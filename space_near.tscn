@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=21 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://space_near.gd" id="1_w6myo"]
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://sd_screen.tscn" id="6_6tqdb"]
+[ext_resource type="Texture2D" uid="uid://bfdksbbdrqs08" path="res://addons/kenney_crosshair_pack/crosshair157.png" id="7_me226"]
 [ext_resource type="Script" path="res://PlayerCharacterController.gd" id="7_uxqhh"]
 [ext_resource type="Script" path="res://SD_3dScreen.gd" id="8_4bukw"]
 
@@ -150,6 +151,9 @@ mesh = SubResource("PlaneMesh_myfsh")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StardrifterParent/DeploymentSelectionScreen/Area3D"]
 transform = Transform3D(1, -3.55271e-15, -3.55271e-15, 3.55271e-15, 1, 4.23516e-22, 3.55271e-15, -4.23516e-22, 1, -5.48363e-06, 1.97245, 0)
 shape = SubResource("BoxShape3D_h58dm")
+
+[node name="Decal" type="Decal" parent="StardrifterParent/DeploymentSelectionScreen"]
+texture_albedo = ExtResource("7_me226")
 
 [node name="Node3D" type="Node3D" parent="StardrifterParent"]
 
