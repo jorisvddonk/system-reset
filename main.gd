@@ -2,6 +2,7 @@ extends Control
 
 var SurfaceScene = preload("res://surface_exploration.tscn")
 var surfaceScene
+var hud_mode = true
 
 func _ready():
 	get_viewport().connect("size_changed", _on_resize)
@@ -53,3 +54,17 @@ func initiate_return_sequence():
 	%SpaceNear.process_mode = Node.PROCESS_MODE_INHERIT
 	$SubViewportContainer_SpaceNear/SubViewport.remove_child(surfaceScene)
 	surfaceScene.queue_free()
+
+func _input(event):
+	if event.is_action_pressed("toggle_crt"):
+		if $CRTCanvasLayer.visible:
+			$CRTCanvasLayer.hide()
+		else:
+			$CRTCanvasLayer.show()
+		
+	if event.is_action_pressed("toggle_hud"):
+		hud_mode = !hud_mode
+		if hud_mode:
+			%HUD.show_detail()
+		else:
+			%HUD.hide_detail()

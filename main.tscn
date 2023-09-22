@@ -121,12 +121,13 @@ render_target_update_mode = 4
 [node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer_HUD/SubViewport"]
 
 [node name="HUD" parent="SubViewportContainer_HUD/SubViewport/CanvasLayer" instance=ExtResource("6_n03fi")]
+unique_name_in_owner = true
 metadata/_edit_use_anchors_ = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CRTCanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CRTCanvasLayer"]
 material = SubResource("ShaderMaterial_rkcta")
 anchors_preset = 15
 anchor_right = 1.0

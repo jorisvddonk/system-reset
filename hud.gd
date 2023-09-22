@@ -95,3 +95,20 @@ func on_osd_updated(item1_text: String, item2_text: String, item3_text: String, 
 		
 func show_menulabel_for_osd_off():
 	%MenuLabel.text = "1\\%-20s 2\\%-20s 3\\%-20s  4\\%-20s" % ["FLIGHT CONTROL DRIVE", "DEVICES", "PREFERENCES", "SCREEN OFF"]
+
+
+func show_detail():
+	$HUDRim/Top/HBoxContainer.show()
+	$HUDRim/Top/HBoxContainer2.show()
+	$HUDRim/Bottom/HBoxContainer.show()
+	$HUDRim/Bottom/HBoxContainer2.show()
+	$Aimpoint.show()
+	$HUDTexts.show()
+	
+func hide_detail():
+	$HUDRim/Top/HBoxContainer.hide()
+	$HUDRim/Top/HBoxContainer2.hide()
+	$HUDRim/Bottom/HBoxContainer.hide()
+	$HUDRim/Bottom/HBoxContainer2.hide()
+	$Aimpoint.hide()
+	$HUDTexts.hide()
