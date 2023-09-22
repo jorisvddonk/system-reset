@@ -186,7 +186,7 @@ shape = SubResource("CapsuleShape3D_0yy18")
 
 [node name="camera" type="Camera3D" parent="PlayerCharacterController/CollisionShape3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
 [node name="Area3D" type="Area3D" parent="PlayerCharacterController"]
 

@@ -56,7 +56,7 @@ shape = SubResource("CapsuleShape3D_2ga3q")
 
 [node name="camera" type="Camera3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/PlayerCharacterController/CollisionShape3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268512, -0.791229, 0.597143, 0.131821, 0, 0, 0)
