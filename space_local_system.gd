@@ -31,6 +31,7 @@ func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, 
 	planet.planet_index = index
 	planet.planet_name = planet_name
 	planet.planet_viewpoint = viewpoint
+	planet.planet_term_start = term_start
 	planet.planet_rotation = rotation
 	planet.translate(Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y), (z - Globals.feltyrion.ap_target_z)))
 	$SolarSystemContainer/Planets.add_child(planet)
@@ -50,6 +51,7 @@ func check_arrived_at_star():
 			$SolarSystemContainer/Planets.remove_child(item)
 		print("Creating planets...")
 		print(Time.get_unix_time_from_system())
+		Globals.feltyrion.update_time()
 		var data = Globals.feltyrion.get_current_star_info()
 		print(data)
 		var material = $SolarSystemContainer/SolarSystemParentStar.get_active_material(0)

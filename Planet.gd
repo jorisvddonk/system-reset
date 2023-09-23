@@ -3,7 +3,8 @@ extends Node3D
 @export var seed: float
 @export var planet_index: int
 @export var planet_name: String
-@export var planet_viewpoint: int
+@export var planet_viewpoint: int # this value seems to not match the one in Noctis IV at all - I suppose it relies on the player's ship position - so don't use this!
+@export var planet_term_start: int
 @export var planet_rotation: int
 var mouseover = false
 var clicking = false
@@ -15,7 +16,8 @@ const local_tgt_highlight_color = Color.ROYAL_BLUE
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$PlanetNameLabel.text = planet_name
-	$PlanetParent.rotate_y(((planet_viewpoint + planet_rotation + 89 + 35) % 360) * (PI / 180))
+	$PlanetParent.look_at(Vector3(0,0,0), Vector3.UP)
+	$PlanetParent.rotate_y(to_positive((planet_term_start + 63) % 360) * (PI / 180))
 	generate()
 	__mouse_exited()
 	$Area3D.mouse_entered.connect(__mouse_entered)
@@ -83,3 +85,7 @@ func _on_local_target_changed(planet_index):
 	else:
 		$CurrentLocalTargetSelectionSprite.hide()
 
+func to_positive(val):
+	while val < 0:
+		val += 360
+	return val
