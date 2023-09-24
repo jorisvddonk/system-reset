@@ -27,6 +27,10 @@ radial_segments = 32
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lj37i"]
 resource_local_to_scene = true
+metallic_specular = 0.0
+roughness = 0.0
+rim_enabled = true
+rim = 0.25
 uv1_scale = Vector3(-1, 1, 1)
 texture_filter = 0
 
