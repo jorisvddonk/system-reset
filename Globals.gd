@@ -164,10 +164,6 @@ func _input(event):
 	if event.is_action_pressed("load_game"):
 		load_game()
 
-func _unhandled_key_input(event): # debug shortcut keys - TODO: use Input system instead.
-	if event.keycode == KEY_F1 && event.is_pressed():
-		vimanaStart()
-
 func slew_to(parsis_x: float, parsis_y: float, parsis_z: float, speed: float):
 	feltyrion.dzat_x = parsis_x
 	feltyrion.dzat_y = parsis_y
