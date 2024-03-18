@@ -68,3 +68,9 @@ func _input(event):
 			%HUD.show_detail()
 		else:
 			%HUD.hide_detail()
+
+	if event.is_action_pressed("toggle_help"):
+		if %HUD/Help.visible:
+			%HUD/Help.hide()
+		else:
+			%HUD/Help.show()

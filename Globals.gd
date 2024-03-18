@@ -146,9 +146,11 @@ func vimanaStart():
 	vimana_status_change.emit(vimana_active)
 
 func save_game():
+	print("Saving game...")
 	feltyrion.freeze()
 
 func load_game():
+	print("Loading game...")
 	feltyrion.unfreeze()
 	set_ap_target(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
 	local_target_index = feltyrion.ip_targetted
