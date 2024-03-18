@@ -165,6 +165,12 @@ func _input(event):
 		save_game()
 	if event.is_action_pressed("load_game"):
 		load_game()
+	if event.is_action_pressed("quit"):
+		get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+		
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		get_tree().quit()
 
 func slew_to(parsis_x: float, parsis_y: float, parsis_z: float, speed: float):
 	feltyrion.dzat_x = parsis_x
