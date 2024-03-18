@@ -3,3 +3,4 @@
 *.tmp
 addons/feltyrion-godot/*
 data/current.bin
+exported_project/*
