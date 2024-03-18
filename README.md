@@ -1,19 +1,16 @@
-# Noctis IV Godot
+# System Reset
 
-This is a simple test Godot project, using [feltyrion-godot](https://github.com/jorisvddonk/feltyrion-godot) in an attempt to recreate Noctis IV in Godot.
+This project attempts to authentically recreate [Noctis IV](https://en.wikipedia.org/wiki/Noctis_(video_game)) in Godot. It uses [a Godot GDextension](https://github.com/jorisvddonk/feltyrion-godot), which itself is based off of [a modern sourceport of Noctis IV](https://github.com/dgcole/noctis-iv-lr), for most of its underlying universe generation code.
 
-THIS IS HIGHLY EXPERIMENTAL AND PRETTY BUGGY!
+This project is, at this stage, very alpha, and the code can be a bit messy as a result. That said, the main concepts have now been proven and development is underway to address remaining issues and implement missing features.
 
-## Travel modes
+The currently supported Godot version is **4.2**.
 
-This project contains two "Travel modes", which affect how you travel around space: Original (24 ticks per second), and Recreated (any other rate :)).
+## Compiling dependencies
 
-The Original travel mode uses the original code for both Vimana and Local star system travel, but is currently very experimental and glitchy.
+This project depends on https://github.com/jorisvddonk/feltyrion-godot, which is not included by default, and needs to be compiled for your operating system in order for the project to function correctly. Follow the following steps to compile all of the dependencies:
 
-The Recreated travel mode uses a completely recreated travel and orbiting engine. It's very simple and should be expanded on further, but allows for higher resolution, more responsive travel. In this mode, orbits around planets where the planet is kept centered in view are much more satisfying.
-
-To switch between these travel modes, set the "Physics Ticks per Second" project setting (`physics/common/physics_ticks_per_second`). If it's set to 24, then the Original travel mode is used. Otherwise, Recreated is used.
-
-## Dependencies
-
-This project depends on https://github.com/jorisvddonk/feltyrion-godot, which is not included by default. See `addons/feltyrion-godot`
+1. Clone the https://github.com/jorisvddonk/feltyrion-godot git repository somewhere.
+2. Follow feltyrion-godot's compiling instructions to compile the GDExtension for your operating system.
+3. Find `feltyrion-godot.gdextension` in the built output and copy it plus all sibling folders to `addons/feltyrion-godot`, such that the file `addons/feltyrion-godot/feltyrion-godot.gdextension` exists.
+4. Done! You should now be able to load this project in Godot and try it out from there!
