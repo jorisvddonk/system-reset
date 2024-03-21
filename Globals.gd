@@ -165,7 +165,7 @@ func _input(event):
 		save_game()
 	if event.is_action_pressed("load_game"):
 		load_game()
-	if event.is_action_pressed("quit"):
+	if event.is_action_pressed("quit") and Globals.ui_mode == UI_MODE.NONE:
 		get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 		
 func _notification(what):

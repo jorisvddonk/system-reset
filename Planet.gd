@@ -51,6 +51,11 @@ func _process(delta):
 func click_begin():
 	if mouseover && Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
 		clicking = true
+		
+func _input(event):
+	if event.is_action_pressed("quit") and Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
+		Globals.local_target_index = -1
+		Globals.ui_mode = Globals.UI_MODE.NONE
 
 func clicked_end():
 	if clicking:
