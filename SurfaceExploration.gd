@@ -151,7 +151,7 @@ func getNormal(index_base, indices, vertices):
 	
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_ESCAPE:
+		if event.is_action_pressed("quit"):
 			Globals.initiate_return_sequence.emit()
 
 func _on_debug_tools_enabled_changed(enabled: bool):
