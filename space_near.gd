@@ -184,6 +184,8 @@ func _input(event):
 		or event.is_action_pressed("osd_item_3")\
 		or event.is_action_pressed("osd_item_4"):
 			$SubViewport.push_input(event)
+	if event.is_action_pressed("quit") and Globals.ui_mode == Globals.UI_MODE.NONE:
+		get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 func deployment_console_entered(area):
 	if area == %PlayerCharacterController/Area3D:
