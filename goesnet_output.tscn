@@ -40,6 +40,5 @@ offset_top = 50.0
 offset_right = 750.0
 offset_bottom = 750.0
 mouse_filter = 0
-text = "Output 1"
 autowrap_mode = 1
 uppercase = true

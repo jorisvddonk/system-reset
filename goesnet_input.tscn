@@ -26,6 +26,7 @@ script = ExtResource("2_5dgkt")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(8005, 800)
+layout_mode = 0
 offset_right = 8005.0
 offset_bottom = 800.0
 color = Color(0.0941176, 0.0941176, 0.0941176, 1)
@@ -39,6 +40,5 @@ offset_top = 50.0
 offset_right = 750.0
 offset_bottom = 750.0
 mouse_filter = 0
-text = "Item 1"
 autowrap_mode = 1
 uppercase = true

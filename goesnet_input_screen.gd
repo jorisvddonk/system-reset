@@ -2,6 +2,14 @@ extends Panel
 @export var goesnetOutputScreen: Panel
 
 var command_accumulator = ""
+var noctis_data_dir
+
+func _ready():
+	noctis_data_dir = Globals.feltyrion.get_cwd() + "/data"
+	print("Noctis data dir used by GOESNET modules is " + noctis_data_dir)
+	if !OS.has_environment("NOCTIS_DATA_DIR"):
+		OS.set_environment("NOCTIS_DATA_DIR", noctis_data_dir)
+
 
 func _input(event):
 	if Globals.ui_mode == Globals.UI_MODE.NONE:
