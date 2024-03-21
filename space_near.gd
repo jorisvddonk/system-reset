@@ -184,8 +184,14 @@ func _input(event):
 		or event.is_action_pressed("osd_item_3")\
 		or event.is_action_pressed("osd_item_4"):
 			$SubViewport.push_input(event)
-	if event.is_action_pressed("quit") and Globals.ui_mode == Globals.UI_MODE.NONE:
-		get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+	if event.is_action_pressed("quit"):
+		if Globals.ui_mode == Globals.UI_MODE.NONE:
+			get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+		elif Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+			Globals.ui_mode = Globals.UI_MODE.NONE
+		elif Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
+			Globals.local_target_index = -1
+			Globals.ui_mode = Globals.UI_MODE.NONE
 
 func deployment_console_entered(area):
 	if area == %PlayerCharacterController/Area3D:
