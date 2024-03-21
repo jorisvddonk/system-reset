@@ -23,7 +23,7 @@ func _input(event):
 			elif event.keycode == KEY_ENTER:
 				var output = []
 				var split = command_accumulator.split(" ")
-				if split[0] == "ST" or split[0] == "CAT" or split[0] == "WHERE" or split[0] == "PRI" or split[0] == "DL":
+				if split[0] == "ST" or split[0] == "CAT" or split[0] == "WHERE" or split[0] == "PAR" or split[0] == "DL":
 					var exit_code = OS.execute("modules/" + split[0].to_lower() + ".com", split.slice(1), output, true)
 				goesnetOutputScreen.updateText(" ".join(output))
 
