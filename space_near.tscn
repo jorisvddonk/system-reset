@@ -1,13 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=31 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://space_near.gd" id="1_w6myo"]
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
+[ext_resource type="PackedScene" uid="uid://duornhgv4vumt" path="res://goesnet_input.tscn" id="3_kgkbh"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
+[ext_resource type="PackedScene" uid="uid://b0ek4j6agviys" path="res://goesnet_output.tscn" id="4_ht0jc"]
 [ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://sd_screen.tscn" id="6_6tqdb"]
 [ext_resource type="Texture2D" uid="uid://dc4ftjab6wy1l" path="res://assets/landingzone_selector_overlay.png" id="7_b1gla"]
 [ext_resource type="Script" path="res://PlayerCharacterController.gd" id="7_uxqhh"]
 [ext_resource type="Script" path="res://SD_3dScreen.gd" id="8_4bukw"]
+[ext_resource type="Script" path="res://goesnet_screen.gd" id="9_p1dd4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
 blend_mode = 1
@@ -47,6 +50,39 @@ size = Vector3(2.5, 4, 2.5)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_inhwv"]
 plane = Plane(0, 0, -10, 0)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_gfhmm"]
+viewport_path = NodePath("GOESNETInputViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aevk4"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_gfhmm")
+texture_filter = 0
+disable_receive_shadows = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_lxy74"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_42rbu"]
+points = PackedVector3Array(0.5, 0.5, 0, 0.5, -0.5, 0, -0.5, 0.5, 0, -0.5, -0.5, 0)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_egr7c"]
+viewport_path = NodePath("GOESNETOutputViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o2x2a"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_egr7c")
+texture_filter = 0
+disable_receive_shadows = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_a6pu8"]
+
 [sub_resource type="Environment" id="Environment_jxpqy"]
 ambient_light_source = 1
 ambient_light_color = Color(0.729412, 0.745098, 1, 1)
@@ -74,6 +110,37 @@ render_target_update_mode = 4
 
 [node name="SDScreen" parent="SubViewport" instance=ExtResource("6_6tqdb")]
 unique_name_in_owner = true
+
+[node name="GOESNETInputViewport" type="SubViewport" parent="."]
+disable_3d = true
+own_world_3d = true
+transparent_bg = true
+size = Vector2i(800, 800)
+size_2d_override = Vector2i(800, 800)
+render_target_update_mode = 4
+
+[node name="GOESNetInputScreen" parent="GOESNETInputViewport" node_paths=PackedStringArray("goesnetOutputScreen") instance=ExtResource("3_kgkbh")]
+unique_name_in_owner = true
+offset_left = -400.0
+offset_top = -400.0
+offset_right = 400.0
+offset_bottom = 400.0
+goesnetOutputScreen = NodePath("../../GOESNETOutputViewport/GOESNetOutputScreen")
+
+[node name="GOESNETOutputViewport" type="SubViewport" parent="."]
+disable_3d = true
+own_world_3d = true
+transparent_bg = true
+size = Vector2i(800, 800)
+size_2d_override = Vector2i(800, 800)
+render_target_update_mode = 4
+
+[node name="GOESNetOutputScreen" parent="GOESNETOutputViewport" instance=ExtResource("4_ht0jc")]
+unique_name_in_owner = true
+offset_left = -400.0
+offset_top = -400.0
+offset_right = 400.0
+offset_bottom = 400.0
 
 [node name="StardrifterParent" type="Node3D" parent="."]
 
@@ -174,6 +241,54 @@ shape = SubResource("WorldBoundaryShape3D_inhwv")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="StardrifterParent/Node3D/StaticBody3D"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12.0555, 0, -0.305247)
 shape = SubResource("WorldBoundaryShape3D_inhwv")
+
+[node name="GOESNetInputScreen" type="MeshInstance3D" parent="StardrifterParent"]
+transform = Transform3D(-4.37114e-08, 1, 0, 4.37114e-08, 1.91069e-15, -1, -1, -4.37114e-08, -4.37114e-08, -11.8607, 1.83244, 3.00469)
+mesh = SubResource("PlaneMesh_myfsh")
+
+[node name="GOESNetScreen" type="MeshInstance3D" parent="StardrifterParent/GOESNetInputScreen" node_paths=PackedStringArray("viewport", "sdscreen", "camera", "playercharacter")]
+transform = Transform3D(1.6, 0, 0, 0, -6.99382e-08, 1.6, 0, -1.6, -6.99382e-08, -1.66893e-06, 0.00521755, 0)
+material_override = SubResource("StandardMaterial3D_aevk4")
+mesh = SubResource("QuadMesh_lxy74")
+script = ExtResource("9_p1dd4")
+viewport = NodePath("../../../GOESNETInputViewport")
+sdscreen = NodePath("../../../GOESNETInputViewport/GOESNetInputScreen")
+camera = NodePath("../../../PlayerCharacterController/CollisionShape3D/camera")
+playercharacter = NodePath("../../../PlayerCharacterController")
+
+[node name="Area3D" type="Area3D" parent="StardrifterParent/GOESNetInputScreen/GOESNetScreen"]
+transform = Transform3D(1, -7.10543e-15, 7.10543e-15, 7.10543e-15, 1, 1.64203e-15, -7.10543e-15, 1.64203e-15, 1, 0, 0, 0)
+collision_layer = 128
+collision_mask = 128
+input_capture_on_drag = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StardrifterParent/GOESNetInputScreen/GOESNetScreen/Area3D"]
+transform = Transform3D(1, -7.10543e-15, 7.10543e-15, 7.10543e-15, 1, 1.64203e-15, -7.10543e-15, 1.64203e-15, 1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_42rbu")
+
+[node name="GOESNetOutputScreen" type="MeshInstance3D" parent="StardrifterParent"]
+transform = Transform3D(-4.37114e-08, 1, 0, 4.37114e-08, 1.91069e-15, -1, -1, -4.37114e-08, -4.37114e-08, -11.8607, 1.83244, 1.10391)
+mesh = SubResource("PlaneMesh_myfsh")
+
+[node name="GOESNetScreen" type="MeshInstance3D" parent="StardrifterParent/GOESNetOutputScreen" node_paths=PackedStringArray("viewport", "sdscreen", "camera", "playercharacter")]
+transform = Transform3D(1.6, 0, 0, 0, -6.99382e-08, 1.6, 0, -1.6, -6.99382e-08, -1.19209e-06, 0.0111179, 0)
+material_override = SubResource("StandardMaterial3D_o2x2a")
+mesh = SubResource("QuadMesh_a6pu8")
+script = ExtResource("9_p1dd4")
+viewport = NodePath("../../../GOESNETOutputViewport")
+sdscreen = NodePath("../../../GOESNETOutputViewport/GOESNetOutputScreen")
+camera = NodePath("../../../PlayerCharacterController/CollisionShape3D/camera")
+playercharacter = NodePath("../../../PlayerCharacterController")
+
+[node name="Area3D" type="Area3D" parent="StardrifterParent/GOESNetOutputScreen/GOESNetScreen"]
+transform = Transform3D(1, -7.10543e-15, 7.10543e-15, 7.10543e-15, 1, 1.64203e-15, -7.10543e-15, 1.64203e-15, 1, 0, 0, 0)
+collision_layer = 128
+collision_mask = 128
+input_capture_on_drag = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StardrifterParent/GOESNetOutputScreen/GOESNetScreen/Area3D"]
+transform = Transform3D(1, -7.10543e-15, 7.10543e-15, 7.10543e-15, 1, 1.64203e-15, -7.10543e-15, 1.64203e-15, 1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_42rbu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jxpqy")
