@@ -49,11 +49,12 @@ func _physics_process(delta):
 		_mouse_position = Vector2(0, 0)
 		
 		# Prevents looking up/down too far
+		pitch = pitch * (-1 if Globals.camera_inverted else 1)
 		pitch = clamp(pitch, -90 - _total_pitch, 90 - _total_pitch)
 		_total_pitch += pitch
 	
 		rotate_y(deg_to_rad(-yaw))
-		%camera.rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch * (-1 if Globals.camera_inverted else 1)))
+		%camera.rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
 		if emit_event_next:
 			Globals.on_camera_rotation.emit(%camera.global_rotation)
 			emit_event_next = false
