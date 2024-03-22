@@ -18,8 +18,51 @@ func _input(event):
 				command_accumulator = command_accumulator.substr(0, command_accumulator.length() - 1)
 			elif event.keycode == KEY_SPACE:
 				command_accumulator = command_accumulator + " "
-			elif (event.keycode >= KEY_A and event.keycode <= KEY_Z) or (event.keycode >= KEY_0 and event.keycode <= KEY_9):
-				command_accumulator = command_accumulator + OS.get_keycode_string(event.keycode).capitalize()
+			elif event.keycode == KEY_APOSTROPHE:
+				command_accumulator = command_accumulator + "'"
+			elif event.keycode == KEY_PERIOD:
+				command_accumulator = command_accumulator + "."
+			elif event.keycode == KEY_COMMA:
+				command_accumulator = command_accumulator + ","
+			elif event.keycode == KEY_PARENLEFT or event.get_keycode_with_modifiers() == KEY_9 | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "("
+			elif event.keycode == KEY_PARENRIGHT or event.get_keycode_with_modifiers() == KEY_0 | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + ")"
+			elif event.keycode == KEY_ASTERISK or event.get_keycode_with_modifiers() == KEY_8 | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "*"
+			elif event.keycode == KEY_COLON or event.get_keycode_with_modifiers() == KEY_SEMICOLON | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + ":"
+			elif event.keycode == KEY_SEMICOLON:
+				command_accumulator = command_accumulator + ";"
+			elif event.keycode == KEY_PERCENT or event.get_keycode_with_modifiers() == KEY_5 | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "%"
+			elif event.keycode == KEY_AT or event.get_keycode_with_modifiers() == KEY_2 | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "@"
+			elif event.keycode == KEY_EXCLAM or event.get_keycode_with_modifiers() == KEY_1 | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "!"
+			elif event.keycode == KEY_UNDERSCORE or event.get_keycode_with_modifiers() == KEY_MINUS | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "_"
+			elif event.keycode == KEY_PLUS or event.get_keycode_with_modifiers() == KEY_EQUAL | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "+"
+			elif event.keycode == KEY_EQUAL:
+				command_accumulator = command_accumulator + "="
+			elif event.keycode == KEY_MINUS:
+				command_accumulator = command_accumulator + "-"
+			elif event.keycode == KEY_QUESTION or event.get_keycode_with_modifiers() == KEY_SLASH | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "?"
+			elif event.keycode == KEY_SLASH:
+				command_accumulator = command_accumulator + "/"
+			elif event.keycode == KEY_NUMBERSIGN or event.get_keycode_with_modifiers() == KEY_3 | KEY_MASK_SHIFT:
+				command_accumulator = command_accumulator + "#"
+			elif event.keycode == KEY_DOLLAR or event.get_keycode_with_modifiers() == KEY_4 | KEY_MASK_SHIFT:
+				pass # not supported
+			elif event.keycode == KEY_AMPERSAND or event.get_keycode_with_modifiers() == KEY_7 | KEY_MASK_SHIFT:
+				pass # not supported
+			elif event.get_keycode_with_modifiers() == KEY_6 | KEY_MASK_SHIFT:
+				pass # not supported
+			elif (event.keycode >= KEY_A and event.keycode <= KEY_Z) \
+				or (event.keycode >= KEY_0 and event.keycode <= KEY_9):
+				command_accumulator = command_accumulator + OS.get_keycode_string(event.get_keycode_with_modifiers()).capitalize()
 			elif event.keycode == KEY_ENTER:
 				var output = []
 				var split = command_accumulator.split(" ")
