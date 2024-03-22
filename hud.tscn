@@ -433,6 +433,8 @@ F2 - load game
 
 F3 - save game
 
+F9 - toggle mouse y axis inversion
+
 F10 - toggle HUD
 
 F11 - toggle CRT shader effect

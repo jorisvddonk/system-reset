@@ -53,7 +53,7 @@ func _physics_process(delta):
 		_total_pitch += pitch
 	
 		rotate_y(deg_to_rad(-yaw))
-		%camera.rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
+		%camera.rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch * (-1 if Globals.camera_inverted else 1)))
 		if emit_event_next:
 			Globals.on_camera_rotation.emit(%camera.global_rotation)
 			emit_event_next = false

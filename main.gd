@@ -74,3 +74,6 @@ func _input(event):
 			%HUD/Help.hide()
 		else:
 			%HUD/Help.show()
+	
+	if event.is_action_pressed("toggle_y_axis_inversion"):
+		Globals.camera_inverted = !Globals.camera_inverted

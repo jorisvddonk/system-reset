@@ -80,6 +80,7 @@ const MOUSE_CLICK_THRESHOLD_LOW = 0.01
 const MOUSE_CLICK_THRESHOLD_HIGH = 1.5
 
 const DEGREES_TO_RADIANS = 0.0174532925
+@export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
 
 
