@@ -96,7 +96,6 @@ func _input(event):
 func _process(delta):
 	if (is_mirror):
 		return
-	_update_mouselook()
 	_update_movement(delta)
 
 # Updates camera movement
@@ -127,20 +126,3 @@ func _update_movement(delta):
 		_velocity.z = clamp(_velocity.z + offset.z, -_vel_multiplier, _vel_multiplier)
 	
 		translate(_velocity * delta * speed_multi)
-
-# Updates mouse look 
-func _update_mouselook():
-	# Only rotates mouse if the mouse is captured
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		_mouse_position *= sensitivity
-		var yaw = _mouse_position.x
-		var pitch = _mouse_position.y
-		_mouse_position = Vector2(0, 0)
-		
-		# Prevents looking up/down too far
-		pitch = clamp(pitch, -90 - _total_pitch, 90 - _total_pitch)
-		_total_pitch += pitch
-	
-		rotate_y(deg_to_rad(-yaw))
-		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
-		Globals.on_camera_rotation.emit(self.rotation)
