@@ -67,6 +67,7 @@ func _physics_process(delta):
 				Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
 			else:
 				printt("we have arrived at remote target")
+				feltyrion.ap_reached = 1
 				feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
 				feltyrion.prepare_star()
 				approach_vector = (approach_vector.normalized() * VIMANA_APPROACH_DISTANCE)

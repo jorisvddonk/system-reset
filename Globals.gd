@@ -144,6 +144,7 @@ func vimanaStart():
 	local_target_orbit_index = -1
 	local_target_index = -1
 	vimana_active = true
+	feltyrion.ap_reached = 0
 	vimana_status_change.emit(vimana_active)
 
 func save_game():

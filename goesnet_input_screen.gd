@@ -67,8 +67,19 @@ func _input(event):
 				var output = []
 				var split = command_accumulator.split(" ")
 				if split[0] == "ST" or split[0] == "CAT" or split[0] == "WHERE" or split[0] == "PAR" or split[0] == "DL":
+					# save the situation files before running the command
+					Globals.feltyrion.freeze()
+					# run the module!
 					var exit_code = OS.execute("modules/" + split[0].to_lower() + ".com", split.slice(1), output, true)
 				goesnetOutputScreen.updateText(" ".join(output))
+				# process the comm.bin file if it exists
+				Globals.feltyrion.processCommBinFile()
+				Globals.set_ap_target(Globals.feltyrion.ap_target_x, Globals.feltyrion.ap_target_y, Globals.feltyrion.ap_target_z)
+				Globals.local_target_index = Globals.feltyrion.ip_targetted
+				Globals.local_target_orbit_index = Globals.feltyrion.ip_targetted # this is not exactly correct... meh.  - note: make sure to set this AFTER setting local_target_index!
+				Globals.fine_approach_active = true if Globals.feltyrion.ip_reaching == 1 else false
+				Globals.vimana_active = true if Globals.feltyrion.stspeed == 1 else false
+				Globals.game_loaded.emit() # Emitting this is NOT needed, and, in fact, it causes a bit of a slowdown, but it prevents bug https://github.com/jorisvddonk/system-reset/issues/2 from happening.. TODO: fix that bug and remove this!
 
 			%InputLabel.text = command_accumulator
 			
