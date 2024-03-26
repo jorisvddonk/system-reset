@@ -187,6 +187,8 @@ func _input(event):
 			$SubViewport.push_input(event)
 	if event.is_action_pressed("quit"):
 		if Globals.ui_mode == Globals.UI_MODE.NONE:
+			if not OS.has_feature("editor"):
+				Globals.save_game() # save the game on exit, but don't do it when running the game via the editor as it can make debugging more difficult
 			get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 		elif Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 			Globals.ui_mode = Globals.UI_MODE.NONE

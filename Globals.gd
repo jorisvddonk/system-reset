@@ -108,11 +108,14 @@ func _ready():
 	feltyrion.update_time()
 	self.add_child(feltyrion) # need to add Feltyrion to the tree so we can get nodes via the tree in C++
 	chase_mode = CHASE_MODE.HIGH_SPEED_VIEWPOINT_CHASE
-	# fix starting position to something sensible
-	feltyrion.dzat_x = -18930
-	feltyrion.dzat_z = -67340
-	set_ap_target(-18928, -29680, -67336)
-	game_loaded.emit()
+	if OS.has_feature("editor"):
+		# fix starting position to something sensible
+		feltyrion.dzat_x = -18930
+		feltyrion.dzat_z = -67340
+		set_ap_target(-18928, -29680, -67336)
+		game_loaded.emit()
+	else:
+		load_game()
 
 func set_ap_target(x: float, y: float, z: float):
 	feltyrion.lock()
