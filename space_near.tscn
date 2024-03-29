@@ -295,7 +295,7 @@ environment = SubResource("Environment_jxpqy")
 
 [node name="PlayerCharacterController" type="CharacterBody3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70675, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.70675, 0)
 floor_stop_on_slope = false
 script = ExtResource("7_uxqhh")
 register_as_global_camera = true
