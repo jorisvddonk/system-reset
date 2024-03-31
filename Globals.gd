@@ -115,6 +115,7 @@ func _ready():
 		set_ap_target(-18928, -29680, -67336)
 		game_loaded.emit()
 	else:
+		await get_tree().create_timer(0.1).timeout # wait a bit to allow things to load
 		load_game()
 
 func set_ap_target(x: float, y: float, z: float):
