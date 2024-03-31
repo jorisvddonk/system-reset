@@ -70,11 +70,12 @@ func refresh_numbodies():
 
 func refresh_selected_targets():
 	var ap_target_info = Globals.feltyrion.get_ap_target_info()
-	%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [ap_target_info.ap_target_x, -ap_target_info.ap_target_y, ap_target_info.ap_target_z]
-	%SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
 	%SelectedPlanet.text = ""
-	if Globals.feltyrion.ip_targetted:
-		%SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
+	if ap_target_info.has("ap_target_x") && ap_target_info.has("ap_target_y") && ap_target_info.has("ap_target_z"):
+		%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [ap_target_info.ap_target_x, -ap_target_info.ap_target_y, ap_target_info.ap_target_z]
+		%SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
+		if Globals.feltyrion.ip_targetted:
+			%SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
 
 func update_fcs_status():
 	%FCSStatus.text = "[right]%s[/right]" % Globals.feltyrion.get_fcs_status()
