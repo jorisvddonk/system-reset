@@ -1,5 +1,4 @@
 extends Node3D
-var Farstar = preload("res://far_star.tscn")
 var Planet = preload("res://Planet.tscn")
 @onready var regex = RegEx.new()
 
@@ -48,7 +47,7 @@ func check_arrived_at_star():
 		$SolarSystemContainer/SolarSystemParentStar.hide()
 	else:
 		for item in $SolarSystemContainer/Planets.get_children():
-			$SolarSystemContainer/Planets.remove_child(item)
+			item.queue_free()
 		print("Creating planets...")
 		print(Time.get_unix_time_from_system())
 		Globals.feltyrion.update_time()

@@ -15,6 +15,12 @@ func _ready():
 	
 	scan_for_stars()
 
+func _exit_tree():
+	for item in $Stars.get_children():
+		item.queue_free()
+	for item in $StarsVimana.get_children():
+		item.queue_free()
+
 func on_game_loaded():
 	scan_for_stars()
 
@@ -33,7 +39,7 @@ func _on_found_star(x, y, z, id_code):
 # Scan for stars and show stars around
 func scan_for_stars():
 	for item in $Stars.get_children():
-		$Stars.remove_child(item)
+		item.queue_free()
 	Globals.feltyrion.lock()
 	Globals.feltyrion.scan_stars()
 	Globals.feltyrion.unlock()
@@ -45,6 +51,8 @@ func begin_vimana_flight_fx():
 	updateVimanaParticles()
 	$StarsVimana.show()
 	$Stars.hide()
+	for item in $Stars.get_children():
+		item.queue_free()
 
 func _on_vimana_status_change(vimana_is_active):
 	if vimana_is_active:
