@@ -325,25 +325,25 @@ visible = false
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 100.0
-offset_top = -20.0
-offset_right = 140.0
-offset_bottom = 20.0
+offset_left = 1488.0
+offset_top = -35.0
+offset_right = 1528.0
+offset_bottom = 5.0
 grow_vertical = 2
 
 [node name="PaletteImage" type="TextureRect" parent="DebuggingTools"]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 99.0
-offset_top = 106.0
-offset_right = 139.0
-offset_bottom = 146.0
+offset_left = 1487.0
+offset_top = 91.0
+offset_right = 1527.0
+offset_bottom = 131.0
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="DebuggingTools"]
-offset_left = 58.0
-offset_top = 445.0
-offset_right = 612.0
-offset_bottom = 468.0
+offset_left = 1332.0
+offset_top = 427.0
+offset_right = 1886.0
+offset_bottom = 450.0
 text = "Note: textures shown here are only updated when toggling debug tools!"
