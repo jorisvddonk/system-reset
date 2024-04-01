@@ -5,3 +5,4 @@ addons/feltyrion-godot/*
 data/current.bin
 data/comm.bin
 exported_project/*
+.vscode/
