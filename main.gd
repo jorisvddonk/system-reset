@@ -49,11 +49,13 @@ func initiate_landing_sequence():
 	%SpaceNear.process_mode = Node.PROCESS_MODE_DISABLED
 	surfaceScene = SurfaceScene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
 	$SubViewportContainer_SpaceNear/SubViewport.add_child(surfaceScene)
+	Globals.gameplay_mode = Globals.GAMEPLAY_MODE.SURFACE
 
 func initiate_return_sequence():
 	%SpaceNear.process_mode = Node.PROCESS_MODE_INHERIT
 	$SubViewportContainer_SpaceNear/SubViewport.remove_child(surfaceScene)
 	surfaceScene.queue_free()
+	Globals.gameplay_mode =  Globals.GAMEPLAY_MODE.SPACE
 
 func _input(event):
 	if event.is_action_pressed("toggle_crt"):

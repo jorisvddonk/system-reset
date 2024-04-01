@@ -5,6 +5,14 @@ extends Node
 @export var playercharacter: CharacterBody3D
 var debug_tools_enabled = false
 signal on_debug_tools_enabled_changed(value: bool)
+enum GAMEPLAY_MODE {SPACE, SURFACE}
+signal gameplay_mode_changed(new_value)
+@export var gameplay_mode: GAMEPLAY_MODE = GAMEPLAY_MODE.SPACE:
+	get:
+		return gameplay_mode
+	set(value):
+		gameplay_mode_changed.emit(value)
+		gameplay_mode = value
 signal on_parsis_changed(parsis_x: float, parsis_y: float, parsis_z: float)
 signal on_camera_rotation(rotation)
 signal on_ap_target_changed(parsis_x: float, parsis_y: float, parsis_z: float, id_code)

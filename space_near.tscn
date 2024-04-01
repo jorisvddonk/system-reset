@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=33 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://space_near.gd" id="1_w6myo"]
@@ -97,6 +97,12 @@ sdfgi_energy = 3.045
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0yy18"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mdjbl"]
+
+[sub_resource type="SystemFont" id="SystemFont_skgsr"]
+font_names = PackedStringArray("Monospace")
+
+[sub_resource type="LabelSettings" id="LabelSettings_hldc4"]
+font = SubResource("SystemFont_skgsr")
 
 [node name="SpaceNear" type="Node3D"]
 script = ExtResource("1_w6myo")
@@ -342,8 +348,16 @@ offset_bottom = 131.0
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="DebuggingTools"]
-offset_left = 1332.0
-offset_top = 427.0
-offset_right = 1886.0
-offset_bottom = 450.0
-text = "Note: textures shown here are only updated when toggling debug tools!"
+offset_left = 694.0
+offset_top = 137.0
+offset_right = 1387.0
+offset_bottom = 160.0
+text = "Note: textures and text shown in debug view are only updated when toggling debug tools!"
+
+[node name="PlanetsLabel" type="Label" parent="DebuggingTools"]
+offset_left = 65.0
+offset_top = 171.0
+offset_right = 619.0
+offset_bottom = 194.0
+text = "Planets:"
+label_settings = SubResource("LabelSettings_hldc4")

@@ -229,7 +229,7 @@ func update_star_lights():
 	$StardrifterParent/InternalLightExtra2.light_color = lightcolor
 	
 func _on_debug_tools_enabled_changed(enabled: bool):
-	if enabled:
+	if enabled and Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SPACE:
 		$DebuggingTools.show()
 		Globals.feltyrion.load_planet_at_current_system(Globals.feltyrion.ip_targetted)
 		var img = Globals.feltyrion.return_image(true, false)
@@ -239,5 +239,15 @@ func _on_debug_tools_enabled_changed(enabled: bool):
 		var paletteimg = Globals.feltyrion.get_palette_as_image()
 		var paletteTexture = ImageTexture.create_from_image(paletteimg)
 		$DebuggingTools/PaletteImage.texture = paletteTexture
+		
+		$DebuggingTools/PlanetsLabel.text = ""
+		var data = Globals.feltyrion.get_current_star_info()
+		for i in range(0,data.nearstar_nob):
+			var pl_data = Globals.feltyrion.get_planet_info(i)
+			var name = Globals.feltyrion.get_planet_name_by_id(pl_data.nearstar_p_identity).rstrip(" \t")
+			if name.length() < 24:
+				name = "---                  P%02d" % i
+			name = "%s   type: %02d" % [name, pl_data.nearstar_p_type]
+			$DebuggingTools/PlanetsLabel.text =  $DebuggingTools/PlanetsLabel.text + " " + name + "\n"
 	else:
 		$DebuggingTools.hide()
