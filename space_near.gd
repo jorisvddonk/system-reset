@@ -27,6 +27,8 @@ func _ready():
 	Globals.vimana_status_change.connect(on_vimana_status_change)
 	Globals.game_loaded.connect(on_game_load)
 	update_star_lights()
+	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
+	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 
 func _process(delta):
 	# Make the SD semitransparent when selecting local or remote target
@@ -226,3 +228,16 @@ func update_star_lights():
 	$StardrifterParent/InternalLightExtra1.light_color = lightcolor
 	$StardrifterParent/InternalLightExtra2.light_color = lightcolor
 	
+func _on_debug_tools_enabled_changed(enabled: bool):
+	if enabled:
+		$DebuggingTools.show()
+		Globals.feltyrion.load_planet_at_current_system(Globals.feltyrion.ip_targetted)
+		var img = Globals.feltyrion.return_image(true, false)
+		var imageTexture = ImageTexture.create_from_image(img)
+		$DebuggingTools/PlanetSurfaceTexture.texture = imageTexture
+		
+		var paletteimg = Globals.feltyrion.get_palette_as_image()
+		var paletteTexture = ImageTexture.create_from_image(paletteimg)
+		$DebuggingTools/PaletteImage.texture = paletteTexture
+	else:
+		$DebuggingTools.hide()
