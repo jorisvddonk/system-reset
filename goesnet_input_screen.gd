@@ -79,7 +79,6 @@ func _input(event):
 				Globals.local_target_orbit_index = Globals.feltyrion.ip_targetted # this is not exactly correct... meh.  - note: make sure to set this AFTER setting local_target_index!
 				Globals.fine_approach_active = true if Globals.feltyrion.ip_reaching == 1 else false
 				Globals.vimana_active = true if Globals.feltyrion.stspeed == 1 else false
-				Globals.game_loaded.emit() # Emitting this is NOT needed, and, in fact, it causes a bit of a slowdown, but it prevents bug https://github.com/jorisvddonk/system-reset/issues/2 from happening.. TODO: fix that bug and remove this!
 
 			%InputLabel.text = command_accumulator
 			

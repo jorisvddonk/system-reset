@@ -32,6 +32,9 @@ func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, 
 	planet.planet_viewpoint = viewpoint
 	planet.planet_term_start = term_start
 	planet.planet_rotation = rotation
+	planet.planet_pos_relative_to_star_x = (x - Globals.feltyrion.ap_target_x)
+	planet.planet_pos_relative_to_star_y = (y - Globals.feltyrion.ap_target_y)
+	planet.planet_pos_relative_to_star_z = (z - Globals.feltyrion.ap_target_z)
 	planet.translate(Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y), (z - Globals.feltyrion.ap_target_z)))
 	$SolarSystemContainer/Planets.add_child(planet)
 
