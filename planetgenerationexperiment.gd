@@ -61,6 +61,10 @@ func generate(planet_index, type, seed):
 	var imageTexture = ImageTexture.create_from_image(img)
 	$TextureRect.texture = imageTexture
 	$TextureRect.queue_redraw()
+	
+	var spacepaletteimg = Globals.feltyrion.get_palette_as_image()
+	$SpacePalette.texture = imageTexture.create_from_image(spacepaletteimg)
+	$SpacePalette.queue_redraw()
 		
 	Globals.feltyrion.prepare_planet_surface()
 	
