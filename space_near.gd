@@ -250,6 +250,7 @@ func _on_debug_tools_enabled_changed(enabled: bool):
 			name = "%s   type: %02d" % [name, pl_data.nearstar_p_type]
 			if pl_data.nearstar_p_ring != 0.0:
 				name += ' ring'
+				name += " (%d layers)" % int(0.05 * (pl_data.nearstar_p_qsortdist / pl_data.nearstar_p_ray))
 			$DebuggingTools/PlanetsLabel.text =  $DebuggingTools/PlanetsLabel.text + " " + name + "\n"
 	else:
 		$DebuggingTools.hide()
