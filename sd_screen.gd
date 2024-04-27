@@ -74,7 +74,7 @@ func menu_fcd():
 	item1.text = "Set remote target"
 	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana_active else "Stop"]
 	item3.text = "Start fine approach" if can_start_fine_approach() else ("Stop fine approach" if can_stop_fine_approach() else ("Set local target" if can_set_local_target() else ""))
-	item4.text = "Deploy surface capsule" if can_deploy_surface_capsule() else ("Cancel local target" if can_cancel_local_target() else "")
+	item4.text = "Deploy surface capsule" if can_maybe_deploy_surface_capsule() else ("Cancel local target" if can_cancel_local_target() else "")
 	#--
 	clear_lines()
 	var curline = line1
@@ -237,8 +237,14 @@ func local_target_button():
 		Globals.ui_mode = Globals.UI_MODE.SET_LOCAL_TARGET
 
 func interact_local_target_button():
-	if can_deploy_surface_capsule():
-		start_deploy_surface_capsule()
+	if can_maybe_deploy_surface_capsule():
+		if can_deploy_surface_capsule():
+			start_deploy_surface_capsule()
+		else:
+			# show 'IMPOSSIBLE' status
+			# TODO; requires being able to set fcs_status from Godot side
+			print("IMPOSSIBLE")
+			pass
 	elif can_cancel_local_target():
 		Globals.local_target_index = -1
 
@@ -257,9 +263,18 @@ func can_start_fine_approach():
 func can_stop_fine_approach():
 	return Globals.fine_approach_active
 	
-func can_deploy_surface_capsule():
+func can_maybe_deploy_surface_capsule():
+	# checks if the conditions are correct for deploying a surface capsule, but does NOT check if you can actually land on the planet/moon (based on its type)
 	# note: logic possibly different from NIV
 	return Globals.local_target_orbit_index != -1
+
+func can_deploy_surface_capsule():
+	# checks if you can ACTUALLY deploy it
+	# note: logic possibly different from NIV
+	if Globals.local_target_orbit_index == -1:
+		return false
+	var ipinfo = Globals.feltyrion.get_planet_info(Globals.local_target_orbit_index)
+	return ipinfo["nearstar_p_type"] != 0 && ipinfo["nearstar_p_type"] != 6 && ipinfo["nearstar_p_type"] < 9
 
 func can_cancel_local_target():
 	return Globals.local_target_index != -1
