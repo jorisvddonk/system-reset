@@ -23,6 +23,22 @@ const star_descriptions = ["medium size, yellow star, suitable for planets havin
 	"medium size, surrounded by gas clouds, young star.",
 	"very large and ancient runaway star, unsuitable for planets.",
 	"tiny pulsar object, unsafe, high radiation, strong gravity."];
+	
+const planet_description = ["medium size, internally hot, unstable surface, no atmosphere.",
+	"small, solid, dusty, craterized, no atmosphere.",
+	"medium size, solid, thick atmosphere, fully covered by clouds.",
+	"medium size, felisian, breathable atmosphere, suitable for life.",
+	"medium size, rocky, creased, no atmosphere.",
+	"small, solid, thin atmosphere.",
+	"large, not consistent, covered with dense clouds.",
+	"small, solid, icy surface, no atmosphere.",
+	"medium size, surface is mainly native quartz, oxygen atmosphere.",
+	"very large, substellar object, not consistent.",
+	"companion star - not a planet"];
+
+const ordinal = ["zeroth",     "first",     "second",    "third",       "fourth",     "fifth",      "sixth",
+   "seventh",    "eight",     "nineth",    "tenth",       "eleventh",   "twelveth",   "thiteenth",
+   "fourteenth", "fifteenth", "sixteenth", "seventeenth", "eighteenth", "nineteenth", "twentyth"]
 
 var other_signals_to_cleanup = []
 
@@ -61,14 +77,22 @@ func menu_fcd():
 	item4.text = "Deploy surface capsule" if can_deploy_surface_capsule() else ("Cancel local target" if can_cancel_local_target() else "")
 	#--
 	clear_lines()
+	var curline = line1
 	var apinfo = Globals.feltyrion.get_ap_target_info()
+	if Globals.feltyrion.ip_targetted != -1:
+		var ipinfo = Globals.feltyrion.get_planet_info(Globals.feltyrion.ip_targetted)
+		if ipinfo["nearstar_p_owner"] == -1:
+			curline.text = "Local target: %s planet. %s" % [ordinal[ipinfo["n"] + 1], planet_description[ipinfo["nearstar_p_type"]]]
+		else:
+			curline.text = "Local target: moon #%s of %s planet. %s" % [ipinfo["nearstar_p_moonid"] + 1, ordinal[ipinfo["n"] + 1], planet_description[ipinfo["nearstar_p_type"]]]
+		curline = line2
 	if apinfo.ap_targetted:
 		if apinfo.ap_targetted == 1:
-			line1.text = "Remote target: class %s star; %s" % [apinfo.ap_target_class, star_descriptions[apinfo.ap_target_class]]
+			curline.text = "Remote target: class %s star; %s" % [apinfo.ap_target_class, star_descriptions[apinfo.ap_target_class]]
 		else:
-			line1.text = "Direct parsis target: non-star type."
+			curline.text = "Direct parsis target: non-star type."
 	else:
-		line1.text = "no remote target selected"
+		curline.text = "no remote target selected"
 	line2.text = "current range: elapsed 0 kilodyams, remaining litihum: -1 grams." # TODO: change depending on status
 	#-
 	item1.pressed.connect(set_remote_target) # see FarStar scene for the part that handles actually setting the remote target
