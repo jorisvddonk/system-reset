@@ -84,7 +84,7 @@ func menu_fcd():
 		if ipinfo["nearstar_p_owner"] == -1:
 			curline.text = "Local target: %s planet. %s" % [ordinal[ipinfo["n"] + 1], planet_description[ipinfo["nearstar_p_type"]]]
 		else:
-			curline.text = "Local target: moon #%s of %s planet. %s" % [ipinfo["nearstar_p_moonid"] + 1, ordinal[ipinfo["n"] + 1], planet_description[ipinfo["nearstar_p_type"]]]
+			curline.text = "Local target: moon #%s of %s planet. %s" % [ipinfo["nearstar_p_moonid"] + 1, ordinal[ipinfo["nearstar_p_owner"] + 1], planet_description[ipinfo["nearstar_p_type"]]]
 		curline = line2
 	if apinfo.ap_targetted:
 		if apinfo.ap_targetted == 1:
