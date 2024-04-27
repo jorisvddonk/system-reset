@@ -147,7 +147,8 @@ func on_deploy_surface_capsule_status_change(active):
 		var material = StandardMaterial3D.new()
 		$StardrifterParent/DeploymentSelectionScreen.material_override = material
 		Globals.feltyrion.load_planet_at_current_system(Globals.feltyrion.ip_targetted)
-		planet_img = Globals.feltyrion.return_image(true, false)
+		var ipinfo = Globals.feltyrion.get_planet_info(Globals.feltyrion.ip_targetted)
+		planet_img = Globals.feltyrion.return_image(true, false, ipinfo["nearstar_p_owner"] > -1)
 		p_console_img = planet_img.duplicate()
 		updatePConsoleImage(true)
 	else:
@@ -232,7 +233,8 @@ func _on_debug_tools_enabled_changed(enabled: bool):
 	if enabled and Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SPACE:
 		$DebuggingTools.show()
 		Globals.feltyrion.load_planet_at_current_system(Globals.feltyrion.ip_targetted)
-		var img = Globals.feltyrion.return_image(true, false)
+		var ipinfo = Globals.feltyrion.get_planet_info(Globals.feltyrion.ip_targetted)
+		var img = Globals.feltyrion.return_image(true, false, ipinfo["nearstar_p_owner"] > -1)
 		var imageTexture = ImageTexture.create_from_image(img)
 		$DebuggingTools/PlanetSurfaceTexture.texture = imageTexture
 		

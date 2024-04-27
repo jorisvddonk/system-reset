@@ -54,7 +54,7 @@ func generate(planet_index, type, seed):
 	else:
 		Globals.feltyrion.load_planet_at_current_system(planet_index)
 	
-	var img = Globals.feltyrion.return_image(true, false)
+	var img = Globals.feltyrion.return_image(true, false, false if planet_index == -1 else Globals.feltyrion.get_planet_info(planet_index)["nearstar_p_owner"] > -1)
 	#img = Globals.feltyrion.return_atmosphere_image()
 	if planet_index != -1:
 		img.set_pixel(Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat-1, Color.MAGENTA)

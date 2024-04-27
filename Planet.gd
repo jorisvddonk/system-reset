@@ -32,7 +32,8 @@ func _ready():
 
 func generate():
 	Globals.feltyrion.load_planet_at_current_system(planet_index)
-	var img = Globals.feltyrion.return_image(true, false)
+	var ipinfo = Globals.feltyrion.get_planet_info(planet_index)
+	var img = Globals.feltyrion.return_image(true, false, ipinfo["nearstar_p_owner"] > -1)
 	var imageTexture = ImageTexture.create_from_image(img)
 	$PlanetParent/Surface.mesh.material.albedo_texture = imageTexture
 	
