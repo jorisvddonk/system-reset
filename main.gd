@@ -23,6 +23,7 @@ func _on_resize():
 	for viewport in get_tree().get_nodes_in_group("subviewports"):
 		viewport.size.x = size_x
 		viewport.size.y = size_y
+		viewport.notification(NOTIFICATION_VP_MOUSE_ENTER) # workaround for https://github.com/godotengine/godot/issues/89757
 	$Background.size.x = size_x
 	$Background.size.y = size_y
 
