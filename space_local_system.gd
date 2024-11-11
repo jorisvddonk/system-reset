@@ -3,6 +3,7 @@ var Planet = preload("res://Planet.tscn")
 @onready var regex = RegEx.new()
 var lastp = 0
 const maxparticles = 5555
+var last_particle_cleared_timestamp = 0
 
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
@@ -10,23 +11,34 @@ func _ready():
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.feltyrion.connect("found_ring_particle", on_ring_particle_found)
-	#for i in range(0, maxparticles):
-	#	var particle: Sprite3D = %RingParticle.duplicate()
-	#	particle.position = Vector3(0,0,0)
-	#	#particle.hide()
-	#	%RingParticles.add_child(particle)
+	for i in range(0, maxparticles):
+		var particle: Sprite3D = %RingParticle.duplicate()
+		particle.position = Vector3(0,0,0)
+		particle.hide()
+		%RingParticles.add_child(particle)
+
+
+func clearparticles():
+	printt("clearing particles")
+	for i in range(0, maxparticles):
+		var particle: Sprite3D = %RingParticles.get_child(i)
+		particle.position = Vector3(0,0,0)
+		particle.hide()
 
 
 func on_ring_particle_found(x, y, z, radii, unconditioned_color):
 	# x/y/z is in global parsis (!)
-	var rp: Sprite3D = %RingParticle.duplicate()
-	%RingParticles.add_child(rp)
+	var curtime = Time.get_unix_time_from_system()
+	if curtime - last_particle_cleared_timestamp > 1: # it has been 1 second since we last got any particle locations, so clear (hide) them all!
+		last_particle_cleared_timestamp = curtime
+		clearparticles()
+	var rp: Sprite3D = %RingParticles.get_child(lastp)
 	rp.show()
 	var v = Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y - 0.0005), (z - Globals.feltyrion.ap_target_z))
 	rp.position = v
-	#lastp += 1
-	#if lastp > maxparticles - 1:
-	#	lastp = 0
+	lastp += 1
+	if lastp > maxparticles - 1:
+		lastp = 0
 	
 func _physics_process(delta):
 	# TODO: determine how often this actually needs to be called
