@@ -42,7 +42,7 @@ script = ExtResource("2_yq2a3")
 [node name="OmniLight3D" type="OmniLight3D" parent="SolarSystemContainer"]
 layers = 4
 light_cull_mask = 4293918724
-omni_range = 4096.0
+omni_range = 16384.0
 omni_attenuation = 0.000345266
 
 [node name="Planets" type="Node3D" parent="SolarSystemContainer"]
