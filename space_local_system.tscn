@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://donu4757x48qs"]
+[gd_scene load_steps=8 format=3 uid="uid://donu4757x48qs"]
 
 [ext_resource type="Script" path="res://space_local_system.gd" id="1_tlx4b"]
 [ext_resource type="Script" path="res://camera.gd" id="2_yq2a3"]
@@ -14,6 +14,18 @@ shader_parameter/color = Color(0, 0.048079, 1, 1)
 material = SubResource("ShaderMaterial_oyqaa")
 radius = 2.5
 height = 5.0
+
+[sub_resource type="Gradient" id="Gradient_ccqfk"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 0.352941, 0, 0, 0, 0.301961)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t1clw"]
+gradient = SubResource("Gradient_ccqfk")
+width = 8
+height = 8
+fill = 1
+fill_from = Vector2(0.517094, 0.517094)
+fill_to = Vector2(0.92735, 0.918803)
 
 [node name="SpaceLocalSystem" type="Node3D"]
 process_thread_group = 1
@@ -38,3 +50,13 @@ omni_attenuation = 0.000345266
 [node name="SolarSystemParentStar" type="MeshInstance3D" parent="SolarSystemContainer"]
 mesh = SubResource("SphereMesh_jjmm3")
 skeleton = NodePath("../..")
+
+[node name="RingParticles" type="Node3D" parent="SolarSystemContainer"]
+unique_name_in_owner = true
+
+[node name="RingParticle" type="Sprite3D" parent="SolarSystemContainer/RingParticles"]
+unique_name_in_owner = true
+visible = false
+pixel_size = 0.0001
+billboard = 1
+texture = SubResource("GradientTexture2D_t1clw")
