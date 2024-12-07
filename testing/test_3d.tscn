@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://x3fwc1fu4hlb"]
 
 [ext_resource type="Script" path="res://testing/test_3d.gd" id="1_1lriu"]
-[ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://surface_exploration.tres" id="1_qmlhj"]
+[ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://scenes/surface/surface_exploration.tres" id="1_qmlhj"]
 [ext_resource type="Script" path="res://util/camera.gd" id="2_oi22k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fm4uk"]

@@ -1,6 +1,6 @@
 extends Control
 
-var SurfaceScene = preload("res://surface_exploration.tscn")
+var SurfaceScene = preload("res://scenes/surface/surface_exploration.tscn")
 var surfaceScene
 var hud_mode = true
 
