@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_03no5"]
 [ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://theme.tres" id="1_d2mbj"]
-[ext_resource type="PackedScene" uid="uid://mna8adl51ysw" path="res://space_remote_systems.tscn" id="1_og4bw"]
-[ext_resource type="PackedScene" uid="uid://donu4757x48qs" path="res://space_local_system.tscn" id="2_ea67m"]
+[ext_resource type="PackedScene" uid="uid://mna8adl51ysw" path="res://scenes/space/remote/space_remote_systems.tscn" id="1_og4bw"]
+[ext_resource type="PackedScene" uid="uid://donu4757x48qs" path="res://scenes/space/local/space_local_system.tscn" id="2_ea67m"]
 [ext_resource type="PackedScene" uid="uid://bbo63hpxfc223" path="res://space_near.tscn" id="2_xkawo"]
 [ext_resource type="PackedScene" uid="uid://fuj2xt1sh8nm" path="res://hud.tscn" id="6_n03fi"]
 [ext_resource type="Shader" path="res://fullscreen_overlay.gdshader" id="7_kbxe2"]

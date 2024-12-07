@@ -1,5 +1,5 @@
 extends Node3D
-var Planet = preload("res://Planet.tscn")
+var Planet = preload("res://scenes/space/local/Planet.tscn")
 @onready var regex = RegEx.new()
 var lastp = 0
 const maxparticles = 5555
