@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bbo63hpxfc223" path="res://space_near.tscn" id="2_xkawo"]
 [ext_resource type="PackedScene" uid="uid://fuj2xt1sh8nm" path="res://hud.tscn" id="6_n03fi"]
 [ext_resource type="Shader" path="res://fullscreen_overlay.gdshader" id="7_kbxe2"]
-[ext_resource type="Script" path="res://debugging_server.gd" id="8_ljcxv"]
+[ext_resource type="Script" path="res://util/debug/debugging_server.gd" id="8_ljcxv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2amsc"]
 bg_color = Color(0, 0, 0, 1)

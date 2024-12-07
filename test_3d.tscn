@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://test_3d.gd" id="1_1lriu"]
 [ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://surface_exploration.tres" id="1_qmlhj"]
-[ext_resource type="Script" path="res://camera.gd" id="2_oi22k"]
+[ext_resource type="Script" path="res://util/camera.gd" id="2_oi22k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fm4uk"]
 render_priority = 0

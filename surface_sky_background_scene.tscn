@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b8ystkhcrj80s"]
 
-[ext_resource type="Script" path="res://camera.gd" id="1_64unp"]
+[ext_resource type="Script" path="res://util/camera.gd" id="1_64unp"]
 [ext_resource type="Script" path="res://surface_sky_background_scene.gd" id="1_kmdqm"]
 [ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="3_6rtj1"]
 
