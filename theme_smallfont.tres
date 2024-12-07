@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=3 format=3 uid="uid://dydaxqkl7mfo2"]
 
-[ext_resource type="FontFile" uid="uid://dbjexmxki626o" path="res://charmap_alpha.png" id="1_4w63m"]
+[ext_resource type="FontFile" uid="uid://dbjexmxki626o" path="res://assets/charmap_alpha.png" id="1_4w63m"]
 
 [sub_resource type="FontVariation" id="FontVariation_dmqf5"]
 base_font = ExtResource("1_4w63m")

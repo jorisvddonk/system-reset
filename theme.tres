@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://c2t22owqfyns8"]
 
-[ext_resource type="FontFile" uid="uid://buhumvkmjrj34" path="res://font.png" id="1_wmt2j"]
+[ext_resource type="FontFile" uid="uid://buhumvkmjrj34" path="res://assets/font.png" id="1_wmt2j"]
 
 [resource]
 default_font = ExtResource("1_wmt2j")

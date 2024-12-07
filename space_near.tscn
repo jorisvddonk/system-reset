@@ -1,8 +1,8 @@
 [gd_scene load_steps=33 format=3 uid="uid://bbo63hpxfc223"]
 
-[ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://cupola_floor.obj" id="1_i3c1o"]
+[ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://assets/cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://space_near.gd" id="1_w6myo"]
-[ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://cupola_roof.obj" id="2_dedv8"]
+[ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://assets/cupola_roof.obj" id="2_dedv8"]
 [ext_resource type="PackedScene" uid="uid://duornhgv4vumt" path="res://goesnet_input.tscn" id="3_kgkbh"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://b0ek4j6agviys" path="res://goesnet_output.tscn" id="4_ht0jc"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://di6r34ryh1qsq" path="res://addons/kenney_particle_pack/circle_05.png" id="2_8ymtv"]
 [ext_resource type="Script" path="res://Planet.gd" id="2_atbx8"]
-[ext_resource type="FontFile" uid="uid://buhumvkmjrj34" path="res://font.png" id="3_xyiqe"]
+[ext_resource type="FontFile" uid="uid://buhumvkmjrj34" path="res://assets/font.png" id="3_xyiqe"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s081u"]
 load_path = "res://.godot/imported/crosshair026.png-4bfbce0f5388f4c155453e66fcac6f8f.s3tc.ctex"

@@ -2,13 +2,13 @@
 
 importer="font_data_image"
 type="FontFile"
-uid="uid://dbjexmxki626o"
-path="res://.godot/imported/charmap_alpha.png-ff3499eda474a3bcaa11673669647ead.fontdata"
+uid="uid://c327cb0xm5a2h"
+path="res://.godot/imported/charmap_alpha_2x.png-62ab29abca2c91c16bf17f2d3f036be9.fontdata"
 
 [deps]
 
-source_file="res://charmap_alpha.png"
-dest_files=["res://.godot/imported/charmap_alpha.png-ff3499eda474a3bcaa11673669647ead.fontdata"]
+source_file="res://assets/charmap_alpha_2x.png"
+dest_files=["res://.godot/imported/charmap_alpha_2x.png-62ab29abca2c91c16bf17f2d3f036be9.fontdata"]
 
 [params]
 
