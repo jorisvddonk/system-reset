@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://scenes/surface/SurfaceExploration.gd" id="1_kkm40"]
-[ext_resource type="Script" path="res://PlayerCharacterController.gd" id="3_e41ui"]
+[ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
 [ext_resource type="PackedScene" uid="uid://b8ystkhcrj80s" path="res://scenes/surface/surface_sky_background_scene.tscn" id="3_hma5u"]
 [ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://scenes/surface/surface_exploration.tres" id="4_x51ws"]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://j2m02rcgoy04"]
 
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/menu/sd_screen.gd" id="1_ki2m0"]
-[ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://theme.tres" id="1_nuphg"]
+[ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://assets/themes/theme.tres" id="1_nuphg"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/menu/SDScreenControl.gd" id="2_e2e7d"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wtkme"]

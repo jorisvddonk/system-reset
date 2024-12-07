@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://duornhgv4vumt"]
 
-[ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://theme.tres" id="1_8odco"]
+[ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://assets/themes/theme.tres" id="1_8odco"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_input_screen.gd" id="2_5dgkt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wtkme"]

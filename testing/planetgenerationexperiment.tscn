@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bjql6dlrtm3ls"]
 
 [ext_resource type="Script" path="res://testing/planetgenerationexperiment.gd" id="1_ts05o"]
-[ext_resource type="Theme" uid="uid://dvqwgv7i0cjg" path="res://theme_smallfont_2x.tres" id="2_c1an6"]
+[ext_resource type="Theme" uid="uid://dvqwgv7i0cjg" path="res://assets/themes/theme_smallfont_2x.tres" id="2_c1an6"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_pw6a8"]
 

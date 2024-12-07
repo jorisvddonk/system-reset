@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/space/local/space_local_system.gd" id="1_tlx4b"]
 [ext_resource type="Script" path="res://util/camera.gd" id="2_yq2a3"]
-[ext_resource type="Shader" uid="uid://17p84k6mfsml" path="res://solar_system_parent_star.tres" id="3_jyyok"]
+[ext_resource type="Shader" uid="uid://17p84k6mfsml" path="res://scenes/space/local/solar_system_parent_star.tres" id="3_jyyok"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oyqaa"]
 resource_local_to_scene = true

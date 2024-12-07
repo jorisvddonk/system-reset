@@ -4,11 +4,11 @@
 [ext_resource type="Script" path="res://scenes/space/stardrifter/space_near.gd" id="1_w6myo"]
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://assets/cupola_roof.obj" id="2_dedv8"]
 [ext_resource type="PackedScene" uid="uid://duornhgv4vumt" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_input.tscn" id="3_kgkbh"]
-[ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://vehicle.glb" id="3_u5gxh"]
+[ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://assets/vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://b0ek4j6agviys" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_output.tscn" id="4_ht0jc"]
 [ext_resource type="PackedScene" uid="uid://j2m02rcgoy04" path="res://scenes/space/stardrifter/screens/menu/sd_screen.tscn" id="6_6tqdb"]
 [ext_resource type="Texture2D" uid="uid://dc4ftjab6wy1l" path="res://assets/landingzone_selector_overlay.png" id="7_b1gla"]
-[ext_resource type="Script" path="res://PlayerCharacterController.gd" id="7_uxqhh"]
+[ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="7_uxqhh"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/menu/SD_3dScreen.gd" id="8_4bukw"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_screen.gd" id="9_p1dd4"]
 
@@ -100,6 +100,7 @@ sdfgi_energy = 3.045
 
 [sub_resource type="SystemFont" id="SystemFont_skgsr"]
 font_names = PackedStringArray("Monospace")
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_hldc4"]
 font = SubResource("SystemFont_skgsr")
