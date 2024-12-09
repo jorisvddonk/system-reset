@@ -84,7 +84,7 @@ func generate(planet_index, type, seed):
 	$ObjectsChartMap.texture = objchartTexture
 	$ObjectsChartMap.queue_redraw()
 	
-	var txtrimg = Globals.feltyrion.return_txtr_image()
+	var txtrimg = Globals.feltyrion.return_txtr_image(false)
 	var txtrTexture = ImageTexture.create_from_image(txtrimg)
 	$TextureRect4.texture = txtrTexture
 	$TextureRect4.queue_redraw()

@@ -48,7 +48,7 @@ func go(planet_index, lon, lat):
 	var ruinsTexture = ImageTexture.create_from_image(ruinsimg)
 	$DebuggingTools/PlanetRuinsChart.texture = ruinsTexture
 	
-	var txtrTexture = ImageTexture.create_from_image(Globals.feltyrion.return_txtr_image())
+	var txtrTexture = ImageTexture.create_from_image(Globals.feltyrion.return_txtr_image(false))
 	var paletteimg = Globals.feltyrion.get_surface_palette_as_image()
 	var paletteTexture = ImageTexture.create_from_image(paletteimg)
 	$DebuggingTools/PaletteImage.texture = paletteTexture
