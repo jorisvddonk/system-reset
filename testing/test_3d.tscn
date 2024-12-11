@@ -32,4 +32,8 @@ offset_bottom = 80.0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="SurfaceScattering" parent="." instance=ExtResource("4_3eraf")]
+[node name="Scattering" parent="." instance=ExtResource("4_3eraf")]
+capture = 1
+
+[node name="Surface" parent="." instance=ExtResource("4_3eraf")]
+capture = 2

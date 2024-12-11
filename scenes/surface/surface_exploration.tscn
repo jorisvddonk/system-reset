@@ -71,7 +71,8 @@ skeleton = NodePath("../../..")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 environment = SubResource("Environment_5ku5r")
 
-[node name="SurfaceScattering" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
+[node name="Scattering" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
+capture = 1
 
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
 visible = false

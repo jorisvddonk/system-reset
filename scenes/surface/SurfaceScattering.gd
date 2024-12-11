@@ -18,11 +18,16 @@ const SEC_V_SIZE = 2048
 const SEC_X_ROOT = SEC_H_SIZE * 100
 const SEC_Y_ROOT = SEC_V_SIZE * 0
 const SEC_Z_ROOT = SEC_H_SIZE * 100
+enum CaptureWhat {NONE, SCATTERING, SURFACE};
+@export var capture: CaptureWhat = CaptureWhat.NONE;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	clearSurfaceVars()
-	Globals.feltyrion.connect("found_surface_polygon3", on_found_surface_polygon3)
+	if (capture == CaptureWhat.SURFACE):
+		Globals.feltyrion.connect("found_surface_polygon3", on_found_polygon3)
+	if (capture == CaptureWhat.SCATTERING):
+		Globals.feltyrion.connect("found_scattering_polygon3", on_found_polygon3)
 
 func clearSurfaceVars():
 	surface_scattering_verts.clear()
@@ -53,7 +58,7 @@ func _process(delta):
 		bake_surface_scattering()
 	
 
-func on_found_surface_polygon3(x0, x1, x2, y0, y1, y2, z0, z1, z2, colore):
+func on_found_polygon3(x0, x1, x2, y0, y1, y2, z0, z1, z2, colore):
 	const MULT = 0.002
 	forceRebake = true
 	
