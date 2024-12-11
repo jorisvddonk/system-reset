@@ -4,9 +4,19 @@ const ymin = 0
 const ymax = 199
 const xmin = 0
 const xmax = 199
-const TERRAINMULT_X = 3
-const TERRAINMULT_Y = 60
-const TERRAINMULT_Z = -3
+# 3260416 ??
+const SEC_H_SIZE = 16384
+const SEC_V_SIZE = 2048
+const SEC_X_ROOT = SEC_H_SIZE * 100
+const SEC_Y_ROOT = SEC_V_SIZE * 0
+const SEC_Z_ROOT = SEC_H_SIZE * 100
+# do not ask me where this math comes from; it's not from the source code!!!
+# 33.3008130081
+const TERRAINMULT_X = 32.77
+const TERRAINMULT_Y = 528 # close enough. Is this actually exponential somehow???
+const TERRAINMULT_Z = 32.77
+const OFFSET_X = 3300 - 9.918699 - 13.5 + 0.418699
+const OFFSET_Z = 3300 - 9.918699 - 13.5 + 0.418699
 
 func _ready():
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
@@ -16,8 +26,9 @@ func _ready():
 	if get_tree().get_current_scene().name == "SurfaceExploration": # Force-load if we run the scene directly
 		print("Running SurfaceExploration scene directly; forcing surface load...")
 		Globals.load_game()
-		Globals.feltyrion.landing_pt_lon = 182
-		Globals.feltyrion.landing_pt_lat = 16
+		Globals.feltyrion.prepare_star()
+		Globals.feltyrion.landing_pt_lon = 60
+		Globals.feltyrion.landing_pt_lat = 60
 	
 	go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		
@@ -68,9 +79,9 @@ func go(planet_index, lon, lat):
 	for y in range(ymin, ymax + 1):
 		for x in range(xmin, xmax + 1):
 			var vert = Vector3(
-				x * TERRAINMULT_X,
+				(x * TERRAINMULT_X) - OFFSET_X,
 				surfimg.get_pixel(x, y).get_luminance() * TERRAINMULT_Y,
-				y * TERRAINMULT_Z
+				(y * TERRAINMULT_Z) - OFFSET_Z # yes, this is correct; the texture uses x/y coordinates, but in 3d world, y is up and x/z describe the flat plane
 	  		)
 			verts.append(vert)
 			
@@ -94,6 +105,7 @@ func go(planet_index, lon, lat):
 			
 			if y == 100 && x == 100:
 				midvert = vert
+				printt("MIDVERT", midvert)
 
 	# tri1
 	for y in range(0, ydiff):
