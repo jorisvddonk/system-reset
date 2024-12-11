@@ -128,24 +128,24 @@ func go(planet_index, lon, lat):
 	
 	
 	# Use SurfaceTool to calculate our normals and generate our actual mesh
-	var st = SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	st.set_color(Color(1, 1, 1))
-	st.set_smooth_group(-1) # set the smooth group to -1; this gives us flat shading, which is more Noctis-like
-	for i in range(0, indices.size(), 3):
-		for j in range(0, 3):
-			st.set_color(colors[indices[i + j]])
-			st.set_uv(uvs[indices[i + j]])
-			st.add_vertex(verts[indices[i + j]])
-	st.generate_normals()
+	#var st = SurfaceTool.new()
+	#st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	#st.set_color(Color(1, 1, 1))
+	#st.set_smooth_group(-1) # set the smooth group to -1; this gives us flat shading, which is more Noctis-like
+	#for i in range(0, indices.size(), 3):
+	#	for j in range(0, 3):
+	#		st.set_color(colors[indices[i + j]])
+	#		st.set_uv(uvs[indices[i + j]])
+	#		st.add_vertex(verts[indices[i + j]])
+	#st.generate_normals()
 	
 	# Set the mesh, material, and create collision shape...
-	%Surface.mesh = st.commit()
-	%Surface.material_override.set_shader_parameter("albedo_texture", txtrTexture)
-	%Surface.material_override.set_shader_parameter("ruinschart_texture", ruinsTexture)
-	%Surface.material_override.set_shader_parameter("surface_palette", paletteTexture)
-	%Surface.create_trimesh_collision()
-	%Surface.get_child(0).get_child(0).shape.backface_collision = true
+	#%Surface.mesh = st.commit()
+	#%Surface.material_override.set_shader_parameter("albedo_texture", txtrTexture)
+	#%Surface.material_override.set_shader_parameter("ruinschart_texture", ruinsTexture)
+	#%Surface.material_override.set_shader_parameter("surface_palette", paletteTexture)
+	#%Surface.create_trimesh_collision()
+	#%Surface.get_child(0).get_child(0).shape.backface_collision = true
 	
 	%PlayerCharacterController.position = %Surface.to_global(midvert + Vector3(0,4,0))
 	
