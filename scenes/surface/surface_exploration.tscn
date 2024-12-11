@@ -74,6 +74,10 @@ environment = SubResource("Environment_5ku5r")
 [node name="Scattering" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
 capture = 1
 
+[node name="Surface2" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
+capture = 2
+generateCollision = true
+
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
 visible = false
 

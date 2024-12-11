@@ -20,6 +20,7 @@ const SEC_Y_ROOT = SEC_V_SIZE * 0
 const SEC_Z_ROOT = SEC_H_SIZE * 100
 enum CaptureWhat {NONE, SCATTERING, SURFACE};
 @export var capture: CaptureWhat = CaptureWhat.NONE;
+@export var generateCollision: bool = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -106,6 +107,9 @@ func bake_surface_scattering():
 			st.set_uv(surface_scattering_uvs[surface_scattering_indices[i + j]])
 			st.add_vertex(surface_scattering_verts[surface_scattering_indices[i + j]])
 	st.generate_normals()
+	if generateCollision:
+		self.create_trimesh_collision()
+		# self.get_child(0).get_child(0).get_child(0).backface_collision = true # this doesn't seem to work anymore... but thankfully it doesn't seem to matter!
 	forceRebake = false
 	self.mesh = st.commit()
 	var txtRawimg = Globals.feltyrion.return_txtr_image(true)
