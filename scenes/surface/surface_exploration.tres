@@ -103,7 +103,7 @@ input_name = "normal"
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_disabled, shadows_disabled, vertex_lighting;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_lambert, specular_disabled, shadows_disabled, vertex_lighting;
 
 uniform sampler2D ruinschart_texture : hint_anisotropy, filter_nearest, repeat_enable;
 uniform sampler2D surface_palette : hint_anisotropy, filter_nearest, repeat_enable;
@@ -203,7 +203,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(194.097, -369.087)
+modes/cull = 2
 modes/specular = 2
 flags/shadows_disabled = true
 flags/vertex_lighting = true

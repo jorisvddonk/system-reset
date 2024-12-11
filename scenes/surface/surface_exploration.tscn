@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dy2du658i44d5"]
+[gd_scene load_steps=9 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://scenes/surface/SurfaceExploration.gd" id="1_kkm40"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
 [ext_resource type="PackedScene" uid="uid://b8ystkhcrj80s" path="res://scenes/surface/surface_sky_background_scene.tscn" id="3_hma5u"]
 [ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://scenes/surface/surface_exploration.tres" id="4_x51ws"]
+[ext_resource type="PackedScene" uid="uid://cgcvttdho7006" path="res://scenes/surface/SurfaceScattering.tscn" id="5_tdtko"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2ga3q"]
 
@@ -69,6 +70,8 @@ skeleton = NodePath("../../..")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 environment = SubResource("Environment_5ku5r")
+
+[node name="SurfaceScattering" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
 
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
 visible = false
