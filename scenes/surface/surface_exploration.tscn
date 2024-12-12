@@ -77,6 +77,7 @@ capture = 1
 [node name="Surface2" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
 capture = 2
 generateCollision = true
+colorPaletteOffset = -32
 
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
 visible = false
