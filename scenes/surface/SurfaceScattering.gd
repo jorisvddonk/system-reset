@@ -21,6 +21,7 @@ const SEC_Z_ROOT = SEC_H_SIZE * 100
 enum CaptureWhat {NONE, SCATTERING, SURFACE};
 @export var capture: CaptureWhat = CaptureWhat.NONE;
 @export var generateCollision: bool = false;
+@export var colorPaletteOffset: int = 0;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -81,9 +82,9 @@ func on_found_polygon3(x0, x1, x2, y0, y1, y2, z0, z1, z2, colore):
 	addVert.call(x1,y1,z1)
 	addVert.call(x2,y2,z2)
 	
-	surface_scattering_colors.append(Color8(colore, 0, 0, 255))
-	surface_scattering_colors.append(Color8(colore, 0, 0, 255))
-	surface_scattering_colors.append(Color8(colore, 0, 0, 255))
+	surface_scattering_colors.append(Color8(colore+colorPaletteOffset, 0, 0, 255))
+	surface_scattering_colors.append(Color8(colore+colorPaletteOffset, 0, 0, 255))
+	surface_scattering_colors.append(Color8(colore+colorPaletteOffset, 0, 0, 255))
 	
 	surface_scattering_uvs.append(Vector2(0,0))
 	surface_scattering_uvs.append(Vector2(1,0))
