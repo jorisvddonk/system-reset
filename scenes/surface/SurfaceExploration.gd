@@ -31,6 +31,9 @@ func _ready():
 		Globals.feltyrion.landing_pt_lon = 60
 		Globals.feltyrion.landing_pt_lat = 60
 	
+	if %Scattering_IndividualNodes.get_meta("enabled"):
+		Globals.feltyrion.prepare_surface_scattering(%Scattering_IndividualNodes, "res://scenes/surface/ScatteringObject.tscn")
+	
 	go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		
 func _on_resize():
