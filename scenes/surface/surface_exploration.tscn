@@ -62,6 +62,7 @@ light_energy = 3.405
 environment = SubResource("Environment_5ku5r")
 
 [node name="Scattering" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
+unique_name_in_owner = true
 capture = 1
 
 [node name="Surface2" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
@@ -69,6 +70,17 @@ unique_name_in_owner = true
 capture = 2
 generateCollision = true
 colorPaletteOffset = -32
+
+[node name="Scattering_IndividualNodes" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+unique_name_in_owner = true
+process_mode = 4
+editor_description = "Surface Scattering using an individual, separate node (and thus separate mesh!) for each scattering object, instead of all scattering objects being baked into a single mesh (ad sone in %Scattering).
+
+Note that surface scattering using individual nodes is *much* slower at render-time than having it all baked into a single mesh, so this isn't really recommended!
+
+This is enabled using the 'enabled' metadata."
+visible = false
+metadata/enabled = false
 
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
 visible = false

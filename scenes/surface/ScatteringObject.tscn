@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc48ptbsqaacs"]
+
+[ext_resource type="Shader" uid="uid://8sx3n1ce3ye4" path="res://scenes/surface/surface_exploration_scattering.tres" id="1_caul8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1b836"]
+render_priority = 0
+shader = ExtResource("1_caul8")
+
+[node name="ScatteringObject" type="MeshInstance3D"]
+process_mode = 4
+material_override = SubResource("ShaderMaterial_1b836")
