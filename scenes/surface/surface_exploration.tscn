@@ -1,16 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dy2du658i44d5"]
+[gd_scene load_steps=7 format=3 uid="uid://dy2du658i44d5"]
 
 [ext_resource type="Script" path="res://scenes/surface/SurfaceExploration.gd" id="1_kkm40"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
 [ext_resource type="PackedScene" uid="uid://b8ystkhcrj80s" path="res://scenes/surface/surface_sky_background_scene.tscn" id="3_hma5u"]
-[ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://scenes/surface/surface_exploration.tres" id="4_x51ws"]
 [ext_resource type="PackedScene" uid="uid://cgcvttdho7006" path="res://scenes/surface/SurfaceScattering.tscn" id="5_tdtko"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2ga3q"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ht7tm"]
-render_priority = 0
-shader = ExtResource("4_x51ws")
 
 [sub_resource type="Environment" id="Environment_5ku5r"]
 ambient_light_source = 2
@@ -63,11 +58,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268512, -0.791229, 0.597143, 0.131821, 0, 0, 0)
 light_energy = 3.405
 
-[node name="Surface" type="MeshInstance3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
-unique_name_in_owner = true
-material_override = SubResource("ShaderMaterial_ht7tm")
-skeleton = NodePath("../../..")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 environment = SubResource("Environment_5ku5r")
 
@@ -75,6 +65,7 @@ environment = SubResource("Environment_5ku5r")
 capture = 1
 
 [node name="Surface2" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
+unique_name_in_owner = true
 capture = 2
 generateCollision = true
 colorPaletteOffset = -32

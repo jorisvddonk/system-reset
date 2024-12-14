@@ -22,6 +22,7 @@ func _ready():
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 	get_viewport().connect("size_changed", _on_resize)
+	%Surface2.connect("meshUpdated", surfaceMeshUpdated)
 	_on_resize()
 	if get_tree().get_current_scene().name == "SurfaceExploration": # Force-load if we run the scene directly
 		print("Running SurfaceExploration scene directly; forcing surface load...")
@@ -64,90 +65,17 @@ func go(planet_index, lon, lat):
 	var paletteTexture = ImageTexture.create_from_image(paletteimg)
 	$DebuggingTools/PaletteImage.texture = paletteTexture
 	
-	var surface_array = []
-	surface_array.resize(Mesh.ARRAY_MAX)
-
-	var verts = PackedVector3Array()
-	var uvs = PackedVector2Array()
-	var indices = PackedInt32Array()
-	var colors = PackedColorArray()
-
-	var xdiff = xmax - xmin;
-	var ydiff = ymax - ymin;
-	var midvert
-	
-	for y in range(ymin, ymax + 1):
-		for x in range(xmin, xmax + 1):
-			var vert = Vector3(
-				(x * TERRAINMULT_X) - OFFSET_X,
-				surfimg.get_pixel(x, y).get_luminance() * TERRAINMULT_Y,
-				(y * TERRAINMULT_Z) - OFFSET_Z # yes, this is correct; the texture uses x/y coordinates, but in 3d world, y is up and x/z describe the flat plane
-	  		)
-			verts.append(vert)
-			
-			var color_index = min(255,ruinsimg.get_pixel(x, y).r8 + 32)
-			var color = paletteimg.get_pixel(color_index, 0)
-			
-			if y % 2 == 0:
-				if x % 2 == 0:
-					uvs.append(Vector2(0,0))
-					colors.append(color)
-				else:
-					uvs.append(Vector2(1,0))
-					colors.append(color)
-			else:
-				if x % 2 == 0:
-					uvs.append(Vector2(0,1))
-					colors.append(color)
-				else:
-					uvs.append(Vector2(1,1))
-					colors.append(color)
-			
-			if y == 100 && x == 100:
-				midvert = vert
-				printt("MIDVERT", midvert)
-
-	# tri1
-	for y in range(0, ydiff):
-		for x in range(0, xdiff):
-			indices.append(getVertexIndex(x + 0, y + 0, xdiff))
-			indices.append(getVertexIndex(x + 0, y + 1, xdiff))
-			indices.append(getVertexIndex(x + 1, y + 0, xdiff))
-
-	# tri2
-	for y in range(1, ydiff + 1):
-		for x in range(0, xdiff):
-			indices.append(getVertexIndex(x + 0, y + 0, xdiff))
-			indices.append(getVertexIndex(x + 1, y + 0, xdiff))
-			indices.append(getVertexIndex(x + 1, y - 1, xdiff))
-			
-	# Assign arrays to surface array.
-	surface_array[Mesh.ARRAY_VERTEX] = verts
-	surface_array[Mesh.ARRAY_TEX_UV] = uvs
-	surface_array[Mesh.ARRAY_INDEX] = indices
-	
-	
-	# Use SurfaceTool to calculate our normals and generate our actual mesh
-	#var st = SurfaceTool.new()
-	#st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	#st.set_color(Color(1, 1, 1))
-	#st.set_smooth_group(-1) # set the smooth group to -1; this gives us flat shading, which is more Noctis-like
-	#for i in range(0, indices.size(), 3):
-	#	for j in range(0, 3):
-	#		st.set_color(colors[indices[i + j]])
-	#		st.set_uv(uvs[indices[i + j]])
-	#		st.add_vertex(verts[indices[i + j]])
-	#st.generate_normals()
-	
-	# Set the mesh, material, and create collision shape...
-	#%Surface.mesh = st.commit()
-	#%Surface.material_override.set_shader_parameter("albedo_texture", txtrTexture)
-	#%Surface.material_override.set_shader_parameter("ruinschart_texture", ruinsTexture)
-	#%Surface.material_override.set_shader_parameter("surface_palette", paletteTexture)
-	#%Surface.create_trimesh_collision()
-	#%Surface.get_child(0).get_child(0).shape.backface_collision = true
-	
-	%PlayerCharacterController.position = %Surface.to_global(midvert + Vector3(0,4,0))
+func surfaceMeshUpdated():
+	var rc = RayCast3D.new()
+	var space_state = %PlayerCharacterController.get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(Vector3(0,1000,0), Vector3(0,-1000,0))
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	query.hit_back_faces = true
+	query.hit_from_inside = true
+	var result = space_state.intersect_ray(query)
+	if result:
+		%PlayerCharacterController.position = result.position + Vector3(0,4,0)
 	
 func getVertexIndex(x, y, xdiff):
 	return y * (xdiff + 1) + x
