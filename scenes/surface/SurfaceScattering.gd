@@ -22,6 +22,7 @@ enum CaptureWhat {NONE, SCATTERING, SURFACE};
 @export var capture: CaptureWhat = CaptureWhat.NONE;
 @export var generateCollision: bool = false;
 @export var colorPaletteOffset: int = 0;
+signal meshUpdated
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -119,3 +120,5 @@ func bake_surface_scattering():
 	var paletteimg = Globals.feltyrion.get_surface_palette_as_image()
 	var paletteTexture = ImageTexture.create_from_image(paletteimg)
 	self.material_override.set_shader_parameter("surface_palette", paletteTexture)
+	
+	self.meshUpdated.emit()
