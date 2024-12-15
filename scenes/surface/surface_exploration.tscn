@@ -67,9 +67,9 @@ capture = 1
 
 [node name="Surface2" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
 unique_name_in_owner = true
+layers = 3
 capture = 2
 generateCollision = true
-colorPaletteOffset = -32
 
 [node name="Scattering_IndividualNodes" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 unique_name_in_owner = true
