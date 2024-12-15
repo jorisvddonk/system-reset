@@ -2,7 +2,7 @@
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_vb8mu"]
 parameter_name = "albedo_texture_format_l8"
-texture_type = 3
+texture_type = 1
 texture_filter = 1
 texture_repeat = 1
 
@@ -14,7 +14,7 @@ source = 5
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_4fy0w"]
 parameter_name = "surface_palette"
-texture_type = 3
+texture_type = 1
 texture_filter = 1
 texture_repeat = 1
 
@@ -82,8 +82,8 @@ render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_lambert, specul
 uniform float colorOutMultiplier = 1;
 uniform float colorVertexMultiplier = 1;
 uniform float colorVertexOffset : hint_range(-1, 1) = 0;
-uniform sampler2D albedo_texture_format_l8 : hint_anisotropy, filter_nearest, repeat_enable;
-uniform sampler2D surface_palette : hint_anisotropy, filter_nearest, repeat_enable;
+uniform sampler2D albedo_texture_format_l8 : source_color, filter_nearest, repeat_enable;
+uniform sampler2D surface_palette : source_color, filter_nearest, repeat_enable;
 
 
 
@@ -184,7 +184,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-479.503, -148.647)
+graph_offset = Vector2(987.127, -253.425)
 modes/cull = 2
 modes/specular = 2
 flags/shadows_disabled = true
@@ -234,4 +234,4 @@ nodes/fragment/47/node = SubResource("VisualShaderNodeFloatParameter_v5b1e")
 nodes/fragment/47/position = Vector2(820, -320)
 nodes/fragment/48/node = SubResource("VisualShaderNodeFloatOp_2n34q")
 nodes/fragment/48/position = Vector2(1140, -120)
-nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 4, 0, 3, 0, 5, 0, 0, 2, 6, 0, 0, 3, 7, 0, 0, 4, 8, 0, 0, 11, 9, 0, 0, 8, 26, 0, 27, 0, 28, 0, 27, 2, 35, 0, 36, 0, 3, 0, 37, 0, 37, 0, 41, 1, 44, 0, 41, 0, 43, 0, 44, 1, 36, 0, 45, 0, 45, 0, 44, 0, 46, 0, 45, 1, 27, 0, 0, 0, 48, 0, 26, 0, 47, 0, 48, 0, 41, 0, 48, 1, 48, 0, 40, 0)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 4, 0, 3, 0, 5, 0, 0, 2, 6, 0, 0, 3, 7, 0, 0, 4, 8, 0, 0, 11, 9, 0, 0, 8, 26, 0, 27, 0, 28, 0, 27, 2, 35, 0, 36, 0, 3, 0, 37, 0, 37, 0, 41, 1, 44, 0, 41, 0, 43, 0, 44, 1, 36, 0, 45, 0, 45, 0, 44, 0, 46, 0, 45, 1, 48, 0, 26, 0, 47, 0, 48, 0, 41, 0, 48, 1, 48, 0, 40, 0, 27, 0, 0, 0)

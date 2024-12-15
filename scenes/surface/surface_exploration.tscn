@@ -9,7 +9,7 @@
 [sub_resource type="Environment" id="Environment_5ku5r"]
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.48
+ambient_light_energy = 0.2
 
 [node name="SurfaceExploration" type="Node3D"]
 script = ExtResource("1_kkm40")
@@ -57,7 +57,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268512, -0.791229, 0.597143, 0.131821, 0, 0, 0)
-light_energy = 3.405
+sky_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 environment = SubResource("Environment_5ku5r")
