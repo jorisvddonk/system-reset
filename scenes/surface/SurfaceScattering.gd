@@ -31,6 +31,11 @@ func _ready():
 		Globals.feltyrion.connect("found_surface_polygon3", on_found_polygon3)
 	if (capture == CaptureWhat.SCATTERING):
 		Globals.feltyrion.connect("found_scattering_polygon3", on_found_polygon3)
+	self.connect("child_entered_tree", child_entered_tree)
+
+func child_entered_tree(node):
+	if node is StaticBody3D:
+		node.get_child(0).shape.backface_collision = true
 
 func clearSurfaceVars():
 	surface_scattering_verts.clear()
@@ -110,8 +115,7 @@ func bake_surface_scattering():
 			st.add_vertex(surface_scattering_verts[surface_scattering_indices[i + j]])
 	st.generate_normals()
 	if generateCollision:
-		self.create_trimesh_collision()
-		# self.get_child(0).get_child(0).get_child(0).backface_collision = true # this doesn't seem to work anymore... but thankfully it doesn't seem to matter!
+		self.create_trimesh_collision() # seems to be done asynchronously, so backface collisison is enabled in the child_entered_tree signal handler
 	forceRebake = false
 	self.mesh = st.commit()
 	var txtRawimg = Globals.feltyrion.return_txtr_image(true)
