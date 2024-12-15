@@ -48,21 +48,11 @@ func clearSurfaceVars():
 	snum = 0
 
 var done = false
-func updateSurfaceFragments():
-	Globals.feltyrion.update_time() # strange, this does not take into effect the first time this function is called?
-	#Globals.feltyrion.prepare_planet_surface()
-	Globals.feltyrion.generateSurfacePolygons() # temporary testing
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	time += delta
 	if forceRebake:
-		bake_surface_scattering()
-	if int(time) > lastTime and not done:
-		done = true
-		lastTime = int(time)
-		clearSurfaceVars()
-		updateSurfaceFragments()
 		bake_surface_scattering()
 	
 

@@ -23,6 +23,7 @@ func _ready():
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 	get_viewport().connect("size_changed", _on_resize)
 	%Surface2.connect("meshUpdated", surfaceMeshUpdated)
+	%SurfaceContainer.connect("child_entered_tree", func(c): c.connect("meshUpdated", surfaceMeshUpdated))
 	_on_resize()
 	if get_tree().get_current_scene().name == "SurfaceExploration": # Force-load if we run the scene directly
 		print("Running SurfaceExploration scene directly; forcing surface load...")
@@ -31,8 +32,10 @@ func _ready():
 		Globals.feltyrion.landing_pt_lon = 60
 		Globals.feltyrion.landing_pt_lat = 60
 	
-	if %Scattering_IndividualNodes.get_meta("enabled"):
-		Globals.feltyrion.prepare_surface_scattering(%Scattering_IndividualNodes, "res://scenes/surface/ScatteringObject.tscn")
+	if %ScatteringContainer.get_meta("enabled"):
+		Globals.feltyrion.prepare_surface_scattering(%ScatteringContainer, "res://scenes/surface/util/ScatteringObject.tscn", %ScatteringContainer.get_meta("generateSingleMesh"))
+	if %SurfaceContainer.get_meta("enabled"):
+		Globals.feltyrion.prepare_surface_mesh(%SurfaceContainer, "res://scenes/surface/util/SurfaceMesh.tscn")
 	
 	go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		
@@ -67,6 +70,8 @@ func go(planet_index, lon, lat):
 	var paletteimg = Globals.feltyrion.get_surface_palette_as_image()
 	var paletteTexture = ImageTexture.create_from_image(paletteimg)
 	$DebuggingTools/PaletteImage.texture = paletteTexture
+	
+	Globals.feltyrion.generateSurfacePolygons()
 	
 func surfaceMeshUpdated():
 	var rc = RayCast3D.new()

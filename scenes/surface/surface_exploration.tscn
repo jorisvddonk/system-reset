@@ -63,24 +63,28 @@ environment = SubResource("Environment_5ku5r")
 
 [node name="Scattering" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
 unique_name_in_owner = true
+visible = false
 capture = 1
 
 [node name="Surface2" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort" instance=ExtResource("5_tdtko")]
 unique_name_in_owner = true
+visible = false
 layers = 3
 capture = 2
 generateCollision = true
 
-[node name="Scattering_IndividualNodes" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+[node name="ScatteringContainer" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
 unique_name_in_owner = true
-process_mode = 4
-editor_description = "Surface Scattering using an individual, separate node (and thus separate mesh!) for each scattering object, instead of all scattering objects being baked into a single mesh (ad sone in %Scattering).
+editor_description = "Set the metadata flag 'enabled' to on to generate surface scattering via GDExtension. Set the 'generate single mesh' flag to 'on' to generate only a single mesh, instead of one mesh per object.
 
-Note that surface scattering using individual nodes is *much* slower at render-time than having it all baked into a single mesh, so this isn't really recommended!
+Note that surface scattering using individual nodes is *much* slower at render-time than having it all baked into a single mesh, so this isn't really recommended!"
+metadata/enabled = true
+metadata/generateSingleMesh = true
 
-This is enabled using the 'enabled' metadata."
-visible = false
-metadata/enabled = false
+[node name="SurfaceContainer" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+unique_name_in_owner = true
+editor_description = "Surface mesh generation - via GDExtension"
+metadata/enabled = true
 
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
 visible = false
