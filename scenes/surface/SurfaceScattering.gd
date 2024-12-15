@@ -88,9 +88,9 @@ func on_found_polygon3(x0, x1, x2, y0, y1, y2, z0, z1, z2, colore):
 	addVert.call(x1,y1,z1)
 	addVert.call(x2,y2,z2)
 	
-	surface_scattering_colors.append(Color8(colore+colorPaletteOffset, 0, 0, 255))
-	surface_scattering_colors.append(Color8(colore+colorPaletteOffset, 0, 0, 255))
-	surface_scattering_colors.append(Color8(colore+colorPaletteOffset, 0, 0, 255))
+	surface_scattering_colors.append(Color8(colorPaletteOffset + ((0 if capture == CaptureWhat.SURFACE else 1) * colore), 0, 0, 255))
+	surface_scattering_colors.append(Color8(colorPaletteOffset + ((0 if capture == CaptureWhat.SURFACE else 1) * colore), 0, 0, 255))
+	surface_scattering_colors.append(Color8(colorPaletteOffset + ((0 if capture == CaptureWhat.SURFACE else 1) * colore), 0, 0, 255))
 	
 	surface_scattering_uvs.append(Vector2(0,0))
 	surface_scattering_uvs.append(Vector2(1,0))
@@ -100,7 +100,7 @@ func on_found_polygon3(x0, x1, x2, y0, y1, y2, z0, z1, z2, colore):
 	surface_scattering_indices.append(ind+0)
 	surface_scattering_indices.append(ind+1)
 	surface_scattering_indices.append(ind+2)
-	
+
 func bake_surface_scattering():	
 	# Use SurfaceTool to calculate our normals and generate our actual mesh
 	st = SurfaceTool.new()
