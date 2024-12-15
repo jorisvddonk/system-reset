@@ -6,6 +6,9 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1b836"]
 render_priority = 0
 shader = ExtResource("1_m27dd")
+shader_parameter/colorOutMultiplier = 1.0
+shader_parameter/colorVertexMultiplier = 1.0
+shader_parameter/colorVertexOffset = 0.0
 
 [node name="SurfaceMesh" type="MeshInstance3D"]
 material_override = SubResource("ShaderMaterial_1b836")
