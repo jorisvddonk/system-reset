@@ -1,23 +1,5 @@
 extends Node3D
 
-const ymin = 0
-const ymax = 199
-const xmin = 0
-const xmax = 199
-# 3260416 ??
-const SEC_H_SIZE = 16384
-const SEC_V_SIZE = 2048
-const SEC_X_ROOT = SEC_H_SIZE * 100
-const SEC_Y_ROOT = SEC_V_SIZE * 0
-const SEC_Z_ROOT = SEC_H_SIZE * 100
-# do not ask me where this math comes from; it's not from the source code!!!
-# 33.3008130081
-const TERRAINMULT_X = 32.77
-const TERRAINMULT_Y = 528 # close enough. Is this actually exponential somehow???
-const TERRAINMULT_Z = 32.77
-const OFFSET_X = 3300 - 9.918699 - 13.5 + 0.418699
-const OFFSET_Z = 3300 - 9.918699 - 13.5 + 0.418699
-
 func _ready():
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
@@ -83,19 +65,7 @@ func surfaceMeshUpdated():
 	var result = space_state.intersect_ray(query)
 	if result:
 		%PlayerCharacterController.position = result.position + Vector3(0,4,0)
-	
-func getVertexIndex(x, y, xdiff):
-	return y * (xdiff + 1) + x
 
-func getNormal(index_base, indices, vertices):
-	var p1 = vertices[indices[index_base]]
-	var p2 = vertices[indices[index_base]]
-	var p3 = vertices[indices[index_base]]
-	var u = p2 - p1
-	var v = p3 - p1
-	var normal = u * v
-	return normal
-	
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
 		if event.is_action_pressed("quit"):
