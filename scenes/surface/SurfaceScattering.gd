@@ -73,7 +73,7 @@ func on_found_polygon3(x0, x1, x2, y0, y1, y2, z0, z1, z2, colore):
 	
 	var addVert = func addVert(x,y,z):
 		var v = Vector3(
-			(x - xtot) * MULT,
+			(x - xtot) * -MULT,
 			(-y - ytot) * MULT,
 			(z - ztot) * MULT
 		)
