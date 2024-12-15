@@ -22,7 +22,6 @@ func _ready():
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 	get_viewport().connect("size_changed", _on_resize)
-	%Surface2.connect("meshUpdated", surfaceMeshUpdated)
 	%SurfaceContainer.connect("child_entered_tree", func(c): c.connect("meshUpdated", surfaceMeshUpdated))
 	_on_resize()
 	if get_tree().get_current_scene().name == "SurfaceExploration": # Force-load if we run the scene directly

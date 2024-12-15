@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://x3fwc1fu4hlb"]
+[gd_scene load_steps=6 format=3 uid="uid://x3fwc1fu4hlb"]
 
 [ext_resource type="Script" path="res://testing/test_3d.gd" id="1_1lriu"]
 [ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://scenes/surface/surface_exploration.tres" id="1_qmlhj"]
 [ext_resource type="Script" path="res://addons/simple-free-look-camera-4/camera.gd" id="2_loj8q"]
-[ext_resource type="PackedScene" uid="uid://cgcvttdho7006" path="res://scenes/surface/SurfaceScattering.tscn" id="4_3eraf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fm4uk"]
 render_priority = 0
@@ -31,9 +30,3 @@ offset_bottom = 80.0
 [node name="TextureRect2" type="TextureRect" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="Scattering" parent="." instance=ExtResource("4_3eraf")]
-capture = 1
-
-[node name="Surface" parent="." instance=ExtResource("4_3eraf")]
-capture = 2
