@@ -2,6 +2,7 @@
 .godot/
 *.tmp
 addons/feltyrion-godot/*
+addons/script-ide/*
 data/current.bin
 data/comm.bin
 exported_project/*
