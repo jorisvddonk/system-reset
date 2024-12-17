@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://fuj2xt1sh8nm"]
+[gd_scene load_steps=10 format=3 uid="uid://fuj2xt1sh8nm"]
 
 [ext_resource type="Script" path="res://scenes/hud/hud.gd" id="1_o8fq7"]
 [ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://assets/themes/theme.tres" id="2_hq42y"]
 [ext_resource type="Texture2D" uid="uid://dvwxod1u8jtnl" path="res://addons/kenney_crosshair_pack/crosshair001.png" id="3_kl6mr"]
 [ext_resource type="Theme" uid="uid://dvqwgv7i0cjg" path="res://assets/themes/theme_smallfont_2x.tres" id="3_ok57h"]
+[ext_resource type="PackedScene" uid="uid://cnktcbnnx6t" path="res://scenes/hud/license.tscn" id="5_jju6a"]
 
 [sub_resource type="Gradient" id="Gradient_q7tnt"]
 colors = PackedColorArray(0.0901961, 0.0627451, 0.0588235, 1, 0.0706842, 0.0527823, 0.0349736, 1)
@@ -30,7 +31,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_o8fq7")
 
 [node name="HUDTexts" type="Control" parent="."]
@@ -386,11 +387,11 @@ expand_mode = 2
 
 [node name="HelpTextContainer" type="Control" parent="Help"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
-offset_top = 32.0
-offset_bottom = 532.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HelpText" type="RichTextLabel" parent="Help/HelpTextContainer"]
 clip_contents = false
@@ -399,6 +400,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
@@ -466,3 +469,15 @@ Display navigation:
 9 - Activate menu command 4
 "
 scroll_active = false
+
+[node name="License" parent="Help/HelpTextContainer" instance=ExtResource("5_jju6a")]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+offset_top = -109.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0

@@ -75,8 +75,14 @@ func _input(event):
 	if event.is_action_pressed("toggle_help"):
 		if %HUD/Help.visible:
 			%HUD/Help.hide()
+			$SubViewportContainer_HUD.mouse_filter = MouseFilter.MOUSE_FILTER_IGNORE
+			if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
 			%HUD/Help.show()
+			$SubViewportContainer_HUD.mouse_filter = MouseFilter.MOUSE_FILTER_PASS
+			if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	if event.is_action_pressed("toggle_y_axis_inversion"):
 		Globals.camera_inverted = !Globals.camera_inverted
