@@ -296,6 +296,24 @@ text = "GRAVITY 1.000 FG & TEMPERATURE +15.0@c & PRESSURE 1.000 ATM & PULSE 120 
 scroll_active = false
 autowrap_mode = 0
 
+[node name="FPSLabel" type="RichTextLabel" parent="HUDRim/Bottom/HBoxContainer"]
+unique_name_in_owner = true
+clip_contents = false
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme = ExtResource("3_ok57h")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_outline_size = 6
+text = " & 60 FPS"
+scroll_active = false
+autowrap_mode = 0
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="HUDRim/Bottom"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1

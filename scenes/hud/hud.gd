@@ -13,6 +13,7 @@ func _ready():
 	var timer = Timer.new()
 	timer.timeout.connect(update_fcs_status)
 	timer.timeout.connect(update_epoc_label)
+	timer.timeout.connect(update_fps_label)
 	timer.wait_time = 1
 	timer.one_shot = false
 	add_child(timer)
@@ -87,6 +88,9 @@ func update_epoc_label():
 	var medii = floor(fmod(secs, 1e6) / 1e3)
 	var dexters = floor(fmod(secs, 1e3))
 	%EpocLabel.text = "EPOC %04s & %03s.%03s.%03s" % [epoc, sinisters, medii, dexters]
+
+func update_fps_label():
+	%FPSLabel.text = " & " + str(Engine.get_frames_per_second()) + " FPS"
 
 func on_osd_updated(item1_text: String, item2_text: String, item3_text: String, item4_text: String):
 	if item1_text != "": # if the first item is set, we know we haven't turned the screen off
