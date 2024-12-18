@@ -11,6 +11,7 @@ func _ready():
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.feltyrion.connect("found_ring_particle", on_ring_particle_found)
+	Globals.connect("_on_local_target_orbit_changed", on_local_target_orbit_changed)
 	for i in range(0, maxparticles):
 		var particle: Sprite3D = %RingParticle.duplicate()
 		particle.position = Vector3(0,0,0)
@@ -25,6 +26,11 @@ func clearparticles():
 		particle.position = Vector3(0,0,0)
 		particle.hide()
 
+func on_local_target_orbit_changed(index):
+	if index != -1:
+		# Force a load of the planetary body we're orbiting now. This ensures that rings are 'repopulated'.
+		printt("Forcing load of planetary body with index", index)
+		Globals.feltyrion.load_planet_at_current_system(index)
 
 func on_ring_particle_found(x, y, z, radii, unconditioned_color):
 	# x/y/z is in global parsis (!)
