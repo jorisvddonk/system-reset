@@ -76,7 +76,6 @@ editor_description = "Surface mesh generation - via GDExtension"
 metadata/enabled = true
 
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="PlanetHeightmap" type="TextureRect" parent="DebuggingTools"]
 anchors_preset = 4
@@ -87,6 +86,8 @@ offset_top = -20.0
 offset_right = 140.0
 offset_bottom = 20.0
 grow_vertical = 2
+rotation = 1.5708
+scale = Vector2(1, -1)
 
 [node name="PlanetRuinsChart" type="TextureRect" parent="DebuggingTools"]
 anchors_preset = 4
@@ -97,6 +98,8 @@ offset_top = 260.0
 offset_right = 140.0
 offset_bottom = 300.0
 grow_vertical = 2
+rotation = 1.5708
+scale = Vector2(1, -1)
 
 [node name="PaletteImage" type="TextureRect" parent="DebuggingTools"]
 anchors_preset = 4
