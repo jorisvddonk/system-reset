@@ -76,6 +76,7 @@ editor_description = "Surface mesh generation - via GDExtension"
 metadata/enabled = true
 
 [node name="DebuggingTools" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="PlanetHeightmap" type="TextureRect" parent="DebuggingTools"]
 anchors_preset = 4
