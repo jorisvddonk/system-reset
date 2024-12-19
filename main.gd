@@ -44,6 +44,10 @@ func ui_mode_changed(ui_mode):
 		$SubViewportContainer_SpaceRemote.z_index = 0
 		$SubViewportContainer_SpaceLocal.z_index = 1
 		$SubViewportContainer_SpaceNear.z_index = 2
+	elif ui_mode == Globals.UI_MODE.SET_TARGET_TO_PARSIS: # same as NONE
+		$SubViewportContainer_SpaceRemote.z_index = 0
+		$SubViewportContainer_SpaceLocal.z_index = 1
+		$SubViewportContainer_SpaceNear.z_index = 2
 
 
 func initiate_landing_sequence():

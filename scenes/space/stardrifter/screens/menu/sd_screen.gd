@@ -171,12 +171,14 @@ func menu_od_gc():
 	item1.text = "Remove star label" # TODO: change depending on status?
 	item2.text = "Label planet as..."
 	item3.text = "Show targets in range"
-	item4.text = "Set target to parsis"
+	item4.text = "Set target to parsis" if Globals.ui_mode != Globals.UI_MODE.SET_TARGET_TO_PARSIS else "(Enter coordinates)"
 	#--
 	clear_lines()
 	line1.text = "Epoc 6012 triads 1234,567,890" # TODO: change depending on status
 	line2.text = "Parsis universal coordinates: %s:%s:%s" % [Globals.feltyrion.dzat_x, -Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z]
 	line3.text = "Heading pitch: %s:%s" % [-42, -42] # TODO: change depending on status
+	item4.pressed.connect(set_target_to_parsis)
+	add_connection(Globals.ui_mode_changed, func(_a): menu_od_gc()) # redraw screen if ui mode mode changed.. hmm, this doesn't work?
 	setup_extra_default_connections()
 	
 func menu_prefs():
@@ -284,6 +286,14 @@ func change_tracking_mode():
 	
 func start_deploy_surface_capsule():
 	Globals.deploy_surface_capsule_status_change.emit(true)
+
+func set_target_to_parsis():
+	if Globals.ui_mode != Globals.UI_MODE.SET_TARGET_TO_PARSIS:
+		Globals.ui_mode = Globals.UI_MODE.SET_TARGET_TO_PARSIS
+		Globals.update_fcs_status_text("TGT MANUAL")
+	elif Globals.ui_mode == Globals.UI_MODE.SET_TARGET_TO_PARSIS:
+		Globals.ui_mode = Globals.UI_MODE.NONE
+		Globals.update_fcs_status_text("TGT REJECT")
 
 # Set up some additional connections to ensure that we send the on_hud_pressed signal (used for the HUD)
 func setup_extra_default_connections():

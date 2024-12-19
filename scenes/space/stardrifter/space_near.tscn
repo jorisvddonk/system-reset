@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=35 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://assets/cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/space_near.gd" id="1_w6myo"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/menu/SD_3dScreen.gd" id="8_4bukw"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_screen.gd" id="9_p1dd4"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/SetLocalTargetKeyboardInputHandler.gd" id="12_7r8tx"]
+[ext_resource type="Script" path="res://scenes/space/stardrifter/SetTargetToParsisKeyboardInputHandler.gd" id="13_gscyl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
 blend_mode = 1
@@ -370,3 +371,6 @@ label_settings = SubResource("LabelSettings_hldc4")
 editor_description = "Specific node to handle keyboard input when setting local target.
 Rationale for a separate node is that space_near got very large with lots of code :) - so this keeps things separate!"
 script = ExtResource("12_7r8tx")
+
+[node name="SetTargetToParsisKeyboardInputHandler" type="Node" parent="."]
+script = ExtResource("13_gscyl")

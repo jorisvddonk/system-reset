@@ -34,7 +34,7 @@ func _ready():
 func _process(delta):
 	# Make the SD semitransparent when selecting local or remote target
 	# TODO: determine if this is some kind of perf issue; rewrite to a Signal handler if so.
-	if Globals.ui_mode != Globals.UI_MODE.NONE:
+	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET or Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 		$StardrifterParent/vehicle/vehicle_007.transparency = 0.5
 	else:
 		$StardrifterParent/vehicle/vehicle_007.transparency = 0.0
@@ -186,6 +186,8 @@ func _unhandled_input(event):
 func _input(event):
 	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET: # need to do this first, or else we might capture an inputevent when tapping the 'set local target' shortcut key
 		$SetLocalTargetKeyboardInputHandler.process_input(event)
+	if Globals.ui_mode == Globals.UI_MODE.SET_TARGET_TO_PARSIS: # need to do this first, or else we might capture an inputevent when tapping the 'set target to parsis' shortcut key
+		$SetTargetToParsisKeyboardInputHandler.process_input(event)
 	if Globals.ui_mode != Globals.UI_MODE.SET_LOCAL_TARGET and (event.is_action_pressed("osd_category_1")\
 		or event.is_action_pressed("osd_category_2")\
 		or event.is_action_pressed("osd_category_3")\
