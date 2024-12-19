@@ -253,7 +253,7 @@ shape = SubResource("WorldBoundaryShape3D_inhwv")
 transform = Transform3D(-4.37114e-08, 1, 0, 4.37114e-08, 1.91069e-15, -1, -1, -4.37114e-08, -4.37114e-08, -11.8607, 1.83244, 3.00469)
 mesh = SubResource("PlaneMesh_myfsh")
 
-[node name="GOESNetScreen" type="MeshInstance3D" parent="StardrifterParent/GOESNetInputScreen" node_paths=PackedStringArray("viewport", "sdscreen", "camera", "playercharacter")]
+[node name="GOESNetScreen" type="MeshInstance3D" parent="StardrifterParent/GOESNetInputScreen" node_paths=PackedStringArray("viewport", "sdscreen", "camera", "playercharacter", "area")]
 transform = Transform3D(1.6, 0, 0, 0, -6.99382e-08, 1.6, 0, -1.6, -6.99382e-08, -1.66893e-06, 0.00521755, 0)
 material_override = SubResource("StandardMaterial3D_aevk4")
 mesh = SubResource("QuadMesh_lxy74")
@@ -262,6 +262,7 @@ viewport = NodePath("../../../GOESNETInputViewport")
 sdscreen = NodePath("../../../GOESNETInputViewport/GOESNetInputScreen")
 camera = NodePath("../../../PlayerCharacterController/CollisionShape3D/camera")
 playercharacter = NodePath("../../../PlayerCharacterController")
+area = NodePath("Area3D")
 
 [node name="Area3D" type="Area3D" parent="StardrifterParent/GOESNetInputScreen/GOESNetScreen"]
 transform = Transform3D(1, -7.10543e-15, 7.10543e-15, 7.10543e-15, 1, 1.64203e-15, -7.10543e-15, 1.64203e-15, 1, 0, 0, 0)
@@ -277,7 +278,7 @@ shape = SubResource("ConvexPolygonShape3D_42rbu")
 transform = Transform3D(-4.37114e-08, 1, 0, 4.37114e-08, 1.91069e-15, -1, -1, -4.37114e-08, -4.37114e-08, -11.8607, 1.83244, 1.10391)
 mesh = SubResource("PlaneMesh_myfsh")
 
-[node name="GOESNetScreen" type="MeshInstance3D" parent="StardrifterParent/GOESNetOutputScreen" node_paths=PackedStringArray("viewport", "sdscreen", "camera", "playercharacter")]
+[node name="GOESNetScreen" type="MeshInstance3D" parent="StardrifterParent/GOESNetOutputScreen" node_paths=PackedStringArray("viewport", "sdscreen", "camera", "playercharacter", "area")]
 transform = Transform3D(1.6, 0, 0, 0, -6.99382e-08, 1.6, 0, -1.6, -6.99382e-08, -1.19209e-06, 0.0111179, 0)
 material_override = SubResource("StandardMaterial3D_o2x2a")
 mesh = SubResource("QuadMesh_a6pu8")
@@ -286,6 +287,7 @@ viewport = NodePath("../../../GOESNETOutputViewport")
 sdscreen = NodePath("../../../GOESNETOutputViewport/GOESNetOutputScreen")
 camera = NodePath("../../../PlayerCharacterController/CollisionShape3D/camera")
 playercharacter = NodePath("../../../PlayerCharacterController")
+area = NodePath("Area3D")
 
 [node name="Area3D" type="Area3D" parent="StardrifterParent/GOESNetOutputScreen/GOESNetScreen"]
 transform = Transform3D(1, -7.10543e-15, 7.10543e-15, 7.10543e-15, 1, 1.64203e-15, -7.10543e-15, 1.64203e-15, 1, 0, 0, 0)
