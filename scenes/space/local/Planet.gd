@@ -33,6 +33,7 @@ func _ready():
 func generate():
 	Globals.feltyrion.load_planet_at_current_system(planet_index)
 	var ipinfo = Globals.feltyrion.get_planet_info(planet_index)
+	set_current_local_target_sprite_visibility_for(Globals.local_target_index) # make sure we set visibility immediately correctly of the current local target selection sprite
 	var img = Globals.feltyrion.return_image(true, false, ipinfo["nearstar_p_owner"] > -1)
 	var imageTexture = ImageTexture.create_from_image(img)
 	$PlanetParent/Surface.mesh.material.albedo_texture = imageTexture
@@ -40,6 +41,7 @@ func generate():
 	var atmimg = Globals.feltyrion.return_atmosphere_image(true)
 	var atmimageTexture = ImageTexture.create_from_image(atmimg)
 	$PlanetParent/Atmosphere.mesh.material.albedo_texture = atmimageTexture
+	
 
 func _process(delta):
 	# TODO: some of these operations probably don't have to be done every tick...
@@ -96,6 +98,9 @@ func __mouse_exited():
 	
 
 func _on_local_target_changed(planet_index):
+	set_current_local_target_sprite_visibility_for(planet_index)
+
+func set_current_local_target_sprite_visibility_for(planet_index):
 	$SelectionSprite.hide()
 	if self.planet_index == planet_index:
 		$CurrentLocalTargetSelectionSprite.show()
