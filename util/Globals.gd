@@ -23,14 +23,16 @@ signal initiate_landing_sequence()
 signal initiate_return_sequence()
 signal deploy_surface_capsule_status_change(active)
 enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
+signal ui_mode_changing(old_value, new_value)
 signal ui_mode_changed(new_value)
 signal osd_updated(item1_text: String, item2_text: String, item3_text: String, item4_text: String) # emitted whenever the Stardrifter's OSD (window display) got updated
 @export var ui_mode: UI_MODE = UI_MODE.NONE:
 	get:
 		return ui_mode
-	set(value):
-		ui_mode_changed.emit(value)
-		ui_mode = value
+	set(new_value):
+		ui_mode_changing.emit(ui_mode, new_value)
+		ui_mode = new_value
+		ui_mode_changed.emit(new_value)
 
 signal _on_local_target_changed(planet_index: int)
 @export var local_target_index: int = -1: # the *selected* local target; -1 if none - basically a wrapper around feltyrion.ip_targetted that emits a signal on change
