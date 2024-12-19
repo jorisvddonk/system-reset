@@ -22,7 +22,7 @@ signal game_loaded()
 signal initiate_landing_sequence()
 signal initiate_return_sequence()
 signal deploy_surface_capsule_status_change(active)
-enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET}
+enum UI_MODE {NONE, SET_REMOTE_TARGET, SET_LOCAL_TARGET, SET_TARGET_TO_PARSIS}
 signal ui_mode_changing(old_value, new_value)
 signal ui_mode_changed(new_value)
 signal osd_updated(item1_text: String, item2_text: String, item3_text: String, item4_text: String) # emitted whenever the Stardrifter's OSD (window display) got updated
