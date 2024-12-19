@@ -93,7 +93,9 @@ const STARDRIFTER_ROTATION_SPEED = 15 * DEGREES_TO_RADIANS # per second
 
 @export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
-
+signal update_fcs_status_request(val: String) ## signal to request an fcs status update from the HUD. Do not emit this manually, use Globals.update_fcs_status_text() instead
+func update_fcs_status_text(val: String):
+	update_fcs_status_request.emit(val)
 
 signal vimana_status_change(vimana_drive_active: bool)
 @export var vimana_active: bool = false:

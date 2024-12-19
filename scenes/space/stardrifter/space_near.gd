@@ -184,14 +184,16 @@ func _unhandled_input(event):
 				Globals.initiate_landing_sequence.emit()
 
 func _input(event):
-	if event.is_action_pressed("osd_category_1")\
+	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET: # need to do this first, or else we might capture an inputevent when tapping the 'set local target' shortcut key
+		$SetLocalTargetKeyboardInputHandler.process_input(event)
+	if Globals.ui_mode != Globals.UI_MODE.SET_LOCAL_TARGET and (event.is_action_pressed("osd_category_1")\
 		or event.is_action_pressed("osd_category_2")\
 		or event.is_action_pressed("osd_category_3")\
 		or event.is_action_pressed("osd_category_4")\
 		or event.is_action_pressed("osd_item_1")\
 		or event.is_action_pressed("osd_item_2")\
 		or event.is_action_pressed("osd_item_3")\
-		or event.is_action_pressed("osd_item_4"):
+		or event.is_action_pressed("osd_item_4")):
 			$SubViewport.push_input(event)
 	if event.is_action_pressed("quit"):
 		if Globals.ui_mode == Globals.UI_MODE.NONE:

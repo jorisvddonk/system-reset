@@ -8,10 +8,11 @@ func _ready():
 	Globals.vimana_status_change.connect(on_vimana_status_changed)
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.osd_updated.connect(on_osd_updated)
+	Globals.update_fcs_status_request.connect(update_fcs_status)
 	
 	# Set up timer to periodically refresh FCS and EpocLabel
 	var timer = Timer.new()
-	timer.timeout.connect(update_fcs_status)
+	timer.timeout.connect(poll_fcs_status_from_engine)
 	timer.timeout.connect(update_epoc_label)
 	timer.timeout.connect(update_fps_label)
 	timer.wait_time = 1
@@ -54,7 +55,7 @@ func refresh_hud():
 	refresh_parsis_text()
 	refresh_numbodies()
 	refresh_selected_targets()
-	update_fcs_status()
+	poll_fcs_status_from_engine()
 	update_epoc_label()
 	# NOTE: because the Stardrifter OSD updates are purely signal-based, we can't update those here.
 
@@ -78,8 +79,19 @@ func refresh_selected_targets():
 		if Globals.feltyrion.ip_targetted:
 			%SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
 
-func update_fcs_status():
-	%FCSStatus.text = "[right]%s[/right]" % Globals.feltyrion.get_fcs_status()
+var lastFCSStatusText = ""
+## Polls the FCS status text from the engine (Feltyrion-godot).
+## If it's changed, force-updates the FCS status text
+func poll_fcs_status_from_engine():
+	var curFCSStatusTextFromEngine = Globals.feltyrion.get_fcs_status()
+	if lastFCSStatusText != curFCSStatusTextFromEngine:
+		update_fcs_status(curFCSStatusTextFromEngine)
+		lastFCSStatusText = curFCSStatusTextFromEngine
+
+## Update FCS status text in the HUD
+## This is typically called either via poll_fcs_status_from_engine(), or through a Global method (Globals.update_fcs_status_text(val))
+func update_fcs_status(val: String):
+	%FCSStatus.text = "[right]%s[/right]" % val
 
 func update_epoc_label():
 	var secs = Globals.feltyrion.get_secs()
