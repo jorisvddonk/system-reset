@@ -46,6 +46,7 @@ func _physics_process(delta):
 	var feltyrion = Globals.feltyrion
 	if Engine.physics_ticks_per_second == 24:
 		# 24 physics tics per second: use Noctis IV's engine for movement
+		# DEPRECATED - no longer going to be developed
 		var old_stspeed = feltyrion.stspeed
 		feltyrion.loop_iter()
 		Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
