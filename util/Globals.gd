@@ -88,6 +88,9 @@ const MOUSE_CLICK_THRESHOLD_LOW = 0.01
 const MOUSE_CLICK_THRESHOLD_HIGH = 1.5
 
 const DEGREES_TO_RADIANS = 0.0174532925
+
+const STARDRIFTER_ROTATION_SPEED = 15 * DEGREES_TO_RADIANS # per second
+
 @export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
 
@@ -137,7 +140,14 @@ func set_ap_target(x: float, y: float, z: float):
 	on_ap_target_changed.emit(x, y, z, info.ap_target_id_code)
 
 var mouse_left_held = 0
+var moved_sd_initially = false
 func _process(delta):
+	if moved_sd_initially == false and stardrifter != null:
+		# initialize rotation of the stardrifter and player character by moving sd very slightly
+		# this is a dirty hack, but :shrug:
+		rotate_by(0.00001)
+		moved_sd_initially = true
+	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		if mouse_left_held == 0:
 			mouse_click_begin.emit()
@@ -147,6 +157,18 @@ func _process(delta):
 			if mouse_left_held > MOUSE_CLICK_THRESHOLD_LOW && mouse_left_held < MOUSE_CLICK_THRESHOLD_HIGH:
 				mouse_clicked.emit()
 			mouse_left_held = 0
+	
+	# rotation - input tracking. TODO: interpolate these!
+	if Input.is_action_pressed("rotate_left"):
+		if chase_mode == CHASE_MODE.HIGH_SPEED_CHASE || chase_mode == CHASE_MODE.SYNCRONE_ORBIT || chase_mode == CHASE_MODE.TRACKING_DISABLED:
+			rotate_by(STARDRIFTER_ROTATION_SPEED * delta)
+		elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
+			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * delta)
+	if Input.is_action_pressed("rotate_right"):
+		if chase_mode == CHASE_MODE.HIGH_SPEED_CHASE || chase_mode == CHASE_MODE.SYNCRONE_ORBIT || chase_mode == CHASE_MODE.TRACKING_DISABLED:
+			rotate_by(STARDRIFTER_ROTATION_SPEED * -delta)
+		elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
+			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * -delta)
 	
 func vimanaStop():
 	vimana_active = false
@@ -190,14 +212,23 @@ func slew_to(parsis_x: float, parsis_y: float, parsis_z: float, speed: float):
 	feltyrion.dzat_z = parsis_z
 	on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
 
+func rotate_by(i: float):
+	var prev_rot = stardrifter.rotation
+	stardrifter.rotation.y += i
+	_recalc_player_character_orientation(prev_rot)
+
 func rotate_to(x: float, y: float, z: float):
 	# Rotate the stardrifter towards a point in 3d space, then rotate the camera and reposition it so that it feels as if the stardrifter is not rotating at all
 	# yeah, this is a little wonky.. :) - for some reason, making the Camera3D in the SpaceNear scene a child of StardrifterParent does not work and cancels the stardrifter rotation!?
-	var cur_rot = stardrifter.rotation
+	var prev_rot = stardrifter.rotation
 	var look_at = Vector3(x - feltyrion.dzat_x, y - feltyrion.dzat_y, z - feltyrion.dzat_z)
 	stardrifter.look_at(-(look_at))
+	_recalc_player_character_orientation(prev_rot)
+
+func _recalc_player_character_orientation(prev_stardrifter_rot):
+	# reclculate player character orientation, based on current rotation and what the previous rotation was (prior to a rotation operation).
 	var rotated = stardrifter.rotation
-	var rotated_rads = fmod(rotated.y - cur_rot.y + deg_to_rad(540), deg_to_rad(360)) - deg_to_rad(180)
+	var rotated_rads = fmod(rotated.y - prev_stardrifter_rot.y + deg_to_rad(540), deg_to_rad(360)) - deg_to_rad(180)
 	if playercharacter != null:
 		playercharacter.rotation.y += rotated_rads
 		playercharacter.position = playercharacter.position.rotated(Vector3.UP, rotated_rads)
