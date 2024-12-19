@@ -63,14 +63,14 @@ signal _on_local_target_orbit_changed(planet_index: int)
 		
 enum CHASE_MODE {
 	TRACKING_DISABLED = 0, # don't even follow the planet; just stay stationary
-	FIXED_POINT_CHASE = 1, # rotating the SD keeps the planet centered in view; seems similar to near chase, but the planet seems to move a little so there must be a difference
-	FAR_CHASE = 2 , # planet is kept within view, rotating the SD keeps the planet centered. far chase.
+	FIXED_POINT_CHASE = 1, # rotating the SD keeps the planet centered in view - middle distance. similar to near/far chase but distance is in the middle
+	FAR_CHASE = 2 , # rotating the SD keeps the planet centered in view - far distance
 	SYNCRONE_ORBIT = 3, # SD tracks against a fixed point (which?); rotating the SD does not keep the planet centered
 	HIGH_SPEED_CHASE = 4, # SD rotates around the planet, but rotating the SD does not keep it in view.
-	NEAR_CHASE = 5, # SD tracks against a point on the planet; when rotating the SD, the planet is kept centered in view (i.e. the point on the planet is essentially changed by this)
-	HIGH_SPEED_VIEWPOINT_CHASE = 6, # custom mode; SD rotates around the planet, keeping the planet centered in view
+	NEAR_CHASE = 5, # rotating the SD keeps the planet centered in view - near distance
+	HIGH_SPEED_VIEWPOINT_CHASE = 6, # custom mode; SD rotates around the planet, keeping the planet centered in view. Essentially, this is one of NEAR/FIXED_POINT/FAR chase modes, except the position that is used as center viewpoint is automatically moved around
 }
-signal chase_mode_changed(new_value)
+signal chase_mode_changed(new_value) # used only for NEAR_CHASE/FIXED_POINT_CHASE/FAR_CHASE - this is the point/vector on the planet the SD tracks around
 var chase_direction: Vector3 = Vector3(1,0,0)
 @export var chase_mode: CHASE_MODE = CHASE_MODE.HIGH_SPEED_VIEWPOINT_CHASE:
 	get:

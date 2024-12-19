@@ -10,8 +10,9 @@ const VIMANA_APPROACH_DISTANCE = 10
 const FINE_APPROACH_SPEED = 10
 const FINE_APPROACH_DISTANCE = 0.25
 const TRACKING_SPEED = 1
-const TRACKING_DISTANCE__NEAR_CHASE = 0.05
-const TRACKING_DISTANCE__HIGH_SPEED_CHASE = 0.08
+const TRACKING_DISTANCE__NEAR = 0.05
+const TRACKING_DISTANCE__MIDDLE = 0.08
+const TRACKING_DISTANCE__FAR = 0.12
 const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * Globals.DEGREES_TO_RADIANS # in radians per second
 
 var nearstar_ray = 1
@@ -107,20 +108,24 @@ func _physics_process(delta):
 	
 	if Globals.stardrifter != null and Globals.local_target_orbit_index != -1 && Globals.local_target_orbit_index == Globals.local_target_index:
 		# orbit tracking
-		if Globals.chase_mode == Globals.CHASE_MODE.NEAR_CHASE:
-			# near chase
-			var vec = (Globals.chase_direction*TRACKING_DISTANCE__NEAR_CHASE)
+		if Globals.chase_mode == Globals.CHASE_MODE.NEAR_CHASE or Globals.chase_mode == Globals.CHASE_MODE.FAR_CHASE or Globals.chase_mode == Globals.CHASE_MODE.FIXED_POINT_CHASE:
+			# near chase / fixed point chase (middle distance) / far chase
+			var vec = (Globals.chase_direction*TRACKING_DISTANCE__NEAR)
+			if Globals.chase_mode == Globals.CHASE_MODE.FAR_CHASE:
+				vec = (Globals.chase_direction*TRACKING_DISTANCE__FAR)
+			elif Globals.chase_mode == Globals.CHASE_MODE.FIXED_POINT_CHASE:
+				vec = (Globals.chase_direction*TRACKING_DISTANCE__MIDDLE)
 			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_y() + vec.y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
 			Globals.rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
 		elif Globals.chase_mode == Globals.CHASE_MODE.HIGH_SPEED_CHASE:
 			Globals.chase_direction = Globals.chase_direction.rotated(Vector3.UP, TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED * delta)
-			var vec = (Globals.chase_direction*TRACKING_DISTANCE__HIGH_SPEED_CHASE)
+			var vec = (Globals.chase_direction*TRACKING_DISTANCE__MIDDLE)
 			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_y() + vec.y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
 			# do not rotate!
 		elif Globals.chase_mode == Globals.CHASE_MODE.HIGH_SPEED_VIEWPOINT_CHASE:
 			# same as HIGH_SPEED_CHASE, but we rotate as well
 			Globals.chase_direction = Globals.chase_direction.rotated(Vector3.UP, TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED * delta)
-			var vec = (Globals.chase_direction*TRACKING_DISTANCE__HIGH_SPEED_CHASE)
+			var vec = (Globals.chase_direction*TRACKING_DISTANCE__MIDDLE)
 			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_y() + vec.y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
 			Globals.rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
 			
