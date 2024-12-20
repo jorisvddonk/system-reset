@@ -94,4 +94,4 @@ func trySetParsisComponent():
 	return false
 
 func _commitTarget():
-	Globals.set_ap_target(parsisX, parsisY, parsisZ)  # NOTE: set_ap_target uses SOURCE DATA PARSIS COORDINATES, but we've set parsisY to be in that format previously
+	Globals.set_direct_ap_target(parsisX, parsisY, parsisZ)  # NOTE: set_direct_ap_target uses SOURCE DATA PARSIS COORDINATES, but we've set parsisY to be in that format previously

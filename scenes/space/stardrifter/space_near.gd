@@ -70,16 +70,26 @@ func _physics_process(delta):
 				feltyrion.dzat_z += approach_vector.z
 				Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
 			else:
-				printt("we have arrived at remote target")
-				feltyrion.ap_reached = 1
-				feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
-				feltyrion.prepare_star()
-				approach_vector = (approach_vector.normalized() * VIMANA_APPROACH_DISTANCE)
-				feltyrion.dzat_x = feltyrion.ap_target_x - approach_vector.x
-				feltyrion.dzat_y = feltyrion.ap_target_y # make sure we're in the same plane as the solar system, like Noctis does
-				feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
-				Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-				Globals.vimanaStop()
+				if Globals.feltyrion.ap_targetted == 1:
+					printt("we have arrived at remote target; expecting a star")
+					feltyrion.ap_reached = 1
+					feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
+					feltyrion.prepare_star()
+					approach_vector = (approach_vector.normalized() * VIMANA_APPROACH_DISTANCE)
+					feltyrion.dzat_x = feltyrion.ap_target_x - approach_vector.x
+					feltyrion.dzat_y = feltyrion.ap_target_y # make sure we're in the same plane as the solar system, like Noctis does
+					feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
+					Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
+					Globals.vimanaStop()
+				elif Globals.feltyrion.ap_targetted == -1:
+					printt("we have arrived at remote target; expecting nothing (direct parsis target)")
+					feltyrion.ap_reached = 1
+					approach_vector = (approach_vector.normalized() * VIMANA_APPROACH_DISTANCE)
+					feltyrion.dzat_x = feltyrion.ap_target_x - approach_vector.x
+					feltyrion.dzat_y = feltyrion.ap_target_y - approach_vector.y
+					feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
+					Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
+					Globals.vimanaStop()
 		
 		if Globals.fine_approach_active:
 			var approach_vector = Vector3(feltyrion.get_ip_targetted_x() - feltyrion.dzat_x, feltyrion.get_ip_targetted_y() - feltyrion.dzat_y, feltyrion.get_ip_targetted_z() - feltyrion.dzat_z)

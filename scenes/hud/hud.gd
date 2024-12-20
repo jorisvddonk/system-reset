@@ -71,13 +71,18 @@ func refresh_numbodies():
 		%NumBodies.text = "[center]Number of bodies: %s[/center]" % [nearstar_info.nearstar_nob]
 
 func refresh_selected_targets():
-	var ap_target_info = Globals.feltyrion.get_ap_target_info()
-	%SelectedPlanet.text = ""
-	if ap_target_info.has("ap_target_x") && ap_target_info.has("ap_target_y") && ap_target_info.has("ap_target_z"):
-		%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [ap_target_info.ap_target_x, -ap_target_info.ap_target_y, ap_target_info.ap_target_z]
-		%SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
-		if Globals.feltyrion.ip_targetted:
-			%SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
+	if Globals.feltyrion.ap_targetted == 1:
+		var ap_target_info = Globals.feltyrion.get_ap_target_info()
+		%SelectedPlanet.text = ""
+		if ap_target_info.has("ap_target_x") && ap_target_info.has("ap_target_y") && ap_target_info.has("ap_target_z"):
+			%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [ap_target_info.ap_target_x, -ap_target_info.ap_target_y, ap_target_info.ap_target_z]
+			%SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
+			if Globals.feltyrion.ip_targetted:
+				%SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
+	elif Globals.feltyrion.ap_targetted == -1:
+		%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [Globals.feltyrion.ap_target_x, Globals.feltyrion.ap_target_y, Globals.feltyrion.ap_target_z]
+		%SelectedStar.text = "- DIRECT PARSIS TARGET -" # TODO: actually use a separate hud element for this, as in NIV it's styled differently / not displayed in this field.
+		%SelectedPlanet.text = ""
 
 var lastFCSStatusText = ""
 ## Polls the FCS status text from the engine (Feltyrion-godot).
