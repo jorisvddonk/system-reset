@@ -143,15 +143,17 @@ func menu_od_nav():
 		line2.text = "Tracking status: inactive."
 	else:
 		line2.text = "Tracking status: performing %s." % CHASE_MODES[Globals.chase_mode] if Globals.feltyrion.ip_reached && Globals.feltyrion.ip_targetted != -1 else "Tracking status: disconnected."
-	var starInfo = Globals.feltyrion.get_current_star_info()
-	line3.text = "Planet finder report: system has %s %s%s, and %s minor bodies. %s labeled out of %s." % [
-		starInfo.nearstar_nop, 
-		"proto" if starInfo.nearstar_class == 9 else "",
-		"planet" if starInfo.nearstar_nop == 1 else "planets",
-		starInfo.nearstar_nob - starInfo.nearstar_nop,
-		starInfo.nearstar_labeled,
-		starInfo.nearstar_nob
-	]
+	if Globals.feltyrion.ap_targetted == 1 and Globals.Feltyrion.ap_reached == 1:
+		var starInfo = Globals.feltyrion.get_current_star_info()
+		if starInfo.has("nearstar_class"):
+			line3.text = "Planet finder report: system has %s %s%s, and %s minor bodies. %s labeled out of %s." % [
+				starInfo.nearstar_nop, 
+				"proto" if starInfo.nearstar_class == 9 else "",
+				"planet" if starInfo.nearstar_nop == 1 else "planets",
+				starInfo.nearstar_nob - starInfo.nearstar_nop,
+				starInfo.nearstar_labeled,
+				starInfo.nearstar_nob
+			]
 	item3.pressed.connect(change_tracking_mode)
 	add_connection(Globals.chase_mode_changed, func(_a): menu_od_nav()) # redraw screen if chase mode changed
 	setup_extra_default_connections()

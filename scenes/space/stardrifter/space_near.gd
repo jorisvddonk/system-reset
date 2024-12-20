@@ -264,15 +264,16 @@ func _on_debug_tools_enabled_changed(enabled: bool):
 		
 		$DebuggingTools/PlanetsLabel.text = ""
 		var data = Globals.feltyrion.get_current_star_info()
-		for i in range(0,data.nearstar_nob):
-			var pl_data = Globals.feltyrion.get_planet_info(i)
-			var name = Globals.feltyrion.get_planet_name_by_id(pl_data.nearstar_p_identity).rstrip(" \t")
-			if name.length() < 24:
-				name = "---                  P%02d" % i
-			name = "%s   type: %02d" % [name, pl_data.nearstar_p_type]
-			if pl_data.nearstar_p_ring != 0.0:
-				name += ' ring'
-				name += " (%d layers)" % int(0.05 * (pl_data.nearstar_p_qsortdist / pl_data.nearstar_p_ray))
-			$DebuggingTools/PlanetsLabel.text =  $DebuggingTools/PlanetsLabel.text + " " + name + "\n"
+		if data.has("nearstar_nob"):
+			for i in range(0,data.nearstar_nob):
+				var pl_data = Globals.feltyrion.get_planet_info(i)
+				var name = Globals.feltyrion.get_planet_name_by_id(pl_data.nearstar_p_identity).rstrip(" \t")
+				if name.length() < 24:
+					name = "---                  P%02d" % i
+				name = "%s   type: %02d" % [name, pl_data.nearstar_p_type]
+				if pl_data.nearstar_p_ring != 0.0:
+					name += ' ring'
+					name += " (%d layers)" % int(0.05 * (pl_data.nearstar_p_qsortdist / pl_data.nearstar_p_ray))
+				$DebuggingTools/PlanetsLabel.text =  $DebuggingTools/PlanetsLabel.text + " " + name + "\n"
 	else:
 		$DebuggingTools.hide()

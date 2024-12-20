@@ -59,7 +59,7 @@ func addInputCharacter(c):
 
 func trySetLocalTarget():
 	var starInfo = Globals.feltyrion.get_current_star_info()
-	if starInfo == null:
+	if not starInfo.has("nearstar_class"):
 		return # ?? - doesn't actually happen I don't think
 	if inputBuffer.find("/") == -1: # planet search directly
 		var search = int(inputBuffer)
