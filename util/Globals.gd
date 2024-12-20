@@ -142,6 +142,15 @@ func set_ap_target(x: float, y: float, z: float):
 	var info = feltyrion.get_ap_target_info()
 	feltyrion.unlock()
 	on_ap_target_changed.emit(x, y, z, info.ap_target_id_code)
+	
+func set_direct_ap_target(x: float, y: float, z: float):
+	feltyrion.lock()
+	feltyrion.ap_target_x = x
+	feltyrion.ap_target_y = y
+	feltyrion.ap_target_z = z
+	feltyrion.set_ap_targetted_without_extracting_target_infos(-1)
+	feltyrion.unlock()
+	on_ap_target_changed.emit(x, y, z, -1) # TODO : check if this is properly supported!
 
 var mouse_left_held = 0
 var moved_sd_initially = false
