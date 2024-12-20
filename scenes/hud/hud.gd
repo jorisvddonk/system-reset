@@ -66,9 +66,12 @@ func refresh_numbodies():
 	if Globals.vimana_active:
 		%NumBodies.hide()
 	else:
-		var nearstar_info = Globals.feltyrion.get_current_star_info()
-		%NumBodies.show()
-		%NumBodies.text = "[center]Number of bodies: %s[/center]" % [nearstar_info.nearstar_nob]
+		if Globals.feltyrion.ap_reached && Globals.feltyrion.ap_targetted == 1:
+			var nearstar_info = Globals.feltyrion.get_current_star_info()
+			%NumBodies.show()
+			%NumBodies.text = "[center]Number of bodies: %s[/center]" % [nearstar_info.nearstar_nob]
+		else:
+			%NumBodies.hide()
 
 func refresh_selected_targets():
 	if Globals.feltyrion.ap_targetted == 1:
