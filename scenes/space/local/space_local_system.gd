@@ -49,6 +49,7 @@ func on_ring_particle_found(x, y, z, radii, unconditioned_color):
 func _physics_process(delta):
 	# TODO: determine how often this actually needs to be called
 	if Engine.physics_ticks_per_second == 24:
+		# DEPRECATED - WILL BE REMOVED
 		# 24 physics tics per second: use Noctis IV's engine for movement
 		# TODO: determine what to do here :)
 		pass
@@ -56,6 +57,29 @@ func _physics_process(delta):
 		#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta)) # use this if you want to simulate accelerated time
 		Globals.feltyrion.update_time()
 		Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
+		
+func _process(delta):
+	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
+		# figure out which planet is closest
+		var playerrot = Globals.player_rotation_in_space.normalized()
+		var rotation_basis: Basis = Basis().from_euler(Globals.player_rotation_in_space)
+		var forward_vector: Vector3 = -rotation_basis.z
+		var normalized_forward: Vector3 = forward_vector.normalized()
+		var lowestdotdot = -1
+		var lowestdotrot_node = null
+		for planet in %Planets.get_children():
+			if planet is Node3D and planet is Planet:
+				var dotrot = normalized_forward.dot((planet.global_position - Globals.stardrifter.global_position).normalized())
+				if dotrot > lowestdotdot:
+					lowestdotdot = dotrot
+					if lowestdotrot_node != null:
+						lowestdotrot_node.setSelected(false)
+					planet.setSelected(true)
+					lowestdotrot_node = planet
+				else:
+					planet.setSelected(false)
+		if lowestdotrot_node != null and lowestdotrot_node is Planet:
+			Globals.update_hud_selected_planet_text((lowestdotrot_node as Planet).planet_name)
 
 func on_game_loaded():
 	check_arrived_at_star()

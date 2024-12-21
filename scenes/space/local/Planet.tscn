@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b4sei7kpms65m"]
+[gd_scene load_steps=12 format=3 uid="uid://b4sei7kpms65m"]
 
 [ext_resource type="Texture2D" uid="uid://di6r34ryh1qsq" path="res://addons/kenney_particle_pack/circle_05.png" id="2_8ymtv"]
 [ext_resource type="Script" path="res://scenes/space/local/Planet.gd" id="2_atbx8"]
@@ -53,10 +53,6 @@ material = SubResource("StandardMaterial3D_lj37i")
 radius = 0.008
 height = 0.016
 radial_segments = 32
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_abg5f"]
-resource_local_to_scene = true
-radius = 2.005
 
 [node name="Planet" type="Node3D"]
 process_thread_group = 1
@@ -120,9 +116,3 @@ modulate = Color(0.239216, 0.6, 1, 1)
 font = ExtResource("3_xyiqe")
 vertical_alignment = 2
 uppercase = true
-
-[node name="Area3D" type="Area3D" parent="."]
-input_capture_on_drag = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_abg5f")

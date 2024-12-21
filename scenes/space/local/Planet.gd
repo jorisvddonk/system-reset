@@ -1,4 +1,5 @@
 extends Node3D
+class_name Planet
 @export var type: int
 @export var seed: float
 @export var planet_index: int
@@ -20,12 +21,10 @@ const local_tgt_highlight_color = Color.ROYAL_BLUE
 func _ready():
 	$PlanetNameLabel.text = planet_name
 	generate()
-	__mouse_exited()
-	$Area3D.mouse_entered.connect(__mouse_entered)
-	$Area3D.mouse_exited.connect(__mouse_exited)
+	setSelected(false)
 	Globals.mouse_click_begin.connect(click_begin)
 	Globals.mouse_clicked.connect(clicked_end)
-	Globals.ui_mode_changed.connect(func (ui_mode): __mouse_exited() if ui_mode == Globals.UI_MODE.NONE else null)
+	Globals.ui_mode_changed.connect(func (ui_mode): setSelected(false) if ui_mode == Globals.UI_MODE.NONE else null)
 	Globals._on_local_target_changed.connect(_on_local_target_changed)
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
@@ -72,7 +71,19 @@ func clicked_end():
 			Globals.local_target_index = planet_index
 			Globals.ui_mode = Globals.UI_MODE.NONE
 		clicking = false
-	
+		
+func setSelected(selected):
+	if selected:
+		mouseover = true
+		_showLabel()
+		if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
+			$PlanetNameLabel.modulate = local_tgt_highlight_color
+			$SelectionSprite.show()
+	else:
+		mouseover = false
+		clicking = false
+		_hideLabel()
+		$SelectionSprite.hide()
 
 func _showLabel():
 	$PlanetNameLabel.show()
@@ -82,20 +93,6 @@ func _showLabel():
 	
 func _hideLabel():
 	$PlanetNameLabel.hide()
-
-func __mouse_entered():
-	mouseover = true
-	_showLabel()
-	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
-		$PlanetNameLabel.modulate = local_tgt_highlight_color
-		$SelectionSprite.show()
-
-func __mouse_exited():
-	mouseover = false
-	clicking = false
-	_hideLabel()
-	$SelectionSprite.hide()
-	
 
 func _on_local_target_changed(planet_index):
 	set_current_local_target_sprite_visibility_for(planet_index)
