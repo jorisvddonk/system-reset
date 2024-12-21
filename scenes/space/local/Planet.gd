@@ -75,14 +75,12 @@ func clicked_end():
 func setSelected(selected):
 	if selected:
 		mouseover = true
-		_showLabel()
 		if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
 			$PlanetNameLabel.modulate = local_tgt_highlight_color
 			$SelectionSprite.show()
 	else:
 		mouseover = false
 		clicking = false
-		_hideLabel()
 		$SelectionSprite.hide()
 
 func _showLabel():
@@ -117,5 +115,4 @@ func _on_debug_tools_enabled_changed(enabled: bool):
 	else:
 		$PlanetParent/Surface.mesh.material.backlight_enabled = false
 		%DebugRing.hide()
-		if not mouseover:
-			_hideLabel()
+		_hideLabel()
