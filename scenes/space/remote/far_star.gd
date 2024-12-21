@@ -1,8 +1,10 @@
 extends Node3D
+class_name Farstar
 @export var parsis_x: float
 @export var parsis_y: float
 @export var parsis_z: float
 @export var star_name: String
+@export var star_class: String
 @export var id_code: float
 const orig_color = Color.GHOST_WHITE
 const highlight_color = Color.MOCCASIN
@@ -14,10 +16,7 @@ signal clicked
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Label3D.text = star_name
-	updateLabelVisibility()
-	__mouse_exited()
-	$Area3D.mouse_entered.connect(__mouse_entered)
-	$Area3D.mouse_exited.connect(__mouse_exited)
+	setSelected(false)
 	Globals.on_ap_target_changed.connect(_on_ap_target_changed)
 	Globals.mouse_click_begin.connect(click_begin)
 	Globals.mouse_clicked.connect(clicked_end)
@@ -28,18 +27,12 @@ func updateLabelVisibility():
 	if Globals.debug_tools_enabled:
 		$Label3D.show()
 	else:
-		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
-			if mouseover:
-				$Label3D.show()
-			else:
-				$Label3D.hide()
-		else:
-			$Label3D.hide()
+		$Label3D.hide()
 	
 func ui_mode_changed(ui_mode):
 	updateLabelVisibility()
 	if ui_mode == Globals.UI_MODE.NONE:
-		__mouse_exited()
+		setSelected(false)
 	
 func click_begin():
 	if mouseover:
@@ -54,19 +47,18 @@ func clicked_end():
 		clicking = false
 	
 
-func __mouse_entered():
-	mouseover = true
-	$Label3D.modulate = highlight_color
-	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
-		$Label3D.modulate = remote_tgt_highlight_color
-		$SelectionSprite.show()
-	updateLabelVisibility()
-
-func __mouse_exited():
-	mouseover = false
-	clicking = false
-	$Label3D.modulate = orig_color
-	$SelectionSprite.hide()
+func setSelected(selected: bool):
+	if selected:
+		mouseover = true
+		$Label3D.modulate = highlight_color
+		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+			$Label3D.modulate = remote_tgt_highlight_color
+			$SelectionSprite.show()
+	else:
+		mouseover = false
+		clicking = false
+		$Label3D.modulate = orig_color
+		$SelectionSprite.hide()
 	updateLabelVisibility()
 
 func _on_ap_target_changed(x, y, z, id_code):

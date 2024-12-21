@@ -1,5 +1,6 @@
 extends Node
 
+@export var player_rotation_in_space: Vector3
 @onready var feltyrion: Feltyrion = Feltyrion.new()
 @export var stardrifter: Node3D
 @export var playercharacter: CharacterBody3D
@@ -98,6 +99,16 @@ const STARDRIFTER_ROTATION_SPEED = 15 * DEGREES_TO_RADIANS # per second
 signal update_fcs_status_request(val: String) ## signal to request an fcs status update from the HUD. Do not emit this manually, use Globals.update_fcs_status_text() instead
 func update_fcs_status_text(val: String):
 	update_fcs_status_request.emit(val)
+
+
+signal update_hud_selected_star_text_request(val:String) ## signal to request a HUD update to set the new selected star
+func update_hud_selected_star_text(val: String):
+	update_hud_selected_star_text_request.emit(val)
+	
+signal update_hud_selected_planet_text_request(val:String) ## signal to request a HUD update to set the new selected planet
+func update_hud_selected_planet_text(val: String):
+	update_hud_selected_planet_text_request.emit(val)
+
 
 signal vimana_status_change(vimana_drive_active: bool)
 @export var vimana_active: bool = false:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqp07p8i506lb"]
+[gd_scene load_steps=6 format=3 uid="uid://bqp07p8i506lb"]
 
 [ext_resource type="Script" path="res://scenes/space/remote/far_star.gd" id="1_8mgae"]
 [ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="1_d6ke2"]
@@ -8,10 +8,6 @@
 [sub_resource type="FontVariation" id="FontVariation_4bh6k"]
 base_font = ExtResource("2_q6mao")
 spacing_glyph = 2
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_qw13d"]
-resource_local_to_scene = true
-radius = 2.005
 
 [node name="FarStar" type="Node3D"]
 script = ExtResource("1_8mgae")
@@ -51,9 +47,3 @@ pixel_size = 0.0001
 billboard = 1
 fixed_size = true
 texture = ExtResource("3_ko2uk")
-
-[node name="Area3D" type="Area3D" parent="."]
-input_capture_on_drag = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_qw13d")

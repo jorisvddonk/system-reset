@@ -32,6 +32,7 @@ func _ready():
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 
 func _process(delta):
+	Globals.player_rotation_in_space = %camera.global_rotation
 	# Make the SD semitransparent when selecting local or remote target
 	# TODO: determine if this is some kind of perf issue; rewrite to a Signal handler if so.
 	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET or Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
@@ -139,9 +140,7 @@ func _physics_process(delta):
 			var vec = (Globals.chase_direction*TRACKING_DISTANCE__MIDDLE)
 			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_y() + vec.y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
 			Globals.rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
-			
-	if Globals.ui_mode != Globals.UI_MODE.NONE && Input.is_key_pressed(KEY_ESCAPE): # TODO: use Input System instead for this
-		Globals.ui_mode = Globals.UI_MODE.NONE
+
 
 
 
@@ -213,8 +212,13 @@ func _input(event):
 			if not OS.has_feature("editor"):
 				Globals.save_game() # save the game on exit, but don't do it when running the game via the editor as it can make debugging more difficult
 			get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
-		elif Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+		elif Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET: # TODO: this really shouldn't be in `space_near.gd`...
 			Globals.ui_mode = Globals.UI_MODE.NONE
+			# have to make sure we reset the HUD text for the selected star label back to what is actually selected... Kind of annoying we have to do it here, but :shrug:
+			var s = Globals.feltyrion.get_ap_target_info()
+			if s.has("ap_target_class"):
+				var starLabel = Globals.feltyrion.get_star_name(s.ap_target_x, s.ap_target_y, s.ap_target_z) # starlabel already contains star class
+				Globals.update_hud_selected_star_text(starLabel)
 		elif Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
 			Globals.local_target_index = -1
 			Globals.ui_mode = Globals.UI_MODE.NONE

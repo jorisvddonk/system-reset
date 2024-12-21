@@ -28,6 +28,7 @@ func _on_found_star(x, y, z, id_code):
 	var objname = Globals.feltyrion.get_star_name(x, y, z)
 	objname = regex.sub(objname, "")
 	var star = Farstar.instantiate()
+	star.star_class = "S??" # TODO
 	star.star_name = objname
 	star.parsis_x = x
 	star.parsis_y = y
@@ -64,7 +65,30 @@ func _on_vimana_status_change(vimana_is_active):
 func updateVimanaParticles():
 	Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, $StarsVimana.get_path())
 
-# During vimana flight, continuously update the vimana flight fx
 func _process(delta):
 	if Globals.vimana_active:
+		# During vimana flight, continuously update the vimana flight fx
 		updateVimanaParticles()
+	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+		# figure out which star is closest
+		var playerrot = Globals.player_rotation_in_space.normalized()
+		var rotation_basis: Basis = Basis().from_euler(Globals.player_rotation_in_space)
+		var forward_vector: Vector3 = -rotation_basis.z
+		var normalized_forward: Vector3 = forward_vector.normalized()
+		var lowestdotdot = -1
+		var lowestdotrot_node = null
+		for star in $Stars.get_children():
+			if star is Node3D and star is Farstar:
+				var dotrot = normalized_forward.dot((star.global_position - Globals.playercharacter.global_position).normalized())
+				if dotrot > lowestdotdot:
+					lowestdotdot = dotrot
+					if lowestdotrot_node != null:
+						lowestdotrot_node.setSelected(false)
+					star.setSelected(true)
+					lowestdotrot_node = star
+				else:
+					star.setSelected(false)
+		if lowestdotrot_node != null and lowestdotrot_node is Farstar:
+			var s = (lowestdotrot_node as Farstar)
+			var starLabel = Globals.feltyrion.get_star_name(s.parsis_x, s.parsis_y, s.parsis_z) # starlabel already contains star class
+			Globals.update_hud_selected_star_text(starLabel)

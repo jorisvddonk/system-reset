@@ -9,6 +9,8 @@ func _ready():
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.osd_updated.connect(on_osd_updated)
 	Globals.update_fcs_status_request.connect(update_fcs_status)
+	Globals.update_hud_selected_star_text_request.connect(update_starlabel_text)
+	Globals.update_hud_selected_planet_text_request.connect(update_planetlabel_text)
 	
 	# Set up timer to periodically refresh FCS and EpocLabel
 	var timer = Timer.new()
@@ -100,6 +102,16 @@ func poll_fcs_status_from_engine():
 ## This is typically called either via poll_fcs_status_from_engine(), or through a Global method (Globals.update_fcs_status_text(val))
 func update_fcs_status(val: String):
 	%FCSStatus.text = "[right]%s[/right]" % val
+
+## Update Star label in the HUD
+## This is called or through a Global method (Globals.update_hud_selected_star_text(val))
+func update_starlabel_text(val: String):
+	%SelectedStar.text = val
+	
+## Update Planet label in the HUD
+## This is called or through a Global method (Globals.update_hud_selected_planet_text(val))
+func update_planetlabel_text(val: String):
+	%SelectedPlanet.text = val
 
 func update_epoc_label():
 	var secs = Globals.feltyrion.get_secs()
