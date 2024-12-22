@@ -18,9 +18,6 @@ func _ready():
 	if register_as_global_camera:
 		Globals.playercharacter = self
 	
-func _exit_tree():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
 func _physics_process(delta):
 	var acceleration = 10
 	var gravity_vector = Vector3.ZERO
