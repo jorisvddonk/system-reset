@@ -143,7 +143,7 @@ func menu_od_nav():
 		line2.text = "Tracking status: inactive."
 	else:
 		line2.text = "Tracking status: performing %s." % CHASE_MODES[Globals.chase_mode] if Globals.feltyrion.ip_reached && Globals.feltyrion.ip_targetted != -1 else "Tracking status: disconnected."
-	if Globals.feltyrion.ap_targetted == 1 and Globals.Feltyrion.ap_reached == 1:
+	if Globals.feltyrion.ap_targetted == 1 and Globals.feltyrion.ap_reached == 1:
 		var starInfo = Globals.feltyrion.get_current_star_info()
 		if starInfo.has("nearstar_class"):
 			line3.text = "Planet finder report: system has %s %s%s, and %s minor bodies. %s labeled out of %s." % [
