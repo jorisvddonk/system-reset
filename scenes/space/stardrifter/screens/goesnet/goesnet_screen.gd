@@ -5,6 +5,7 @@ extends MeshInstance3D
 @export var camera: Camera3D
 @export var playercharacter: CharacterBody3D
 @export var area: Area3D
+@export var indicatorLight: Node3D
 const INPUT_DISTANCE_SQUARED = 5
 var did_disable_movement: bool = false
 
@@ -37,3 +38,13 @@ func _mouse_exited():
 	mouseover = false
 	playercharacter.disable_movement = false
 	did_disable_movement = false
+
+func showIndicatorLight(enabled: bool):
+	if indicatorLight:
+		indicatorLight.material_override.emission_enabled = enabled
+
+func _process(delta):
+	if (Globals.playercharacter.global_position - area.global_position).length_squared() < INPUT_DISTANCE_SQUARED and Globals.ui_mode == Globals.UI_MODE.NONE and mouseover:
+		showIndicatorLight(true)
+	else:
+		showIndicatorLight(false)
