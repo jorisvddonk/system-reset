@@ -22,23 +22,25 @@ func _exit_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _physics_process(delta):
+	var acceleration = 10
+	var gravity_vector = Vector3.ZERO
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-
-	# Handle Jump.
-	if Input.is_action_just_pressed("move_jump") and is_on_floor() and !disable_movement:
-		velocity.y = JUMP_VELOCITY
+	if is_on_floor():
+		gravity_vector = Vector3.ZERO
+	else:
+		#velocity.y -= gravity * delta
+		gravity_vector = Vector3.DOWN * gravity
+		acceleration = 0 # TODO: set this to a higher nozero value on planets with atmosphere to simulate air friction (though this also gives air control!)
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized() * (0 if disable_movement else 1)
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+	
+	velocity = velocity.lerp(direction * SPEED, acceleration * delta) + (gravity_vector * delta)
+	
+	# Handle Jump.
+	if Input.is_action_just_pressed("move_jump") and is_on_floor() and !disable_movement:
+		velocity.y += JUMP_VELOCITY
 
 	move_and_slide()
 	
