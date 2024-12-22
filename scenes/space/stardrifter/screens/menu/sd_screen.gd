@@ -127,6 +127,10 @@ func menu_od_ef():
 	item4.text = "Clear status"
 	#--
 	clear_lines()
+	item1.pressed.connect(not_implemented_yet)
+	item2.pressed.connect(not_implemented_yet)
+	item3.pressed.connect(not_implemented_yet)
+	item4.pressed.connect(not_implemented_yet)
 	setup_extra_default_connections()
 	
 const CHASE_MODES = ["tracking disabled", "fixed-point chase", "far chase", "syncrone orbit", "high-speed orbit", "near chase", "high speed viewpoint chase"]
@@ -154,7 +158,10 @@ func menu_od_nav():
 				starInfo.nearstar_labeled,
 				starInfo.nearstar_nob
 			]
+	item1.pressed.connect(not_implemented_yet)
+	item2.pressed.connect(not_implemented_yet) # this just toggles between having the planet finder on or off; at the moment it's always on
 	item3.pressed.connect(change_tracking_mode)
+	item4.pressed.connect(not_implemented_yet)
 	add_connection(Globals.chase_mode_changed, func(_a): menu_od_nav()) # redraw screen if chase mode changed
 	setup_extra_default_connections()
 	
@@ -166,6 +173,10 @@ func menu_od_misc():
 	item4.text = "Environment data"
 	#--
 	clear_lines()
+	item1.pressed.connect(not_implemented_yet)
+	item2.pressed.connect(not_implemented_yet)
+	item3.pressed.connect(not_implemented_yet)
+	item4.pressed.connect(not_implemented_yet)
 	setup_extra_default_connections()
 	
 func menu_od_gc():
@@ -179,6 +190,9 @@ func menu_od_gc():
 	line1.text = "Epoc 6012 triads 1234,567,890" # TODO: change depending on status
 	line2.text = "Parsis universal coordinates: %s:%s:%s" % [Globals.feltyrion.dzat_x, -Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z]
 	line3.text = "Heading pitch: %s:%s" % [-42, -42] # TODO: change depending on status
+	item1.pressed.connect(not_implemented_yet)
+	item2.pressed.connect(not_implemented_yet)
+	item3.pressed.connect(not_implemented_yet)
 	item4.pressed.connect(set_target_to_parsis)
 	add_connection(Globals.ui_mode_changed, func(_a): menu_od_gc()) # redraw screen if ui mode mode changed.. hmm, this doesn't work?
 	setup_extra_default_connections()
@@ -191,6 +205,10 @@ func menu_prefs():
 	item4.text = "Depolarize" if true else "Polarize" # TODO: change depending on status
 	#--
 	clear_lines()
+	item1.pressed.connect(not_implemented_yet)
+	item2.pressed.connect(not_implemented_yet)
+	item3.pressed.connect(not_implemented_yet)
+	item4.pressed.connect(not_implemented_yet)
 	setup_extra_default_connections()
 	
 func menu_dd():
@@ -312,3 +330,6 @@ func setup_extra_default_connections():
 
 func on_hud_pressed():
 	Globals.osd_updated.emit(item1.text, item2.text, item3.text, item4.text)
+
+func not_implemented_yet():
+	Globals.update_fcs_status_text("NOT IMPLEMENTED YET", 1)

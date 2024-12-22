@@ -96,9 +96,9 @@ const STARDRIFTER_ROTATION_SPEED = 15 * DEGREES_TO_RADIANS # per second
 
 @export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
-signal update_fcs_status_request(val: String) ## signal to request an fcs status update from the HUD. Do not emit this manually, use Globals.update_fcs_status_text() instead
-func update_fcs_status_text(val: String):
-	update_fcs_status_request.emit(val)
+signal update_fcs_status_request(val: String, timeout: int) ## signal to request an fcs status update from the HUD. Do not emit this manually, use Globals.update_fcs_status_text() instead
+func update_fcs_status_text(val: String, timeout: int = 0):
+	update_fcs_status_request.emit(val, timeout)
 
 
 signal update_hud_selected_star_text_request(val:String) ## signal to request a HUD update to set the new selected star

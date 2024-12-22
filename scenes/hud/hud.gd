@@ -92,15 +92,23 @@ func refresh_selected_targets():
 var lastFCSStatusText = ""
 ## Polls the FCS status text from the engine (Feltyrion-godot).
 ## If it's changed, force-updates the FCS status text
-func poll_fcs_status_from_engine():
+func poll_fcs_status_from_engine(forceUpdate: bool = false):
 	var curFCSStatusTextFromEngine = Globals.feltyrion.get_fcs_status()
-	if lastFCSStatusText != curFCSStatusTextFromEngine:
+	if forceUpdate or lastFCSStatusText != curFCSStatusTextFromEngine:
 		update_fcs_status(curFCSStatusTextFromEngine)
 		lastFCSStatusText = curFCSStatusTextFromEngine
 
 ## Update FCS status text in the HUD
 ## This is typically called either via poll_fcs_status_from_engine(), or through a Global method (Globals.update_fcs_status_text(val))
-func update_fcs_status(val: String):
+func update_fcs_status(val: String, timeout: int = 0):
+	if timeout > 0:
+		var timer = Timer.new()
+		timer.timeout.connect(func(): poll_fcs_status_from_engine(true))
+		timer.timeout.connect(func(): timer.queue_free())
+		timer.wait_time = timeout
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
 	%FCSStatus.text = "[right]%s[/right]" % val
 
 ## Update Star label in the HUD
