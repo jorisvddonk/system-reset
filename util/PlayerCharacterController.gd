@@ -41,13 +41,14 @@ func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	direction *= (0 if disable_movement else 1) # cancel out movement if we're disabling movement from input keys. Yes, this happens before adding any movement from the mouse - that movement doesn't conflict with GOESNET screen input so it's fine to accept
+	
 	if Input.is_action_pressed("move_with_mouse_enable"):
 		var addMovement = (transform.basis * Vector3(mouse_moved_x, 0, mouse_moved_y))
 		if addMovement.length() > 2:
 			addMovement = addMovement.normalized() * 2
 		direction += addMovement
 	
-	direction *= (0 if disable_movement else 1)
 	
 	velocity = velocity.lerp(direction * SPEED, acceleration * delta) + (gravity_vector * delta)
 	
