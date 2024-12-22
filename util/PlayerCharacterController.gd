@@ -24,6 +24,15 @@ func _exit_tree():
 func _physics_process(delta):
 	var acceleration = 10
 	var gravity_vector = Vector3.ZERO
+	var mouse_moved_x
+	var mouse_moved_y
+	
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		_mouse_position *= sensitivity
+		mouse_moved_x = _mouse_position.x
+		mouse_moved_y = _mouse_position.y
+		_mouse_position = Vector2(0, 0)
+	
 	# Add the gravity.
 	if is_on_floor():
 		gravity_vector = Vector3.ZERO
@@ -34,7 +43,14 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized() * (0 if disable_movement else 1)
+	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if Input.is_action_pressed("move_with_mouse_enable"):
+		var addMovement = (transform.basis * Vector3(mouse_moved_x, 0, mouse_moved_y))
+		if addMovement.length() > 2:
+			addMovement = addMovement.normalized() * 2
+		direction += addMovement
+	
+	direction *= (0 if disable_movement else 1)
 	
 	velocity = velocity.lerp(direction * SPEED, acceleration * delta) + (gravity_vector * delta)
 	
@@ -44,12 +60,9 @@ func _physics_process(delta):
 
 	move_and_slide()
 	
-	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		_mouse_position *= sensitivity
-		var yaw = _mouse_position.x
-		var pitch = _mouse_position.y
-		_mouse_position = Vector2(0, 0)
-		
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not Input.is_action_pressed("move_with_mouse_enable"):
+		var yaw = mouse_moved_x
+		var pitch = mouse_moved_y
 		# Prevents looking up/down too far
 		pitch = pitch * (-1 if Globals.camera_inverted else 1)
 		pitch = clamp(pitch, -90 - _total_pitch, 90 - _total_pitch)
