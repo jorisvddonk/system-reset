@@ -247,6 +247,9 @@ func rotate_to(x: float, y: float, z: float):
 	var prev_rot = stardrifter.rotation
 	var look_at = Vector3(x - feltyrion.dzat_x, y - feltyrion.dzat_y, z - feltyrion.dzat_z)
 	stardrifter.look_at(-(look_at))
+	# always force z/x rotation to zero to ensure we have a stardrifter oriented flatly on the x/z plane
+	stardrifter.rotation.z = 0
+	stardrifter.rotation.x = 0
 	_recalc_player_character_orientation(prev_rot)
 
 func _recalc_player_character_orientation(prev_stardrifter_rot):
