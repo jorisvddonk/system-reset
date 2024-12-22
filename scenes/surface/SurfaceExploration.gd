@@ -54,6 +54,9 @@ func go(planet_index, lon, lat):
 	
 	Globals.feltyrion.generateSurfacePolygons()
 	
+	var grav = Globals.get_gravity() * 9.8
+	%PlayerCharacterController.gravity = grav
+	
 func surfaceMeshUpdated():
 	var rc = RayCast3D.new()
 	var space_state = %PlayerCharacterController.get_world_3d().direct_space_state

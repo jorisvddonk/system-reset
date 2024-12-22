@@ -257,3 +257,9 @@ func _recalc_player_character_orientation(prev_stardrifter_rot):
 		playercharacter.rotation.y += rotated_rads
 		playercharacter.position = playercharacter.position.rotated(Vector3.UP, rotated_rads)
 		Globals.on_camera_rotation.emit(playercharacter.camera.global_rotation)
+
+func get_gravity():
+	var gravity = 1
+	if Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE:
+		gravity = Globals.feltyrion.planet_grav / 2000 * 38.26 # silly calculation, but it's what it is; check noctis-1.cpp
+	return gravity

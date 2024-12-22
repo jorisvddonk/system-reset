@@ -12,11 +12,12 @@ func _ready():
 	Globals.update_hud_selected_star_text_request.connect(update_starlabel_text)
 	Globals.update_hud_selected_planet_text_request.connect(update_planetlabel_text)
 	
-	# Set up timer to periodically refresh FCS and EpocLabel
+	# Set up timer to periodically refresh various bits of the HUD
 	var timer = Timer.new()
 	timer.timeout.connect(poll_fcs_status_from_engine)
 	timer.timeout.connect(update_epoc_label)
 	timer.timeout.connect(update_fps_label)
+	timer.timeout.connect(refresh_environment_label)
 	timer.wait_time = 1
 	timer.one_shot = false
 	add_child(timer)
@@ -57,6 +58,7 @@ func refresh_hud():
 	refresh_parsis_text()
 	refresh_numbodies()
 	refresh_selected_targets()
+	refresh_environment_label()
 	poll_fcs_status_from_engine()
 	update_epoc_label()
 	# NOTE: because the Stardrifter OSD updates are purely signal-based, we can't update those here.
@@ -88,6 +90,9 @@ func refresh_selected_targets():
 		%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [Globals.feltyrion.ap_target_x, Globals.feltyrion.ap_target_y, Globals.feltyrion.ap_target_z]
 		%SelectedStar.text = "- DIRECT PARSIS TARGET -" # TODO: actually use a separate hud element for this, as in NIV it's styled differently / not displayed in this field.
 		%SelectedPlanet.text = ""
+
+func refresh_environment_label():
+	%EnvironmentLabel.text = "GRAVITY %6.3f FG & TEMPERATURE +15.0@c & PRESSURE 1.000 ATM & PULSE 120 PPS" % Globals.get_gravity()
 
 var lastFCSStatusText = ""
 ## Polls the FCS status text from the engine (Feltyrion-godot).

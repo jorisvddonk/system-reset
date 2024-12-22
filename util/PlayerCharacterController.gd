@@ -2,8 +2,8 @@ extends CharacterBody3D
 
 
 const SPEED = 10
-const JUMP_VELOCITY = 7
-var gravity = 5 # TODO: get from planet gravity
+const JUMP_VELOCITY = 9
+@export var gravity = 9.8 ## gravity applied to player character in m/s squared
 
 var _mouse_position = Vector2(0.0, 0.0)
 var _total_pitch = 0.0
