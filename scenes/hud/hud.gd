@@ -11,6 +11,8 @@ func _ready():
 	Globals.update_fcs_status_request.connect(update_fcs_status)
 	Globals.update_hud_selected_star_text_request.connect(update_starlabel_text)
 	Globals.update_hud_selected_planet_text_request.connect(update_planetlabel_text)
+	Globals.update_hud_lightyears_text_request.connect(update_lightyears_text)
+	Globals.update_hud_dyams_text_request.connect(update_dyams_text)
 	
 	# Set up timer to periodically refresh various bits of the HUD
 	var timer = Timer.new()
@@ -125,6 +127,16 @@ func update_starlabel_text(val: String):
 ## This is called or through a Global method (Globals.update_hud_selected_planet_text(val))
 func update_planetlabel_text(val: String):
 	%SelectedPlanet.text = val
+	
+## Update Lightyears in the HUD
+## This is called or through a Global method (Globals.update_hud_lightyears_text(val))
+func update_lightyears_text(val: String):
+	%LightYears.text = val
+	
+## Update Dyams in the HUD
+## This is called or through a Global method (Globals.update_hud_dyams_text(val))
+func update_dyams_text(val: String):
+	%Dyams.text = val
 
 func update_epoc_label():
 	var secs = Globals.feltyrion.get_secs()

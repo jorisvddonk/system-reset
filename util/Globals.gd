@@ -112,6 +112,14 @@ func update_hud_selected_star_text(val: String):
 signal update_hud_selected_planet_text_request(val:String) ## signal to request a HUD update to set the new selected planet
 func update_hud_selected_planet_text(val: String):
 	update_hud_selected_planet_text_request.emit(val)
+	
+signal update_hud_lightyears_text_request(val:String) ## signal to request a HUD update to set the lightyears
+func update_hud_lightyears_text(val: String):
+	update_hud_lightyears_text_request.emit(val)
+	
+signal update_hud_dyams_text_request(val:String) ## signal to request a HUD update to set the dyams
+func update_hud_dyams_text(val: String):
+	update_hud_dyams_text_request.emit(val)
 
 
 signal fine_approach_status_change(val: bool)

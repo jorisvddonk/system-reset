@@ -5,8 +5,6 @@ var planet_img: Image
 var p_console_img: Image
 var camera_is_around_deployment_console = false
 
-const VIMANA_SPEED = 50000
-const VIMANA_APPROACH_DISTANCE = 10
 const FINE_APPROACH_SPEED = 10
 const FINE_APPROACH_DISTANCE = 0.25
 const TRACKING_SPEED = 1
@@ -64,36 +62,7 @@ func _physics_process(delta):
 			Globals.vimana.vimana_status_change.emit(true if feltyrion.stspeed == 1 else false)
 	else:
 		# Some other physics tics per second rating: use the custom engine for movement
-		if Globals.vimana.active:
-			# this has some precision issues initially as you Vimana far across the universe, but will become more precise as you get closer
-			var approach_vector = Vector3(feltyrion.ap_target_x - feltyrion.dzat_x, feltyrion.ap_target_y - feltyrion.dzat_y, feltyrion.ap_target_z - feltyrion.dzat_z)
-			if approach_vector.length() > VIMANA_APPROACH_DISTANCE + (VIMANA_SPEED * (delta*2)):
-				approach_vector = approach_vector.normalized() * delta * VIMANA_SPEED
-				feltyrion.dzat_x += approach_vector.x
-				feltyrion.dzat_y += approach_vector.y
-				feltyrion.dzat_z += approach_vector.z
-				Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-			else:
-				if Globals.feltyrion.ap_targetted == 1:
-					printt("we have arrived at remote target; expecting a star")
-					feltyrion.ap_reached = 1
-					feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
-					feltyrion.prepare_star()
-					approach_vector = (approach_vector.normalized() * VIMANA_APPROACH_DISTANCE)
-					feltyrion.dzat_x = feltyrion.ap_target_x - approach_vector.x
-					feltyrion.dzat_y = feltyrion.ap_target_y # make sure we're in the same plane as the solar system, like Noctis does
-					feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
-					Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-					Globals.vimana.vimanaStop()
-				elif Globals.feltyrion.ap_targetted == -1:
-					printt("we have arrived at remote target; expecting nothing (direct parsis target)")
-					feltyrion.ap_reached = 1
-					approach_vector = (approach_vector.normalized() * VIMANA_APPROACH_DISTANCE)
-					feltyrion.dzat_x = feltyrion.ap_target_x - approach_vector.x
-					feltyrion.dzat_y = feltyrion.ap_target_y - approach_vector.y
-					feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
-					Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-					Globals.vimana.vimanaStop()
+		Globals.vimana.process(delta)
 		
 		if Globals.fine_approach_active:
 			var approach_vector = Vector3(feltyrion.get_ip_targetted_x() - feltyrion.dzat_x, feltyrion.get_ip_targetted_y() - feltyrion.dzat_y, feltyrion.get_ip_targetted_z() - feltyrion.dzat_z)
