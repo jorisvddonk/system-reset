@@ -32,8 +32,10 @@ func on_local_target_orbit_changed(index):
 		printt("Forcing load of planetary body with index", index)
 		Globals.feltyrion.load_planet_at_current_system(index)
 
-func on_ring_particle_found(x, y, z, radii, unconditioned_color):
+func on_ring_particle_found(x, y, z, radii, unconditioned_color, body_index):
 	# x/y/z is in global parsis (!)
+	if Globals.feltyrion.ip_targetted != body_index:
+		return
 	var curtime = Time.get_unix_time_from_system()
 	if curtime - last_particle_cleared_timestamp > 1: # it has been 1 second since we last got any particle locations, so clear (hide) them all!
 		last_particle_cleared_timestamp = curtime
