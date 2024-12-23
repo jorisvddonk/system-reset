@@ -64,7 +64,7 @@ func refresh_hud():
 	# NOTE: because the Stardrifter OSD updates are purely signal-based, we can't update those here.
 
 func refresh_parsis_text():
-	%ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [int(Globals.feltyrion.ap_target_x), int(-Globals.feltyrion.ap_target_y), int(Globals.feltyrion.ap_target_z)]
+	%ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [int(Globals.feltyrion.dzat_x), int(-Globals.feltyrion.dzat_y), int(Globals.feltyrion.dzat_z)]
 
 func refresh_numbodies():
 	if Globals.vimana_active:
