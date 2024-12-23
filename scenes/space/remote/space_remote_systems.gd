@@ -5,7 +5,7 @@ var Farstar = preload("res://scenes/space/remote/far_star.tscn")
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
 	Globals.feltyrion.found_star.connect(_on_found_star)
-	Globals.vimana_status_change.connect(_on_vimana_status_change)
+	Globals.vimana.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.game_loaded.connect(on_game_loaded)
 	# create lots of stars (duplicates of the first child of $Stars)
 	for i in range(0, 2744):
@@ -66,7 +66,7 @@ func updateVimanaParticles():
 	Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, $StarsVimana.get_path())
 
 func _process(delta):
-	if Globals.vimana_active:
+	if Globals.vimana.vimana_active:
 		# During vimana flight, continuously update the vimana flight fx
 		updateVimanaParticles()
 	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:

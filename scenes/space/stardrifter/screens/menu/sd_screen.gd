@@ -72,7 +72,7 @@ func _input(event):
 func menu_fcd():
 	clear_connections()
 	item1.text = "Set remote target"
-	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana_active else "Stop"]
+	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana.vimana_active else "Stop"]
 	item3.text = "Start fine approach" if can_start_fine_approach() else ("Stop fine approach" if can_stop_fine_approach() else ("Set local target" if can_set_local_target() else ""))
 	item4.text = "Deploy surface capsule" if can_maybe_deploy_surface_capsule() else ("Cancel local target" if can_cancel_local_target() else "")
 	#--
@@ -102,7 +102,7 @@ func menu_fcd():
 	item4.pressed.connect(interact_local_target_button)
 	add_connection(Globals.on_ap_target_changed, func(_x, _y, _z, _b): menu_fcd()) # redraw screen if current remote target changed
 	add_connection(Globals._on_local_target_changed, func(_a): menu_fcd()) # redraw screen if current local target changed
-	add_connection(Globals.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
+	add_connection(Globals.vimana.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
 	add_connection(Globals.fine_approach_status_change, func(_a): menu_fcd()) # redraw screen if fine approach status changed
 	add_connection(Globals.tick, func(): menu_fcd()) # redraw screen on clock tick (every second) to update kilodyams if needed
 	setup_extra_default_connections()
@@ -273,10 +273,10 @@ func interact_local_target_button():
 		Globals.local_target_index = -1
 
 func toggle_vimana_active():
-	if Globals.vimana_active:
-		Globals.vimanaStop()
+	if Globals.vimana.vimana_active:
+		Globals.vimana.vimanaStop()
 	else:
-		Globals.vimanaStart()
+		Globals.vimana.vimanaStart()
 
 func can_set_local_target():
 	return Globals.local_target_index == -1 || Globals.local_target_orbit_index != -1 # we don't have a local target yet, or we're orbiting one

@@ -9,7 +9,7 @@ func _ready():
 	_on_resize()
 	set_process_unhandled_input(true)
 	Globals.ui_mode_changed.connect(ui_mode_changed)
-	Globals.vimana_status_change.connect(vimana_status_change)
+	Globals.vimana.vimana_status_change.connect(vimana_status_change)
 	Globals.initiate_landing_sequence.connect(initiate_landing_sequence)
 	Globals.initiate_return_sequence.connect(initiate_return_sequence)
 	

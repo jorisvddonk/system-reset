@@ -27,7 +27,7 @@ func _ready():
 	Globals.deploy_surface_capsule_status_change.connect(on_deploy_surface_capsule_status_change)
 	$StardrifterParent/DeploymentSelectionScreen/Area3D.area_entered.connect(deployment_console_entered)
 	$StardrifterParent/DeploymentSelectionScreen/Area3D.area_exited.connect(deployment_console_exited)
-	Globals.vimana_status_change.connect(on_vimana_status_change)
+	Globals.vimana.vimana_status_change.connect(on_vimana_status_change)
 	Globals.game_loaded.connect(on_game_load)
 	Globals.chase_mode_changed.connect(on_chase_mode_change)
 	update_star_lights()
@@ -61,10 +61,10 @@ func _physics_process(delta):
 				# we just got out of vimana
 				feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
 				feltyrion.prepare_star()
-			Globals.vimana_status_change.emit(true if feltyrion.stspeed == 1 else false)
+			Globals.vimana.vimana_status_change.emit(true if feltyrion.stspeed == 1 else false)
 	else:
 		# Some other physics tics per second rating: use the custom engine for movement
-		if Globals.vimana_active:
+		if Globals.vimana.vimana_active:
 			# this has some precision issues initially as you Vimana far across the universe, but will become more precise as you get closer
 			var approach_vector = Vector3(feltyrion.ap_target_x - feltyrion.dzat_x, feltyrion.ap_target_y - feltyrion.dzat_y, feltyrion.ap_target_z - feltyrion.dzat_z)
 			if approach_vector.length() > VIMANA_APPROACH_DISTANCE + (VIMANA_SPEED * (delta*2)):
@@ -84,7 +84,7 @@ func _physics_process(delta):
 					feltyrion.dzat_y = feltyrion.ap_target_y # make sure we're in the same plane as the solar system, like Noctis does
 					feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
 					Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-					Globals.vimanaStop()
+					Globals.vimana.vimanaStop()
 				elif Globals.feltyrion.ap_targetted == -1:
 					printt("we have arrived at remote target; expecting nothing (direct parsis target)")
 					feltyrion.ap_reached = 1
@@ -93,7 +93,7 @@ func _physics_process(delta):
 					feltyrion.dzat_y = feltyrion.ap_target_y - approach_vector.y
 					feltyrion.dzat_z = feltyrion.ap_target_z - approach_vector.z
 					Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-					Globals.vimanaStop()
+					Globals.vimana.vimanaStop()
 		
 		if Globals.fine_approach_active:
 			var approach_vector = Vector3(feltyrion.get_ip_targetted_x() - feltyrion.dzat_x, feltyrion.get_ip_targetted_y() - feltyrion.dzat_y, feltyrion.get_ip_targetted_z() - feltyrion.dzat_z)
@@ -116,7 +116,7 @@ func _physics_process(delta):
 				dzat_y_PIDController.reset()
 				dzat_y_PIDController.setError(feltyrion.dzat_y - feltyrion.get_ip_targetted_y())
 	
-	if !Globals.vimana_active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
+	if !Globals.vimana.vimana_active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
 		# we are in a solar system and not in Vimana flight; update the local star's light!
 		var star_vector = Vector3(feltyrion.dzat_x - feltyrion.get_nearstar_x(), feltyrion.dzat_y - feltyrion.get_nearstar_y(), feltyrion.dzat_z - feltyrion.get_nearstar_z())
 		var light_energy = tanh(nearstar_ray/max(0.0001, star_vector.length()/10))
@@ -255,7 +255,7 @@ func on_game_load():
 func update_star_lights():
 	var lightcolor = Color(0.2, 0.3, 0.6) # _very_ 'ambient' light if in interstellar space
 	
-	if !Globals.vimana_active and Globals.feltyrion.get_nearstar_x() != 0 and Globals.feltyrion.get_nearstar_y() != 0 and Globals.feltyrion.get_nearstar_z() != 0:
+	if !Globals.vimana.vimana_active and Globals.feltyrion.get_nearstar_x() != 0 and Globals.feltyrion.get_nearstar_y() != 0 and Globals.feltyrion.get_nearstar_z() != 0:
 		# We have possibly arrived at a star!
 		var data = Globals.feltyrion.get_ap_target_info()
 		nearstar_ray = data.ap_target_ray

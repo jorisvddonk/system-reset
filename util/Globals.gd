@@ -1,8 +1,11 @@
 extends Node
 
+const VimanaDrive = preload("res://util/systems/VimanaDrive.gd")
+
 signal tick() # simple clock ticker, is emitted once per second
 @export var player_rotation_in_space: Vector3
 @onready var feltyrion: Feltyrion = Feltyrion.new()
+@onready var vimana: VimanaDrive = VimanaDrive.new(feltyrion)
 @export var stardrifter: Node3D
 @export var playercharacter: CharacterBody3D
 var debug_tools_enabled = false
@@ -111,15 +114,6 @@ func update_hud_selected_planet_text(val: String):
 	update_hud_selected_planet_text_request.emit(val)
 
 
-signal vimana_status_change(vimana_drive_active: bool)
-@export var vimana_active: bool = false:
-	get:
-		return vimana_active
-	set(value):
-		vimana_active = value
-		feltyrion.stspeed = 1 if value else 0
-		vimana_status_change.emit(value)
-
 signal fine_approach_status_change(val: bool)
 @export var fine_approach_active = false:
 	get:
@@ -203,17 +197,6 @@ func _process(delta):
 		elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
 			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * -delta)
 	
-func vimanaStop():
-	vimana_active = false
-	vimana_status_change.emit(vimana_active)
-
-func vimanaStart():
-	local_target_orbit_index = -1
-	local_target_index = -1
-	vimana_active = true
-	feltyrion.ap_reached = 0
-	vimana_status_change.emit(vimana_active)
-
 func save_game():
 	print("Saving game...")
 	feltyrion.freeze()

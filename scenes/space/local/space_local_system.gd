@@ -7,7 +7,7 @@ var last_particle_cleared_timestamp = 0
 
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
-	Globals.vimana_status_change.connect(_on_vimana_status_change)
+	Globals.vimana.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.feltyrion.connect("found_ring_particle", on_ring_particle_found)
@@ -113,7 +113,7 @@ func repositionContainer(x: float, y: float, z: float):
 	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, Globals.feltyrion.ap_target_z - z)
 
 func check_arrived_at_star():
-	if Globals.vimana_active:
+	if Globals.vimana.vimana_active:
 		$SolarSystemContainer/Planets.hide()
 		$SolarSystemContainer/SolarSystemParentStar.hide()
 	else:
