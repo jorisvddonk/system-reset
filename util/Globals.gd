@@ -124,17 +124,6 @@ func update_hud_dyams_text(val: String):
 	update_hud_dyams_text_request.emit(val)
 
 
-signal fine_approach_status_change(val: bool)
-@export var fine_approach_active = false:
-	get:
-		return fine_approach_active
-	set(value):
-		fine_approach_active = value
-		feltyrion.ip_reaching = value
-		if value == true:
-			local_target_orbit_index = -1
-		fine_approach_status_change.emit(value)
-
 func _ready():
 	feltyrion.update_time()
 	self.add_child(feltyrion) # need to add Feltyrion to the tree so we can get nodes via the tree in C++

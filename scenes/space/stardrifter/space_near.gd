@@ -23,7 +23,6 @@ func _ready():
 	$StardrifterParent/DeploymentSelectionScreen/Area3D.area_exited.connect(deployment_console_exited)
 	Globals.vimana.vimana_status_change.connect(on_vimana_status_change)
 	Globals.game_loaded.connect(on_game_load)
-	Globals.chase_mode_changed.connect(on_chase_mode_change)
 	update_star_lights()
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
@@ -59,9 +58,7 @@ func _physics_process(delta):
 	else:
 		# Some other physics tics per second rating: use the custom engine for movement
 		Globals.vimana.process(delta)
-		
-		if Globals.fine_approach_active:
-			Globals.interplanetaryDrive.process(delta)
+		Globals.interplanetaryDrive.process(delta)
 	
 	if !Globals.vimana.active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
 		# we are in a solar system and not in Vimana flight; update the local star's light!
@@ -192,9 +189,6 @@ func deployment_console_exited(area):
 
 func on_vimana_status_change(active):
 	update_star_lights()
-	
-func on_chase_mode_change(new_value):
-	Globals.interplanetaryDrive.dzat_y_PIDController.reset()
 	
 func on_game_load():
 	update_star_lights()

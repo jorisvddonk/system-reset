@@ -103,7 +103,7 @@ func menu_fcd():
 	add_connection(Globals.on_ap_target_changed, func(_x, _y, _z, _b): menu_fcd()) # redraw screen if current remote target changed
 	add_connection(Globals._on_local_target_changed, func(_a): menu_fcd()) # redraw screen if current local target changed
 	add_connection(Globals.vimana.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
-	add_connection(Globals.fine_approach_status_change, func(_a): menu_fcd()) # redraw screen if fine approach status changed
+	add_connection(Globals.interplanetaryDrive.fine_approach_status_change, func(_a): menu_fcd()) # redraw screen if fine approach status changed
 	add_connection(Globals.tick, func(): menu_fcd()) # redraw screen on clock tick (every second) to update kilodyams if needed
 	setup_extra_default_connections()
 	
@@ -254,9 +254,9 @@ func set_remote_target():
 	
 func local_target_button():
 	if can_start_fine_approach():
-		Globals.fine_approach_active = true
+		Globals.interplanetaryDrive.start()
 	elif can_stop_fine_approach():
-		Globals.fine_approach_active = false
+		Globals.interplanetaryDrive.stop()
 	elif can_set_local_target():
 		Globals.ui_mode = Globals.UI_MODE.SET_LOCAL_TARGET
 
@@ -282,10 +282,10 @@ func can_set_local_target():
 	return Globals.local_target_index == -1 || Globals.local_target_orbit_index != -1 # we don't have a local target yet, or we're orbiting one
 
 func can_start_fine_approach():
-	return !Globals.fine_approach_active && Globals.local_target_index != -1 && Globals.local_target_orbit_index != Globals.local_target_index # we have a local target that's not the one we're currently orbiting, and we're not doing a fine approach either
+	return !Globals.interplanetaryDrive.active && Globals.local_target_index != -1 && Globals.local_target_orbit_index != Globals.local_target_index # we have a local target that's not the one we're currently orbiting, and we're not doing a fine approach either
 
 func can_stop_fine_approach():
-	return Globals.fine_approach_active
+	return Globals.interplanetaryDrive.active
 	
 func can_maybe_deploy_surface_capsule():
 	# checks if the conditions are correct for deploying a surface capsule, but does NOT check if you can actually land on the planet/moon (based on its type)
