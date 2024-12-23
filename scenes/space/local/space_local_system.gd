@@ -85,6 +85,7 @@ func _process(delta):
 
 func on_game_loaded():
 	check_arrived_at_star()
+	repositionContainer(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z)
 
 func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
@@ -106,6 +107,9 @@ func _on_vimana_status_change(vimana_is_active):
 	check_arrived_at_star()
 
 func _on_parsis_changed(x: float, y: float, z: float):
+	repositionContainer(x, y, z)
+	
+func repositionContainer(x: float, y: float, z: float):
 	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, Globals.feltyrion.ap_target_z - z)
 
 func check_arrived_at_star():
