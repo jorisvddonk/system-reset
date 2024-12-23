@@ -11,6 +11,7 @@ func _ready():
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.feltyrion.connect("found_ring_particle", on_ring_particle_found)
+	Globals.gameplay_mode_changed.connect(on_gameplay_mode_changed)
 	Globals.connect("_on_local_target_orbit_changed", on_local_target_orbit_changed)
 	for i in range(0, maxparticles):
 		var particle: Sprite3D = %RingParticle.duplicate()
@@ -85,6 +86,9 @@ func _process(delta):
 
 func on_game_loaded():
 	check_arrived_at_star()
+	repositionContainer(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z)
+	
+func on_gameplay_mode_changed(_a):
 	repositionContainer(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z)
 
 func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):

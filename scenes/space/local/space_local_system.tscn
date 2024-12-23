@@ -34,7 +34,7 @@ process_thread_messages = 0
 script = ExtResource("1_tlx4b")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-far = 1e+07
+far = 999999.0
 script = ExtResource("2_yq2a3")
 
 [node name="SolarSystemContainer" type="Node3D" parent="."]
