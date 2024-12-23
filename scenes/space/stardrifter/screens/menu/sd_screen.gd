@@ -93,7 +93,7 @@ func menu_fcd():
 			curline.text = "Direct parsis target: non-star type."
 	else:
 		curline.text = "no remote target selected"
-	line2.text = "current range: elapsed 0 kilodyams, remaining litihum: -1 grams." # TODO: change depending on status
+	line2.text = "current range: elapsed 0 kilodyams" + (", remaining lithium: %d grams." % Globals.feltyrion.charge if Globals.feltyrion.charge >= 0 else ". OMEGA DRIVE installed")
 	#-
 	item1.pressed.connect(set_remote_target) # see FarStar scene for the part that handles actually setting the remote target
 	item2.pressed.connect(toggle_vimana_active)
