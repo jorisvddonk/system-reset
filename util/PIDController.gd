@@ -14,6 +14,11 @@ var derivativeError = 0
 @export var maxIntegral = 10
 var retError : float = 0
 
+func _init(kP, kI, kD):
+	self.kP = kP
+	self.kI = kI
+	self.kD = kD
+
 func step():
 	if previousError == null:
 		previousError = error

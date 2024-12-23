@@ -1,9 +1,8 @@
-[gd_scene load_steps=40 format=3 uid="uid://bbo63hpxfc223"]
+[gd_scene load_steps=38 format=3 uid="uid://bbo63hpxfc223"]
 
 [ext_resource type="ArrayMesh" uid="uid://bilqk6dfuy2qr" path="res://assets/cupola_floor.obj" id="1_i3c1o"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/space_near.gd" id="1_w6myo"]
 [ext_resource type="ArrayMesh" uid="uid://w00fut87yk5n" path="res://assets/cupola_roof.obj" id="2_dedv8"]
-[ext_resource type="Script" path="res://util/PIDController.gd" id="2_xkb7j"]
 [ext_resource type="PackedScene" uid="uid://duornhgv4vumt" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_input.tscn" id="3_kgkbh"]
 [ext_resource type="PackedScene" uid="uid://dbk1dflqr6g2t" path="res://assets/vehicle.glb" id="3_u5gxh"]
 [ext_resource type="PackedScene" uid="uid://b0ek4j6agviys" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_output.tscn" id="4_ht0jc"]
@@ -14,16 +13,6 @@
 [ext_resource type="Script" path="res://scenes/space/stardrifter/screens/goesnet/goesnet_screen.gd" id="9_p1dd4"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/SetLocalTargetKeyboardInputHandler.gd" id="12_7r8tx"]
 [ext_resource type="Script" path="res://scenes/space/stardrifter/SetTargetToParsisKeyboardInputHandler.gd" id="13_gscyl"]
-
-[sub_resource type="Resource" id="Resource_apaxc"]
-script = ExtResource("2_xkb7j")
-kP = -1.4
-kI = -0.008
-kD = -0.3
-minIntegral = -10
-minCapIntegral = -10
-maxCapIntegral = 10
-maxIntegral = 10
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hty7a"]
 blend_mode = 1
@@ -129,7 +118,6 @@ font = SubResource("SystemFont_skgsr")
 
 [node name="SpaceNear" type="Node3D"]
 script = ExtResource("1_w6myo")
-dzat_y_PIDController = SubResource("Resource_apaxc")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true

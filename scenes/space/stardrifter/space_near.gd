@@ -5,15 +5,11 @@ var planet_img: Image
 var p_console_img: Image
 var camera_is_around_deployment_console = false
 
-const FINE_APPROACH_SPEED = 10
-const FINE_APPROACH_DISTANCE = 0.25
 const TRACKING_SPEED = 1
 const TRACKING_DISTANCE__NEAR = 0.05
 const TRACKING_DISTANCE__MIDDLE = 0.08
 const TRACKING_DISTANCE__FAR = 0.12
 const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * Globals.DEGREES_TO_RADIANS # in radians per second
-
-@export var dzat_y_PIDController: PIDController
 
 var nearstar_ray = 1
 
@@ -65,25 +61,7 @@ func _physics_process(delta):
 		Globals.vimana.process(delta)
 		
 		if Globals.fine_approach_active:
-			var approach_vector = Vector3(feltyrion.get_ip_targetted_x() - feltyrion.dzat_x, feltyrion.get_ip_targetted_y() - feltyrion.dzat_y, feltyrion.get_ip_targetted_z() - feltyrion.dzat_z)
-			if approach_vector.length() > FINE_APPROACH_DISTANCE + (FINE_APPROACH_SPEED * (delta*2)):
-				approach_vector = approach_vector.normalized() * delta * FINE_APPROACH_SPEED
-				feltyrion.dzat_x += approach_vector.x
-				feltyrion.dzat_y += approach_vector.y
-				feltyrion.dzat_z += approach_vector.z
-				Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-			else:
-				printt("we have arrived at local target")
-				approach_vector = approach_vector.normalized() * FINE_APPROACH_DISTANCE
-				Globals.local_target_orbit_index = Globals.local_target_index
-				feltyrion.dzat_x = feltyrion.get_ip_targetted_x() - approach_vector.x
-				feltyrion.dzat_y = feltyrion.get_ip_targetted_y() - approach_vector.y
-				feltyrion.dzat_z = feltyrion.get_ip_targetted_z() - approach_vector.z
-				Globals.fine_approach_active = false
-				Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-				Globals.chase_direction = Vector3(-approach_vector.x, 0.0, -approach_vector.z).normalized() # chase direction needs to be in the same plane as the planet
-				dzat_y_PIDController.reset()
-				dzat_y_PIDController.setError(feltyrion.dzat_y - feltyrion.get_ip_targetted_y())
+			Globals.interplanetaryDrive.process(delta)
 	
 	if !Globals.vimana.active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
 		# we are in a solar system and not in Vimana flight; update the local star's light!
@@ -115,11 +93,11 @@ func _physics_process(delta):
 			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.dzat_y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
 			Globals.rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
 		# Move to the same plane of the planet, using the PID controller - but only if we are in some tracking mode
-		if not Globals.chase_mode == Globals.CHASE_MODE.TRACKING_DISABLED:
-			dzat_y_PIDController.setError(feltyrion.dzat_y - feltyrion.get_ip_targetted_y())
-			var err = dzat_y_PIDController.error
+		if not Globals.chase_mode == Globals.CHASE_MODE.TRACKING_DISABLED: # TODO: move this code over to InterplanetaryDrive
+			Globals.interplanetaryDrive.dzat_y_PIDController.setError(feltyrion.dzat_y - feltyrion.get_ip_targetted_y())
+			var err = Globals.interplanetaryDrive.dzat_y_PIDController.error
 			if abs(err) > 0.0000001:
-				var corr = clamp(dzat_y_PIDController.step(), -10, 10) * delta
+				var corr = clamp(Globals.interplanetaryDrive.dzat_y_PIDController.step(), -10, 10) * delta
 				Globals.slew_to(feltyrion.dzat_x, feltyrion.dzat_y + corr, feltyrion.dzat_z, TRACKING_SPEED)
 
 
@@ -216,7 +194,7 @@ func on_vimana_status_change(active):
 	update_star_lights()
 	
 func on_chase_mode_change(new_value):
-	dzat_y_PIDController.reset()
+	Globals.interplanetaryDrive.dzat_y_PIDController.reset()
 	
 func on_game_load():
 	update_star_lights()

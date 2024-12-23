@@ -1,11 +1,13 @@
 extends Node
 
 const VimanaDrive = preload("res://util/systems/VimanaDrive.gd")
+const InterplanetaryDrive = preload("res://util/systems/InterplanetaryDrive.gd")
 
 signal tick() # simple clock ticker, is emitted once per second
 @export var player_rotation_in_space: Vector3
 @onready var feltyrion: Feltyrion = Feltyrion.new()
 @onready var vimana: VimanaDrive = VimanaDrive.new(feltyrion)
+@onready var interplanetaryDrive: InterplanetaryDrive = InterplanetaryDrive.new(feltyrion)
 @export var stardrifter: Node3D
 @export var playercharacter: CharacterBody3D
 var debug_tools_enabled = false
