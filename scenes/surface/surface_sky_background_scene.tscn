@@ -29,7 +29,7 @@ script = ExtResource("1_64unp")
 [node name="Stars" type="Node3D" parent="."]
 
 [node name="Star" type="Sprite3D" parent="Stars"]
-visibility_range_begin = 1.0
+visibility_range_begin = 5.0
 pixel_size = 0.014
 billboard = 1
 texture = ExtResource("3_6rtj1")
