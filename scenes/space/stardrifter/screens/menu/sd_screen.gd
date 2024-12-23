@@ -93,7 +93,8 @@ func menu_fcd():
 			curline.text = "Direct parsis target: non-star type."
 	else:
 		curline.text = "no remote target selected"
-	line2.text = "current range: elapsed 0 kilodyams" + (", remaining lithium: %d grams." % Globals.feltyrion.charge if Globals.feltyrion.charge >= 0 else ". OMEGA DRIVE installed")
+	var kdyams = max(0, Globals.feltyrion.pwr - 15000)
+	line2.text = ("current range: elapsed %d kilodyams" % kdyams) + (", remaining lithium: %d grams." % Globals.feltyrion.charge if Globals.feltyrion.charge >= 0 else ". OMEGA DRIVE installed")
 	#-
 	item1.pressed.connect(set_remote_target) # see FarStar scene for the part that handles actually setting the remote target
 	item2.pressed.connect(toggle_vimana_active)
@@ -103,6 +104,7 @@ func menu_fcd():
 	add_connection(Globals._on_local_target_changed, func(_a): menu_fcd()) # redraw screen if current local target changed
 	add_connection(Globals.vimana_status_change, func(_a): menu_fcd()) # redraw screen if vimana status changed
 	add_connection(Globals.fine_approach_status_change, func(_a): menu_fcd()) # redraw screen if fine approach status changed
+	add_connection(Globals.tick, func(): menu_fcd()) # redraw screen on clock tick (every second) to update kilodyams if needed
 	setup_extra_default_connections()
 	
 func menu_od():

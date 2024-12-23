@@ -1,5 +1,6 @@
 extends Node
 
+signal tick() # simple clock ticker, is emitted once per second
 @export var player_rotation_in_space: Vector3
 @onready var feltyrion: Feltyrion = Feltyrion.new()
 @export var stardrifter: Node3D
@@ -143,6 +144,14 @@ func _ready():
 	else:
 		await get_tree().create_timer(0.1).timeout # wait a bit to allow things to load
 		load_game()
+	var timer = Timer.new()
+	timer.timeout.connect(func (): feltyrion.update_time())
+	timer.timeout.connect(func (): feltyrion.additional_consumes())
+	timer.timeout.connect(func (): tick.emit())
+	timer.wait_time = 1
+	timer.one_shot = false
+	add_child(timer)
+	timer.start()
 
 func set_ap_target(x: float, y: float, z: float):
 	feltyrion.lock()
