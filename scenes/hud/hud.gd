@@ -67,7 +67,7 @@ func refresh_parsis_text():
 	%ParsisLabel.text = "[center]Parsis: x=%s y=%s z=%s[/center]" % [int(Globals.feltyrion.dzat_x), int(-Globals.feltyrion.dzat_y), int(Globals.feltyrion.dzat_z)]
 
 func refresh_numbodies():
-	if Globals.vimana.vimana_active:
+	if Globals.vimana.active:
 		%NumBodies.hide()
 	else:
 		if Globals.feltyrion.ap_reached && Globals.feltyrion.ap_targetted == 1:

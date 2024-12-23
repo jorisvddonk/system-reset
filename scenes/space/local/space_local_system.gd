@@ -113,7 +113,7 @@ func repositionContainer(x: float, y: float, z: float):
 	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, Globals.feltyrion.ap_target_z - z)
 
 func check_arrived_at_star():
-	if Globals.vimana.vimana_active:
+	if Globals.vimana.active:
 		$SolarSystemContainer/Planets.hide()
 		$SolarSystemContainer/SolarSystemParentStar.hide()
 	else:

@@ -72,7 +72,7 @@ func _input(event):
 func menu_fcd():
 	clear_connections()
 	item1.text = "Set remote target"
-	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana.vimana_active else "Stop"]
+	item2.text = "%s vimana flight" % ["Start" if !Globals.vimana.active else "Stop"]
 	item3.text = "Start fine approach" if can_start_fine_approach() else ("Stop fine approach" if can_stop_fine_approach() else ("Set local target" if can_set_local_target() else ""))
 	item4.text = "Deploy surface capsule" if can_maybe_deploy_surface_capsule() else ("Cancel local target" if can_cancel_local_target() else "")
 	#--
@@ -273,7 +273,7 @@ func interact_local_target_button():
 		Globals.local_target_index = -1
 
 func toggle_vimana_active():
-	if Globals.vimana.vimana_active:
+	if Globals.vimana.active:
 		Globals.vimana.vimanaStop()
 	else:
 		Globals.vimana.vimanaStart()

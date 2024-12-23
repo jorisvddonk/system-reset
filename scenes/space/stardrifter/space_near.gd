@@ -64,7 +64,7 @@ func _physics_process(delta):
 			Globals.vimana.vimana_status_change.emit(true if feltyrion.stspeed == 1 else false)
 	else:
 		# Some other physics tics per second rating: use the custom engine for movement
-		if Globals.vimana.vimana_active:
+		if Globals.vimana.active:
 			# this has some precision issues initially as you Vimana far across the universe, but will become more precise as you get closer
 			var approach_vector = Vector3(feltyrion.ap_target_x - feltyrion.dzat_x, feltyrion.ap_target_y - feltyrion.dzat_y, feltyrion.ap_target_z - feltyrion.dzat_z)
 			if approach_vector.length() > VIMANA_APPROACH_DISTANCE + (VIMANA_SPEED * (delta*2)):
@@ -116,7 +116,7 @@ func _physics_process(delta):
 				dzat_y_PIDController.reset()
 				dzat_y_PIDController.setError(feltyrion.dzat_y - feltyrion.get_ip_targetted_y())
 	
-	if !Globals.vimana.vimana_active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
+	if !Globals.vimana.active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
 		# we are in a solar system and not in Vimana flight; update the local star's light!
 		var star_vector = Vector3(feltyrion.dzat_x - feltyrion.get_nearstar_x(), feltyrion.dzat_y - feltyrion.get_nearstar_y(), feltyrion.dzat_z - feltyrion.get_nearstar_z())
 		var light_energy = tanh(nearstar_ray/max(0.0001, star_vector.length()/10))
@@ -255,7 +255,7 @@ func on_game_load():
 func update_star_lights():
 	var lightcolor = Color(0.2, 0.3, 0.6) # _very_ 'ambient' light if in interstellar space
 	
-	if !Globals.vimana.vimana_active and Globals.feltyrion.get_nearstar_x() != 0 and Globals.feltyrion.get_nearstar_y() != 0 and Globals.feltyrion.get_nearstar_z() != 0:
+	if !Globals.vimana.active and Globals.feltyrion.get_nearstar_x() != 0 and Globals.feltyrion.get_nearstar_y() != 0 and Globals.feltyrion.get_nearstar_z() != 0:
 		# We have possibly arrived at a star!
 		var data = Globals.feltyrion.get_ap_target_info()
 		nearstar_ray = data.ap_target_ray

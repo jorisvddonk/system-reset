@@ -66,7 +66,7 @@ func updateVimanaParticles():
 	Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, $StarsVimana.get_path())
 
 func _process(delta):
-	if Globals.vimana.vimana_active:
+	if Globals.vimana.active:
 		# During vimana flight, continuously update the vimana flight fx
 		updateVimanaParticles()
 	if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:

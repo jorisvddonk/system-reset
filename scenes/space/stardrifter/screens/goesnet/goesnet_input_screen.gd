@@ -78,7 +78,7 @@ func _input(event):
 				Globals.local_target_index = Globals.feltyrion.ip_targetted
 				Globals.local_target_orbit_index = Globals.feltyrion.ip_targetted # this is not exactly correct... meh.  - note: make sure to set this AFTER setting local_target_index!
 				Globals.fine_approach_active = true if Globals.feltyrion.ip_reaching == 1 else false
-				Globals.vimana.vimana_active = true if Globals.feltyrion.stspeed == 1 else false
+				Globals.vimana.active = true if Globals.feltyrion.stspeed == 1 else false
 
 			%InputLabel.text = command_accumulator
 			
