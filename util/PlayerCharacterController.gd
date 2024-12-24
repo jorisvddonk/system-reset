@@ -12,6 +12,8 @@ const sensitivity = 0.25
 @onready var camera = $CollisionShape3D/camera
 @export var register_as_global_camera: bool = false
 @export var disable_movement = false
+var lockedTo: RigidBody3D ## rigidbody3d that this characterbody is locked to - only really used for pairing the player character to the cupola
+
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -19,6 +21,10 @@ func _ready():
 		Globals.playercharacter = self
 	
 func _physics_process(delta):
+	if lockedTo != null:
+		position = lockedTo.position
+	
+	
 	var acceleration = 10
 	var gravity_vector = Vector3.ZERO
 	var mouse_moved_x
@@ -31,7 +37,7 @@ func _physics_process(delta):
 		_mouse_position = Vector2(0, 0)
 	
 	# Add the gravity.
-	if is_on_floor():
+	if is_on_floor() or lockedTo != null:
 		gravity_vector = Vector3.ZERO
 	else:
 		#velocity.y -= gravity * delta
@@ -83,3 +89,9 @@ func _input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		_mouse_position = event.relative
 		emit_event_next = true
+
+func lock_to(object: RigidBody3D):
+	lockedTo = object
+
+func unlock():
+	lockedTo = null

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c3d6ixw7o8jrw"]
+[gd_scene load_steps=24 format=3 uid="uid://c3d6ixw7o8jrw"]
 
 [ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
@@ -83,11 +83,38 @@ size = Vector2(6553, 6553)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mesfj"]
 plane = Plane(0, 0, -10, -326)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gvp60"]
+friction = 10.0
+rough = true
+bounce = 0.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mnsci"]
+radius = 3.0
+height = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_07xn3"]
+transparency = 1
+cull_mode = 2
+albedo_color = Color(0.710448, 0.871801, 1, 1)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.08
+emission_enabled = true
+emission = Color(0.0196078, 0.0196078, 0.0196078, 1)
+refraction_scale = -0.48
+
+[sub_resource type="SphereMesh" id="SphereMesh_22pyw"]
+radius = 5.0
+height = 10.0
+radial_segments = 16
+rings = 6
+
 [node name="SurfaceExploration" type="Node3D"]
 script = ExtResource("1_xlqem")
 
 [node name="PlayerCharacterController" type="CharacterBody3D" parent="."]
 unique_name_in_owner = true
+collision_layer = 0
 wall_min_slide_angle = 0.0261799
 floor_stop_on_slope = false
 floor_max_angle = 1.7017
@@ -142,3 +169,24 @@ shape = SubResource("WorldBoundaryShape3D_mesfj")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="Boundaries/StaticBody3D"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_mesfj")
+
+[node name="CupolaRigidBody" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 9999, 0.5)
+collision_layer = 2
+collision_mask = 4294967295
+input_ray_pickable = false
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 1000.0
+physics_material_override = SubResource("PhysicsMaterial_gvp60")
+continuous_cd = true
+
+[node name="CupolaCollisionShape3D" type="CollisionShape3D" parent="CupolaRigidBody"]
+shape = SubResource("CapsuleShape3D_mnsci")
+
+[node name="CupolaMesh" type="MeshInstance3D" parent="CupolaRigidBody/CupolaCollisionShape3D"]
+material_override = SubResource("StandardMaterial3D_07xn3")
+transparency = 0.3
+mesh = SubResource("SphereMesh_22pyw")
+skeleton = NodePath("../..")
