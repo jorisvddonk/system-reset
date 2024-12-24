@@ -11,7 +11,7 @@ ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.2
 
-[node name="SurfaceExploration" type="Node3D"]
+[node name="SurfaceExplorationComposition" type="Node3D"]
 script = ExtResource("1_kkm40")
 
 [node name="SubViewportContainer_Sky" type="SubViewportContainer" parent="."]
@@ -41,28 +41,30 @@ physics_object_picking = true
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
-[node name="PlayerCharacterController" type="CharacterBody3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+[node name="SurfaceExploration" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+
+[node name="PlayerCharacterController" type="CharacterBody3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/SurfaceExploration"]
 unique_name_in_owner = true
 wall_min_slide_angle = 0.0261799
 floor_stop_on_slope = false
 floor_max_angle = 1.7017
 script = ExtResource("3_e41ui")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/PlayerCharacterController"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/SurfaceExploration/PlayerCharacterController"]
 shape = SubResource("CapsuleShape3D_2ga3q")
 
-[node name="camera" type="Camera3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/PlayerCharacterController/CollisionShape3D"]
+[node name="camera" type="Camera3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/SurfaceExploration/PlayerCharacterController/CollisionShape3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
-transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268512, -0.791229, 0.597143, 0.131821, 0, 0, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/SurfaceExploration"]
+transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268513, -0.791229, 0.597143, 0.131821, 0, 0, 0)
 sky_mode = 1
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/SurfaceExploration"]
 environment = SubResource("Environment_5ku5r")
 
-[node name="ScatteringContainer" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+[node name="ScatteringContainer" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/SurfaceExploration"]
 unique_name_in_owner = true
 editor_description = "Set the metadata flag 'enabled' to on to generate surface scattering via GDExtension. Set the 'generate single mesh' flag to 'on' to generate only a single mesh, instead of one mesh per object.
 
@@ -70,7 +72,7 @@ Note that surface scattering using individual nodes is *much* slower at render-t
 metadata/enabled = true
 metadata/generateSingleMesh = true
 
-[node name="SurfaceContainer" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort"]
+[node name="SurfaceContainer" type="Node3D" parent="SubViewportContainer_Surface/SurfaceExplorationViewPort/SurfaceExploration"]
 unique_name_in_owner = true
 editor_description = "Surface mesh generation - via GDExtension"
 metadata/enabled = true
