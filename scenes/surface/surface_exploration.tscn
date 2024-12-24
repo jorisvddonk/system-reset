@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3d6ixw7o8jrw"]
+[gd_scene load_steps=20 format=3 uid="uid://c3d6ixw7o8jrw"]
 
 [ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
@@ -9,6 +9,79 @@
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.2
+
+[sub_resource type="Gradient" id="Gradient_x6vxx"]
+colors = PackedColorArray(0.473694, 0.676586, 1, 1, 0.296128, 0.626961, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nsfbl"]
+frequency = 0.007
+cellular_distance_function = 1
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fckkd"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_x6vxx")
+noise = SubResource("FastNoiseLite_nsfbl")
+
+[sub_resource type="Gradient" id="Gradient_ckccf"]
+offsets = PackedFloat32Array(0, 0.995246)
+colors = PackedColorArray(1, 1, 1, 1, 0.39817, 0.39817, 0.39817, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2onkk"]
+frequency = 0.0046
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yvtg6"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_ckccf")
+noise = SubResource("FastNoiseLite_2onkk")
+
+[sub_resource type="Gradient" id="Gradient_p52vl"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_brf5j"]
+noise_type = 3
+frequency = 0.0021
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rmc7r"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_p52vl")
+noise = SubResource("FastNoiseLite_brf5j")
+
+[sub_resource type="Gradient" id="Gradient_c6vgc"]
+colors = PackedColorArray(0.262397, 0.262397, 0.262397, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_616xt"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_we75y"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_c6vgc")
+noise = SubResource("FastNoiseLite_616xt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qd0e8"]
+albedo_texture = SubResource("NoiseTexture2D_fckkd")
+metallic_specular = 1.0
+roughness = 0.13
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_we75y")
+detail_enabled = true
+detail_mask = SubResource("NoiseTexture2D_rmc7r")
+detail_blend_mode = 3
+detail_albedo = SubResource("NoiseTexture2D_yvtg6")
+uv1_scale = Vector3(512, 512, 512)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l8v2s"]
+material = SubResource("StandardMaterial3D_qd0e8")
+size = Vector2(6553, 6553)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_mesfj"]
+plane = Plane(0, 0, -10, -326)
 
 [node name="SurfaceExploration" type="Node3D"]
 script = ExtResource("1_xlqem")
@@ -46,3 +119,26 @@ metadata/generateSingleMesh = true
 unique_name_in_owner = true
 editor_description = "Surface mesh generation - via GDExtension"
 metadata/enabled = true
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("PlaneMesh_l8v2s")
+
+[node name="Boundaries" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Boundaries"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Boundaries/StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_mesfj")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Boundaries/StaticBody3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_mesfj")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Boundaries/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_mesfj")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Boundaries/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_mesfj")

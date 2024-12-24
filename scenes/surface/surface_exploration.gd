@@ -10,6 +10,10 @@ func _ready():
 func initialize():
 	var grav = Globals.get_gravity() * 9.8
 	%PlayerCharacterController.gravity = grav
+	if Globals.feltyrion.get_planet_info(Globals.feltyrion.ip_targetted).nearstar_p_type == 3:
+		$Water.show()
+	else:
+		$Water.hide()
 
 func surfaceMeshUpdated():
 	var rc = RayCast3D.new()
