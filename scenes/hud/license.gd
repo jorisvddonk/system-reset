@@ -30,10 +30,5 @@ func _ready():
 			%LicenseText.text += licenses.get(lic, lic) + '\n'
 		%LicenseText.text += "--------------------\n"
 		
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func close_button_pressed():
 	self.queue_free()
