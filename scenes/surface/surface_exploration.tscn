@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c3d6ixw7o8jrw"]
+[gd_scene load_steps=27 format=3 uid="uid://c3d6ixw7o8jrw"]
 
 [ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
@@ -112,6 +112,16 @@ height = 10.0
 radial_segments = 16
 rings = 6
 
+[sub_resource type="Gradient" id="Gradient_8oe5l"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0.517647, 1, 1, 1, 1, 1, 1, 1, 0.517647, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vy4mi"]
+gradient = SubResource("Gradient_8oe5l")
+width = 256
+height = 256
+repeat = 1
+
 [node name="SurfaceExploration" type="Node3D"]
 script = ExtResource("1_xlqem")
 
@@ -129,6 +139,7 @@ shape = SubResource("CapsuleShape3D_2ga3q")
 [node name="camera" type="Camera3D" parent="PlayerCharacterController/CollisionShape3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+far = 9000.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268513, -0.791229, 0.597143, 0.131821, 0, 0, 0)
@@ -197,3 +208,10 @@ material_override = SubResource("StandardMaterial3D_07xn3")
 transparency = 0.3
 mesh = SubResource("SphereMesh_22pyw")
 skeleton = NodePath("../..")
+
+[node name="BeaconLight" type="Sprite3D" parent="CupolaRigidBody"]
+transform = Transform3D(2, 0, 0, 0, 2000, 0, 0, 0, 1, 0, 4.7, 0)
+centered = false
+offset = Vector2(-128, 0)
+billboard = 2
+texture = SubResource("GradientTexture2D_vy4mi")
