@@ -77,8 +77,14 @@ func _input(event):
 				Globals.set_ap_target(Globals.feltyrion.ap_target_x, Globals.feltyrion.ap_target_y, Globals.feltyrion.ap_target_z)
 				Globals.local_target_index = Globals.feltyrion.ip_targetted
 				Globals.local_target_orbit_index = Globals.feltyrion.ip_targetted # this is not exactly correct... meh.  - note: make sure to set this AFTER setting local_target_index!
-				Globals.interplanetaryDrive.active = true if Globals.feltyrion.ip_reaching == 1 else false
-				Globals.vimana.active = true if Globals.feltyrion.stspeed == 1 else false
+				if Globals.feltyrion.ip_reaching == 1:
+					Globals.interplanetaryDrive.start()
+				else:
+					Globals.interplanetaryDrive.stop()
+				if Globals.feltyrion.stspeed == 1:
+					Globals.vimana.vimanaStart()
+				else:
+					Globals.vimana.vimanaStop()
 
 			%InputLabel.text = command_accumulator
 			
