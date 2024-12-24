@@ -17,6 +17,7 @@ func initialize():
 	else:
 		$Water.hide()
 	%PlayerCharacterController.lock_to($CupolaRigidBody)
+	Globals.update_fcs_status_text("INITIALIZING LANDING SEQUENCE")
 
 func _getCollisionPoint(x, z):
 	var rc = RayCast3D.new()
@@ -46,12 +47,14 @@ func _physics_process(delta):
 	if $CupolaRigidBody.sleeping and cupolaState == CUPOLA_STATE.DESCENDING:
 		cupolaCaptureTimeout = 5
 		%PlayerCharacterController.unlock()
+		Globals.update_fcs_status_text("")
 		cupolaState = CUPOLA_STATE.IDLE
 	if cupolaState == CUPOLA_STATE.IDLE:
 		if cupolaCaptureTimeout > 0:
 			cupolaCaptureTimeout -= delta
 		else:
 			if (%PlayerCharacterController.position - $CupolaRigidBody.position).length() < 5:
+				Globals.update_fcs_status_text("INITIALIZING RETURN SEQUENCE")
 				printt("Returning to Stardrifter")
 				cupolaState = CUPOLA_STATE.RISING
 				%PlayerCharacterController.lock_to($CupolaRigidBody)
@@ -59,4 +62,5 @@ func _physics_process(delta):
 				$CupolaRigidBody.apply_force(Vector3.UP * gravity * 1000 * 2.5)
 	if cupolaState == CUPOLA_STATE.RISING:
 		if $CupolaRigidBody.position.y > 2000:
+			Globals.update_fcs_status_text("")
 			Globals.initiate_return_sequence.emit()
