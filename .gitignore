@@ -3,8 +3,8 @@
 *.tmp
 addons/feltyrion-godot/*
 addons/script-ide/*
-data/current.bin
-data/comm.bin
-data/surface.bin
+data/CURRENT.BIN
+data/COMM.BIN
+data/SURFACE.BIN
 exported_project/*
 .vscode/
