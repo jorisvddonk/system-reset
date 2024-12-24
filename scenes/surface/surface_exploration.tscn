@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3d6ixw7o8jrw"]
+
+[ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
+[ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2ga3q"]
+
+[sub_resource type="Environment" id="Environment_5ku5r"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.2
+
+[node name="SurfaceExploration" type="Node3D"]
+script = ExtResource("1_xlqem")
+
+[node name="PlayerCharacterController" type="CharacterBody3D" parent="."]
+unique_name_in_owner = true
+wall_min_slide_angle = 0.0261799
+floor_stop_on_slope = false
+floor_max_angle = 1.7017
+script = ExtResource("3_e41ui")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacterController"]
+shape = SubResource("CapsuleShape3D_2ga3q")
+
+[node name="camera" type="Camera3D" parent="PlayerCharacterController/CollisionShape3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268513, -0.791229, 0.597143, 0.131821, 0, 0, 0)
+sky_mode = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5ku5r")
+
+[node name="ScatteringContainer" type="Node3D" parent="."]
+unique_name_in_owner = true
+editor_description = "Set the metadata flag 'enabled' to on to generate surface scattering via GDExtension. Set the 'generate single mesh' flag to 'on' to generate only a single mesh, instead of one mesh per object.
+
+Note that surface scattering using individual nodes is *much* slower at render-time than having it all baked into a single mesh, so this isn't really recommended!"
+metadata/enabled = true
+metadata/generateSingleMesh = true
+
+[node name="SurfaceContainer" type="Node3D" parent="."]
+unique_name_in_owner = true
+editor_description = "Surface mesh generation - via GDExtension"
+metadata/enabled = true
