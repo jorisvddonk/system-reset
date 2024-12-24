@@ -13,6 +13,7 @@ func _ready():
 	Globals.update_hud_selected_planet_text_request.connect(update_planetlabel_text)
 	Globals.update_hud_lightyears_text_request.connect(update_lightyears_text)
 	Globals.update_hud_dyams_text_request.connect(update_dyams_text)
+	Globals.tick.connect(_tick)
 	
 	# Set up timer to periodically refresh various bits of the HUD
 	var timer = Timer.new()
@@ -174,3 +175,14 @@ func hide_detail():
 	$HUDRim/Bottom/HBoxContainer2.hide()
 	$Aimpoint.hide()
 	$HUDTexts.hide()
+
+var sr_flashed = 0
+func _tick():
+	if sr_flashed > 2:
+		return
+	sr_flashed += 1
+	if %SystemReset.visible:
+		%SystemReset.hide()
+	else:
+		%SystemReset.show()
+	
