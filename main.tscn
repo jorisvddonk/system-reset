@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dn7j527vmegka"]
+[gd_scene load_steps=15 format=3 uid="uid://dn7j527vmegka"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_03no5"]
 [ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://assets/themes/theme.tres" id="1_d2mbj"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://fuj2xt1sh8nm" path="res://scenes/hud/hud.tscn" id="6_n03fi"]
 [ext_resource type="Shader" path="res://scenes/hud/fullscreen_overlay.gdshader" id="7_kbxe2"]
 [ext_resource type="Script" path="res://util/debug/debugging_server.gd" id="8_ljcxv"]
+[ext_resource type="Script" path="res://addons/papershot/papershot.gd" id="9_l7d1r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2amsc"]
 bg_color = Color(0, 0, 0, 1)
@@ -33,6 +34,17 @@ shader_parameter/horizontal_chromatic_abberation_b = 0.0
 shader_parameter/vertical_chromatic_abberation_r = 0.0
 shader_parameter/vertical_chromatic_abberation_g = 0.0
 shader_parameter/vertical_chromatic_abberation_b = 0.0
+
+[sub_resource type="InputEventKey" id="InputEventKey_4wq6l"]
+device = -1
+keycode = 4194313
+
+[sub_resource type="InputEventKey" id="InputEventKey_see2w"]
+device = -1
+keycode = 4194335
+
+[sub_resource type="Shortcut" id="Shortcut_bptr6"]
+events = [SubResource("InputEventKey_4wq6l"), SubResource("InputEventKey_see2w")]
 
 [node name="MainControl" type="Control"]
 layout_mode = 3
@@ -138,3 +150,9 @@ mouse_filter = 2
 
 [node name="DebugServer" type="Node" parent="."]
 script = ExtResource("8_ljcxv")
+
+[node name="Papershot" type="Node" parent="."]
+script = ExtResource("9_l7d1r")
+folder = "user://"
+shortcut = SubResource("Shortcut_bptr6")
+file_format = 1
