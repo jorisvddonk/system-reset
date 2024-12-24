@@ -2,7 +2,7 @@ extends Control
 
 var SurfaceScene = preload("res://scenes/surface/surface_exploration_container.tscn")
 var surfaceScene
-var hud_mode = true
+
 
 func _ready():
 	get_viewport().connect("size_changed", _on_resize)
@@ -70,11 +70,12 @@ func _input(event):
 			$CRTCanvasLayer.show()
 		
 	if event.is_action_pressed("toggle_hud"):
-		hud_mode = !hud_mode
-		if hud_mode:
-			%HUD.show_detail()
-		else:
+		if Globals.hud_mode == Globals.HUD_MODE.SHOW:
+			Globals.hud_mode = Globals.HUD_MODE.HIDE
 			%HUD.hide_detail()
+		elif Globals.hud_mode == Globals.HUD_MODE.HIDE:
+			Globals.hud_mode = Globals.HUD_MODE.SHOW
+			%HUD.show_detail()
 
 	if event.is_action_pressed("toggle_help"):
 		if %HUD/Help.visible:

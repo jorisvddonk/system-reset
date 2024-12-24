@@ -27,12 +27,13 @@ func _ready():
 	Globals.ui_mode_changed.connect(func (ui_mode): setSelected(false) if ui_mode == Globals.UI_MODE.NONE else null)
 	Globals._on_local_target_changed.connect(_on_local_target_changed)
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
+	Globals.hud_mode_changed.connect(func (_a): updateSpriteVisibility())
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 
 func generate():
 	Globals.feltyrion.load_planet_at_current_system(planet_index)
 	var ipinfo = Globals.feltyrion.get_planet_info(planet_index)
-	set_current_local_target_sprite_visibility_for(Globals.local_target_index) # make sure we set visibility immediately correctly of the current local target selection sprite
+	updateSpriteVisibility()
 	var img = Globals.feltyrion.return_image(true, false, ipinfo["nearstar_p_owner"] > -1)
 	var imageTexture = ImageTexture.create_from_image(img)
 	$PlanetParent/Surface.mesh.material.albedo_texture = imageTexture
@@ -101,6 +102,12 @@ func set_current_local_target_sprite_visibility_for(planet_index):
 		$CurrentLocalTargetSelectionSprite.show()
 	else:
 		$CurrentLocalTargetSelectionSprite.hide()
+
+func updateSpriteVisibility():
+	set_current_local_target_sprite_visibility_for(Globals.local_target_index)
+	if Globals.hud_mode == Globals.HUD_MODE.HIDE:
+		$CurrentLocalTargetSelectionSprite.hide()
+		$SelectionSprite.hide()
 
 func to_positive(val):
 	while val < 0:
