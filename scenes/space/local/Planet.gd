@@ -28,6 +28,7 @@ func _ready():
 	Globals._on_local_target_changed.connect(_on_local_target_changed)
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
 	Globals.hud_mode_changed.connect(func (_a): updateSpriteVisibility())
+	Globals._on_local_target_orbit_changed.connect(func (_a): updateSpriteVisibility())
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 
 func generate():
@@ -104,10 +105,13 @@ func set_current_local_target_sprite_visibility_for(planet_index):
 		$CurrentLocalTargetSelectionSprite.hide()
 
 func updateSpriteVisibility():
-	set_current_local_target_sprite_visibility_for(Globals.local_target_index)
 	if Globals.hud_mode == Globals.HUD_MODE.HIDE:
 		$CurrentLocalTargetSelectionSprite.hide()
 		$SelectionSprite.hide()
+	if Globals.hud_mode == Globals.HUD_MODE.SHOW:
+		set_current_local_target_sprite_visibility_for(Globals.local_target_index)
+		if Globals.local_target_orbit_index == planet_index:
+			$CurrentLocalTargetSelectionSprite.hide()
 
 func to_positive(val):
 	while val < 0:
