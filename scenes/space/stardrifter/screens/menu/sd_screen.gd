@@ -48,6 +48,10 @@ func _ready():
 	onboard_devices.pressed.connect(menu_od)
 	preferences.pressed.connect(menu_prefs)
 	disable_display.pressed.connect(menu_dd)
+	flight_control_drive.pressed.connect(on_hud_pressed)
+	onboard_devices.pressed.connect(on_hud_pressed)
+	preferences.pressed.connect(on_hud_pressed)
+	disable_display.pressed.connect(on_hud_pressed)
 	
 
 func _input(event):
@@ -323,10 +327,6 @@ func setup_extra_default_connections():
 	item2.pressed.connect(on_hud_pressed)
 	item3.pressed.connect(on_hud_pressed)
 	item4.pressed.connect(on_hud_pressed)
-	flight_control_drive.pressed.connect(on_hud_pressed)
-	onboard_devices.pressed.connect(on_hud_pressed)
-	preferences.pressed.connect(on_hud_pressed)
-	disable_display.pressed.connect(on_hud_pressed)
 	# simulate immediately
 	on_hud_pressed()
 
