@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c3d6ixw7o8jrw"]
+[gd_scene load_steps=24 format=3 uid="uid://c3d6ixw7o8jrw"]
 
 [ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
@@ -9,21 +9,6 @@
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.2
-
-[sub_resource type="Gradient" id="Gradient_x6vxx"]
-colors = PackedColorArray(0.473694, 0.676586, 1, 1, 0.296128, 0.626961, 1, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_nsfbl"]
-frequency = 0.007
-cellular_distance_function = 1
-metadata/_preview_in_3d_space_ = true
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fckkd"]
-width = 1024
-height = 1024
-seamless = true
-color_ramp = SubResource("Gradient_x6vxx")
-noise = SubResource("FastNoiseLite_nsfbl")
 
 [sub_resource type="Gradient" id="Gradient_ckccf"]
 offsets = PackedFloat32Array(0, 0.995246)
@@ -53,29 +38,33 @@ color_ramp = SubResource("Gradient_p52vl")
 noise = SubResource("FastNoiseLite_brf5j")
 
 [sub_resource type="Gradient" id="Gradient_c6vgc"]
-colors = PackedColorArray(0.262397, 0.262397, 0.262397, 1, 1, 1, 1, 1)
+colors = PackedColorArray(0.717237, 0.717237, 0.717237, 1, 1, 1, 1, 1)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_616xt"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nsfbl"]
+noise_type = 3
+frequency = 0.0044
+fractal_octaves = 4
+cellular_distance_function = 1
+domain_warp_type = 2
+metadata/_preview_in_3d_space_ = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_we75y"]
 width = 1024
 height = 1024
 seamless = true
 color_ramp = SubResource("Gradient_c6vgc")
-noise = SubResource("FastNoiseLite_616xt")
+noise = SubResource("FastNoiseLite_nsfbl")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qd0e8"]
 cull_mode = 2
-albedo_texture = SubResource("NoiseTexture2D_fckkd")
 metallic_specular = 1.0
 roughness = 0.13
 normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_we75y")
-detail_enabled = true
 detail_mask = SubResource("NoiseTexture2D_rmc7r")
 detail_blend_mode = 3
 detail_albedo = SubResource("NoiseTexture2D_yvtg6")
-uv1_scale = Vector3(512, 512, 512)
+uv1_scale = Vector3(64, 64, 64)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_l8v2s"]
 material = SubResource("StandardMaterial3D_qd0e8")

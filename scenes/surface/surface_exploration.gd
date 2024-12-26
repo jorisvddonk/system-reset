@@ -13,6 +13,8 @@ func initialize():
 	%PlayerCharacterController.gravity = gravity
 	PhysicsServer3D.area_set_param(get_viewport().find_world_3d().space, PhysicsServer3D.AREA_PARAM_GRAVITY, gravity)
 	if Globals.feltyrion.get_planet_info(Globals.feltyrion.ip_targetted).nearstar_p_type == 3:
+		var paletteimg = Globals.feltyrion.get_surface_palette_as_image()
+		$Water.mesh.material.albedo_color = paletteimg.get_pixel(99, 0)
 		$Water.show()
 	else:
 		$Water.hide()
