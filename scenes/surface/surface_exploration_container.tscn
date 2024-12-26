@@ -73,3 +73,11 @@ offset_top = -340.0
 offset_right = 140.0
 offset_bottom = -300.0
 grow_vertical = 2
+
+[node name="PlanetDetails" type="RichTextLabel" parent="DebuggingTools"]
+custom_minimum_size = Vector2(500, 10)
+offset_left = 100.0
+offset_top = 170.0
+offset_right = 600.0
+offset_bottom = 210.0
+text = "additional debug info goes here"

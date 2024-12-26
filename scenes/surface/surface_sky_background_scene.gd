@@ -18,11 +18,17 @@ func _ready():
 	recalculate()
 
 func recalculate():
-	print("RECALC")
-	Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, $Stars.get_path())
+	if _should_show_stars():
+		Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, $Stars.get_path())
+		$Stars.show()
+	else:
+		$Stars.hide()
 	var skyimg = Globals.feltyrion.return_sky_image()
 	var rect = Rect2i(0, skyimg.get_height(), skyimg.get_width(), skyimg.get_height())
 	skyimg.crop(skyimg.get_width(), skyimg.get_height() * 2)
 	skyimg.fill_rect(rect, skyimg.get_pixel(0, int(skyimg.get_height() * 0.5 - 1)).darkened(0.1))
 	var skyTexture = ImageTexture.create_from_image(skyimg)
 	$WorldEnvironment.environment.sky.sky_material.panorama = skyTexture
+	
+func _should_show_stars():
+	return Globals.feltyrion.sky_brightness < 32 and Globals.feltyrion.rainy < 2.0

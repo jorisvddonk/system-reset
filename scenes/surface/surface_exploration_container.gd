@@ -57,6 +57,7 @@ func _unhandled_input(event):
 
 func _on_debug_tools_enabled_changed(enabled: bool):
 	if enabled:
+		$DebuggingTools/PlanetDetails.text = "sky_brightness: %d  nightzone: %d  rainy: %2.2f" % [Globals.feltyrion.sky_brightness, Globals.feltyrion.nightzone, Globals.feltyrion.rainy]
 		$DebuggingTools.show()
 	else:
 		$DebuggingTools.hide()
