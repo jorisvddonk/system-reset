@@ -1,7 +1,51 @@
-[gd_scene load_steps=24 format=3 uid="uid://c3d6ixw7o8jrw"]
+[gd_scene load_steps=30 format=3 uid="uid://c3d6ixw7o8jrw"]
 
 [ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
+
+[sub_resource type="Gradient" id="Gradient_pk5sq"]
+offsets = PackedFloat32Array(0, 0.996748)
+colors = PackedColorArray(0.71, 0.937167, 1, 1, 0.91, 0.982, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gxfly"]
+gradient = SubResource("Gradient_pk5sq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sw3f5"]
+emission_shape_offset = Vector3(0, 100, 0)
+emission_shape_scale = Vector3(150, 100, 150)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+direction = Vector3(0, -1, 0)
+spread = 3.627
+initial_velocity_min = 172.73
+initial_velocity_max = 213.27
+gravity = Vector3(0, 0, 0)
+color_initial_ramp = SubResource("GradientTexture1D_gxfly")
+hue_variation_min = -0.02
+hue_variation_max = 0.02
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="Curve" id="Curve_tap58"]
+max_value = 0.25
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0311111, 0.0328701), 0.703501, 0.703501, 0, 0, Vector2(0.247407, 0.0867183), 0.0, 0.0, 0, 0, Vector2(1, 0.00160342), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ro7vs"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.643137)
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_71dsk"]
+material = SubResource("StandardMaterial3D_ro7vs")
+shape = 0
+curve = SubResource("Curve_tap58")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2ga3q"]
 
@@ -121,6 +165,14 @@ wall_min_slide_angle = 0.0261799
 floor_stop_on_slope = false
 floor_max_angle = 1.7017
 script = ExtResource("3_e41ui")
+
+[node name="Rain" type="GPUParticles3D" parent="PlayerCharacterController"]
+unique_name_in_owner = true
+amount = 10000
+trail_enabled = true
+trail_lifetime = 0.03
+process_material = SubResource("ParticleProcessMaterial_sw3f5")
+draw_pass_1 = SubResource("RibbonTrailMesh_71dsk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacterController"]
 shape = SubResource("CapsuleShape3D_2ga3q")

@@ -16,7 +16,12 @@ func initialize():
 		var paletteimg = Globals.feltyrion.get_surface_palette_as_image()
 		$Water.mesh.material.albedo_color = paletteimg.get_pixel(99, 0)
 		$Water.show()
+		if Globals.feltyrion.rainy < 0.01:
+			%Rain.queue_free()
+		else:
+			%Rain.amount = 1000 + (9000 * Globals.feltyrion.rainy) # rainy variable is beteween 0.0 and 5.0
 	else:
+		%Rain.queue_free()
 		$Water.hide()
 	%PlayerCharacterController.lock_to($CupolaRigidBody)
 	Globals.update_fcs_status_text("INITIALIZING LANDING SEQUENCE")
