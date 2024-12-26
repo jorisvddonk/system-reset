@@ -5,8 +5,8 @@ func _ready():
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 	get_viewport().connect("size_changed", _on_resize)
 	_on_resize()
-	if get_tree().get_current_scene().name == "SurfaceExploration": # Force-load if we run the scene directly
-		print("Running SurfaceExploration scene directly; forcing surface load...")
+	if get_tree().get_current_scene().name == "SurfaceExplorationComposition": # Force-load if we run the scene directly
+		print("Running SurfaceExplorationComposition scene directly; forcing surface load...")
 		Globals.load_game()
 		Globals.feltyrion.prepare_star()
 		Globals.feltyrion.landing_pt_lon = 60
