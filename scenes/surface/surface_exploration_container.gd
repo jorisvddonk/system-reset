@@ -5,12 +5,26 @@ func _ready():
 	_on_debug_tools_enabled_changed(Globals.debug_tools_enabled)
 	get_viewport().connect("size_changed", _on_resize)
 	_on_resize()
-	if get_tree().get_current_scene().name == "SurfaceExplorationComposition": # Force-load if we run the scene directly
+	if _is_running_scene_directly_for_development(): # Force-load if we run the scene directly
 		print("Running SurfaceExplorationComposition scene directly; forcing surface load...")
-		Globals.load_game()
-		Globals.feltyrion.prepare_star()
-		Globals.feltyrion.landing_pt_lon = 60
-		Globals.feltyrion.landing_pt_lat = 60
+		if false: # toggle this to switch between current savegame and generated one when debugging/developing
+			Globals.load_game()
+			Globals.feltyrion.prepare_star()
+			Globals.feltyrion.landing_pt_lon = 60
+			Globals.feltyrion.landing_pt_lat = 60
+		else:
+			var x = -18928
+			var y = -29680
+			var z = -67336
+			Globals.feltyrion.set_nearstar(x,y,z) # balastrackonastreya
+			Globals.set_ap_target(Globals.feltyrion.get_nearstar_x(), Globals.feltyrion.get_nearstar_y(), Globals.feltyrion.get_nearstar_z())
+			Globals.feltyrion.update_time()
+			Globals.feltyrion.ip_targetted = 3 # Felysia
+			Globals.feltyrion.ip_reached = 1
+			Globals.feltyrion.landing_point = 1 # enable "setting landing point" mode. Without this, nightzone isn't calculated correctly.
+			Globals.feltyrion.landing_pt_lat = 60
+			Globals.feltyrion.landing_pt_lon = 60
+			Globals.feltyrion.prepare_star()
 	
 	go(Globals.feltyrion.ip_targetted, Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat)
 		
@@ -61,3 +75,7 @@ func _on_debug_tools_enabled_changed(enabled: bool):
 		$DebuggingTools.show()
 	else:
 		$DebuggingTools.hide()
+
+
+func _is_running_scene_directly_for_development():
+	return get_tree().get_current_scene().name == "SurfaceExplorationComposition"
