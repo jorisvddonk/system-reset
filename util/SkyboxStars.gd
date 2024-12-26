@@ -6,6 +6,7 @@ class_name SkyboxStars
 
 @export var baseSprite: Sprite3D
 @export var distanceMultiplier: float = 1
+@export var counterRotateCamera: bool = false
 
 func _ready():
 	for i in range(0, 2744):
@@ -14,6 +15,8 @@ func _ready():
 		star.show()
 		add_child(star)
 	Globals.planet_surface_prepared.connect(recalculate)
+	if counterRotateCamera:
+		Globals.on_camera_rotation.connect(_on_camera_rotate)
 
 func recalculate():
 	if _should_show_stars():
@@ -24,3 +27,8 @@ func recalculate():
 	
 func _should_show_stars():
 	return Globals.feltyrion.sky_brightness < 32 and Globals.feltyrion.rainy < 2.0
+
+func _on_camera_rotate(rotation):
+	#self.rotation.x = rotation.x
+	self.rotation.y = -rotation.y
+	#self.rotation.z = rotation.z

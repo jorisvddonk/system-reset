@@ -1,7 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://c3d6ixw7o8jrw"]
+[gd_scene load_steps=33 format=3 uid="uid://c3d6ixw7o8jrw"]
 
 [ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
+[ext_resource type="Script" path="res://util/SkyboxStars.gd" id="3_ewqvc"]
+[ext_resource type="Script" path="res://util/SkytextureSetter.gd" id="4_qciod"]
 
 [sub_resource type="Gradient" id="Gradient_pk5sq"]
 offsets = PackedFloat32Array(0, 0.996748)
@@ -49,10 +51,17 @@ curve = SubResource("Curve_tap58")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2ga3q"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_71qnr"]
+load_path = "res://.godot/imported/star_01.png-2dd44d962bf03e0b028a090023fd1976.s3tc.ctex"
+
 [sub_resource type="Environment" id="Environment_5ku5r"]
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.2
+ssr_enabled = true
+ssr_max_steps = 256
+ssr_fade_in = 0.000336533
+ssr_fade_out = 2.73207
 
 [sub_resource type="Gradient" id="Gradient_ckccf"]
 offsets = PackedFloat32Array(0, 0.995246)
@@ -82,7 +91,6 @@ color_ramp = SubResource("Gradient_p52vl")
 noise = SubResource("FastNoiseLite_brf5j")
 
 [sub_resource type="Gradient" id="Gradient_c6vgc"]
-colors = PackedColorArray(0.717237, 0.717237, 0.717237, 1, 1, 1, 1, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_nsfbl"]
 noise_type = 3
@@ -96,19 +104,25 @@ metadata/_preview_in_3d_space_ = true
 width = 1024
 height = 1024
 seamless = true
+as_normal_map = true
+bump_strength = 2.9
 color_ramp = SubResource("Gradient_c6vgc")
 noise = SubResource("FastNoiseLite_nsfbl")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qd0e8"]
 cull_mode = 2
+metallic = 0.88
 metallic_specular = 1.0
-roughness = 0.13
+roughness = 0.07
 normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_we75y")
+rim_enabled = true
+clearcoat_roughness = 1.0
 detail_mask = SubResource("NoiseTexture2D_rmc7r")
 detail_blend_mode = 3
 detail_albedo = SubResource("NoiseTexture2D_yvtg6")
 uv1_scale = Vector3(64, 64, 64)
+disable_receive_shadows = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_l8v2s"]
 material = SubResource("StandardMaterial3D_qd0e8")
@@ -180,7 +194,20 @@ shape = SubResource("CapsuleShape3D_2ga3q")
 [node name="camera" type="Camera3D" parent="PlayerCharacterController/CollisionShape3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
-far = 9000.0
+v_offset = 0.8
+far = 25000.0
+
+[node name="SkyboxStars" type="Node3D" parent="PlayerCharacterController" node_paths=PackedStringArray("baseSprite")]
+script = ExtResource("3_ewqvc")
+baseSprite = NodePath("Star")
+distanceMultiplier = 80.0
+counterRotateCamera = true
+
+[node name="Star" type="Sprite3D" parent="PlayerCharacterController/SkyboxStars"]
+visibility_range_begin = 20.0
+pixel_size = 0.7
+billboard = 1
+texture = SubResource("CompressedTexture2D_71qnr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.0618909, -0.292652, 0.954214, 0.60838, 0.746843, 0.268513, -0.791229, 0.597143, 0.131821, 0, 0, 0)
@@ -256,3 +283,7 @@ centered = false
 offset = Vector2(-128, 0)
 billboard = 2
 texture = SubResource("GradientTexture2D_vy4mi")
+
+[node name="SkytextureSetter" type="Node" parent="." node_paths=PackedStringArray("worldenvironment")]
+script = ExtResource("4_qciod")
+worldenvironment = NodePath("../WorldEnvironment")
