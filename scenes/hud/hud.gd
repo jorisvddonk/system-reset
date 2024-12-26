@@ -95,7 +95,7 @@ func refresh_selected_targets():
 		%SelectedPlanet.text = ""
 
 func refresh_environment_label():
-	%EnvironmentLabel.text = "GRAVITY %6.3f FG & TEMPERATURE +15.0@c & PRESSURE 1.000 ATM & PULSE 120 PPS" % Globals.get_gravity()
+	%EnvironmentLabel.text = "GRAVITY %6.3f FG & TEMPERATURE %+3.1f@c & PRESSURE %2.3f ATM & PULSE 120 PPS" % [Globals.get_gravity(), Globals.get_temperature(), Globals.get_pressure()]
 
 var lastFCSStatusText = ""
 ## Polls the FCS status text from the engine (Feltyrion-godot).

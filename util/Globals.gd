@@ -266,3 +266,15 @@ func get_gravity():
 	if Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE:
 		gravity = Globals.feltyrion.planet_grav / 2000 * 38.26 # silly calculation, but it's what it is; check noctis-1.cpp
 	return gravity
+	
+func get_temperature():
+	var temperature = 15
+	if Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE:
+		temperature = Globals.feltyrion.pp_temp
+	return temperature
+	
+func get_pressure():
+	var pressure = 1
+	if Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE:
+		pressure = Globals.feltyrion.pp_pressure
+	return pressure
