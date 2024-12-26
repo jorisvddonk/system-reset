@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8ystkhcrj80s"]
+[gd_scene load_steps=9 format=3 uid="uid://b8ystkhcrj80s"]
 
 [ext_resource type="Script" path="res://util/camera.gd" id="1_64unp"]
-[ext_resource type="Script" path="res://scenes/surface/surface_sky_background_scene.gd" id="1_kmdqm"]
+[ext_resource type="Script" path="res://scenes/surface/surface_sky_background_scene.gd" id="1_65xop"]
 [ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="3_6rtj1"]
 [ext_resource type="Script" path="res://util/SkytextureSetter.gd" id="4_n0rbs"]
+[ext_resource type="Script" path="res://util/SkyboxStars.gd" id="5_bkelw"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3xtbv"]
 
@@ -18,7 +19,7 @@ fog_density = 0.002
 fog_sky_affect = 0.045
 
 [node name="SurfaceSkyBackgroundScene" type="Node3D"]
-script = ExtResource("1_kmdqm")
+script = ExtResource("1_65xop")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7h5rh")
@@ -27,14 +28,16 @@ environment = SubResource("Environment_7h5rh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
 script = ExtResource("1_64unp")
 
-[node name="Stars" type="Node3D" parent="."]
+[node name="SkytextureSetter" type="Node" parent="." node_paths=PackedStringArray("worldenvironment")]
+script = ExtResource("4_n0rbs")
+worldenvironment = NodePath("../WorldEnvironment")
 
-[node name="Star" type="Sprite3D" parent="Stars"]
+[node name="SkyboxStars" type="Node3D" parent="." node_paths=PackedStringArray("baseSprite")]
+script = ExtResource("5_bkelw")
+baseSprite = NodePath("Star")
+
+[node name="Star" type="Sprite3D" parent="SkyboxStars"]
 visibility_range_begin = 5.0
 pixel_size = 0.014
 billboard = 1
 texture = ExtResource("3_6rtj1")
-
-[node name="SkytextureSetter" type="Node" parent="." node_paths=PackedStringArray("worldenvironment")]
-script = ExtResource("4_n0rbs")
-worldenvironment = NodePath("../WorldEnvironment")

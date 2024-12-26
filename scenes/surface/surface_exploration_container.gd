@@ -46,7 +46,7 @@ func go(planet_index, lon, lat):
 	Globals.feltyrion.load_planet_at_current_system(planet_index)
 	Globals.feltyrion.prepare_planet_surface()
 	Globals.planet_surface_prepared.emit()
-	$SubViewportContainer_Sky/SubViewport/SurfaceSkyBackgroundScene.recalculate()
+
 	var surfimg = Globals.feltyrion.return_surfacemap_image()
 	surfimg.adjust_bcs(2, 1, 1) # fix brightness so that maximum heightmap value is white
 	var surfTexture = ImageTexture.create_from_image(surfimg)

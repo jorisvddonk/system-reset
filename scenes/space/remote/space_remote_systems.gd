@@ -63,7 +63,7 @@ func _on_vimana_status_change(vimana_is_active):
 
 # Update the location of the vimana stars fx
 func updateVimanaParticles():
-	Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, $StarsVimana.get_path())
+	Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, 1.0, $StarsVimana.get_path())
 
 func _process(delta):
 	if Globals.vimana.active:
