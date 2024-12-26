@@ -1,14 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://x3fwc1fu4hlb"]
+[gd_scene load_steps=8 format=3 uid="uid://x3fwc1fu4hlb"]
 
 [ext_resource type="Script" path="res://testing/test_3d.gd" id="1_1lriu"]
 [ext_resource type="Shader" uid="uid://cqabed6cvgqef" path="res://scenes/surface/surface_exploration_container.tres" id="1_qmlhj"]
 [ext_resource type="Script" path="res://addons/simple-free-look-camera-4/camera.gd" id="2_loj8q"]
+[ext_resource type="Script" path="res://util/SkytextureSetter.gd" id="4_xxvs5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fm4uk"]
 render_priority = 0
 shader = ExtResource("1_qmlhj")
 
 [sub_resource type="PrismMesh" id="PrismMesh_v8j2p"]
+
+[sub_resource type="Environment" id="Environment_1u5ce"]
 
 [node name="Test3D" type="Node3D"]
 script = ExtResource("1_1lriu")
@@ -30,3 +33,10 @@ offset_bottom = 80.0
 [node name="TextureRect2" type="TextureRect" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1u5ce")
+
+[node name="SkytextureSetter" type="Node" parent="." node_paths=PackedStringArray("worldenvironment")]
+script = ExtResource("4_xxvs5")
+worldenvironment = NodePath("../WorldEnvironment")

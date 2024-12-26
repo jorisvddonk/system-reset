@@ -4,6 +4,7 @@ const VimanaDrive = preload("res://util/systems/VimanaDrive.gd")
 const InterplanetaryDrive = preload("res://util/systems/InterplanetaryDrive.gd")
 
 signal tick() # simple clock ticker, is emitted once per second
+signal planet_surface_prepared() # manually emitted when planet surface had been prepared via `prepare_planet_surface`, and nodes should recalculate things. Might be worth considering putting this in feltyrion-godot..
 @export var player_rotation_in_space: Vector3
 @onready var feltyrion: Feltyrion = Feltyrion.new()
 @onready var vimana: VimanaDrive = VimanaDrive.new(feltyrion)

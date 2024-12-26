@@ -16,6 +16,7 @@ func _ready():
 	Globals.feltyrion.prepare_star()
 	Globals.feltyrion.load_planet_at_current_system(Globals.feltyrion.ip_targetted)
 	Globals.feltyrion.prepare_planet_surface()
+	Globals.planet_surface_prepared.emit()
 	
 	var txtimg = Globals.feltyrion.return_txtr_image(false)
 	var txtrTexture = ImageTexture.create_from_image(txtimg)

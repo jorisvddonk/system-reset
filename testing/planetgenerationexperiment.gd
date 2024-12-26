@@ -67,6 +67,7 @@ func generate(planet_index, type, seed):
 	$SpacePalette.queue_redraw()
 		
 	Globals.feltyrion.prepare_planet_surface()
+	Globals.planet_surface_prepared.emit()
 	
 	var skyimg = Globals.feltyrion.return_sky_image()
 	var skyTexture = ImageTexture.create_from_image(skyimg)
