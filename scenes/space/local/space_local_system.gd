@@ -1,31 +1,15 @@
 extends Node3D
 var Planet = preload("res://scenes/space/local/Planet.tscn")
 @onready var regex = RegEx.new()
-var lastp = 0
-const maxparticles = 5555
-var last_particle_cleared_timestamp = 0
 
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
 	Globals.vimana.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.game_loaded.connect(on_game_loaded)
-	Globals.feltyrion.connect("found_ring_particle", on_ring_particle_found)
 	Globals.gameplay_mode_changed.connect(on_gameplay_mode_changed)
 	Globals.connect("_on_local_target_orbit_changed", on_local_target_orbit_changed)
-	for i in range(0, maxparticles):
-		var particle: Sprite3D = %RingParticle.duplicate()
-		particle.position = Vector3(0,0,0)
-		particle.hide()
-		%RingParticles.add_child(particle)
 
-
-func clearparticles():
-	printt("clearing particles")
-	for i in range(0, maxparticles):
-		var particle: Sprite3D = %RingParticles.get_child(i)
-		particle.position = Vector3(0,0,0)
-		particle.hide()
 
 func on_local_target_orbit_changed(index):
 	if index != -1:
@@ -33,22 +17,6 @@ func on_local_target_orbit_changed(index):
 		printt("Forcing load of planetary body with index", index)
 		Globals.feltyrion.load_planet_at_current_system(index)
 
-func on_ring_particle_found(x, y, z, radii, unconditioned_color, body_index):
-	# x/y/z is in global parsis (!)
-	if Globals.feltyrion.ip_targetted != body_index:
-		return
-	var curtime = Time.get_unix_time_from_system()
-	if curtime - last_particle_cleared_timestamp > 1: # it has been 1 second since we last got any particle locations, so clear (hide) them all!
-		last_particle_cleared_timestamp = curtime
-		clearparticles()
-	var rp: Sprite3D = %RingParticles.get_child(lastp)
-	rp.show()
-	var v = Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y - 0.0005), (z - Globals.feltyrion.ap_target_z))
-	rp.position = v
-	lastp += 1
-	if lastp > maxparticles - 1:
-		lastp = 0
-	
 func _physics_process(delta):
 	# TODO: determine how often this actually needs to be called
 	if Engine.physics_ticks_per_second == 24:
@@ -105,6 +73,7 @@ func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, 
 	planet.planet_pos_relative_to_star_y = (y - Globals.feltyrion.ap_target_y)
 	planet.planet_pos_relative_to_star_z = (z - Globals.feltyrion.ap_target_z)
 	planet.translate(Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y), (z - Globals.feltyrion.ap_target_z)))
+	planet.ringParticleBase = %RingParticleBase
 	$SolarSystemContainer/Planets.add_child(planet)
 
 func _on_vimana_status_change(vimana_is_active):

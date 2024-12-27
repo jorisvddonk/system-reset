@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://b4sei7kpms65m"]
+[gd_scene load_steps=13 format=3 uid="uid://b4sei7kpms65m"]
 
 [ext_resource type="Texture2D" uid="uid://di6r34ryh1qsq" path="res://addons/kenney_particle_pack/circle_05.png" id="2_8ymtv"]
 [ext_resource type="Script" path="res://scenes/space/local/Planet.gd" id="2_atbx8"]
+[ext_resource type="Script" path="res://scenes/space/local/PlanetRing.gd" id="3_xy2mc"]
 [ext_resource type="FontFile" uid="uid://buhumvkmjrj34" path="res://assets/font.png" id="3_xyiqe"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s081u"]
@@ -107,6 +108,9 @@ mesh = SubResource("SphereMesh_3om8j")
 [node name="Surface" type="MeshInstance3D" parent="PlanetParent"]
 layers = 7
 mesh = SubResource("SphereMesh_k1oab")
+
+[node name="PlanetRing" type="Node3D" parent="PlanetParent"]
+script = ExtResource("3_xy2mc")
 
 [node name="PlanetNameLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62781, 0)

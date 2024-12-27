@@ -10,6 +10,7 @@ class_name Planet
 @export var planet_pos_relative_to_star_x: float
 @export var planet_pos_relative_to_star_y: float
 @export var planet_pos_relative_to_star_z: float
+@export var ringParticleBase: Node3D
 var mouseover = false
 var clicking = false
 signal clicked()
@@ -20,6 +21,8 @@ const local_tgt_highlight_color = Color.ROYAL_BLUE
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$PlanetNameLabel.text = planet_name
+	$PlanetParent/PlanetRing.planetindex = planet_index
+	$PlanetParent/PlanetRing.ringParticleBase = ringParticleBase
 	generate()
 	setSelected(false)
 	Globals.mouse_click_begin.connect(click_begin)
