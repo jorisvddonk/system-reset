@@ -5,6 +5,7 @@ var Farstar = preload("res://scenes/space/remote/far_star.tscn")
 var backup_target_parsis_x = null
 var backup_target_parsis_y = null
 var backup_target_parsis_z = null
+var backup_ap_targetted = null
 
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
@@ -104,10 +105,16 @@ func _input(event):
 		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 			Globals.ui_mode = Globals.UI_MODE.NONE
 			if backup_target_parsis_z != null and backup_target_parsis_y != null and backup_target_parsis_z != null:
-				Globals.set_ap_target(backup_target_parsis_x, backup_target_parsis_y, backup_target_parsis_z)
+				if backup_ap_targetted == 1:
+					Globals.set_ap_target(backup_target_parsis_x, backup_target_parsis_y, backup_target_parsis_z)
+				elif backup_ap_targetted == -1:
+					Globals.set_direct_ap_target(backup_target_parsis_x, backup_target_parsis_y, backup_target_parsis_z)
+				elif backup_ap_targetted == 0:
+					# TODO: do we also need to update ap_targetted here as well?
+					Globals.feltyrion.set_ap_targetted_without_extracting_target_infos(0)
 			# have to make sure we reset the HUD text for the selected star label back to what is actually selected... Kind of annoying we have to do it here, but :shrug:
 			var s = Globals.feltyrion.get_ap_target_info()
-			if s.has("ap_target_class"):
+			if s.has("ap_target_class") and s.has("ap_targetted") and s.ap_targetted != -1:
 				var starLabel = Globals.feltyrion.get_star_name(s.ap_target_x, s.ap_target_y, s.ap_target_z) # starlabel already contains star class
 				Globals.update_hud_selected_star(starLabel, s.ap_target_x, s.ap_target_y, s.ap_target_z)
 
@@ -116,3 +123,4 @@ func on_ui_mode_changing(old_value, new_value):
 		backup_target_parsis_x = Globals.feltyrion.ap_target_x
 		backup_target_parsis_y = Globals.feltyrion.ap_target_y
 		backup_target_parsis_z = Globals.feltyrion.ap_target_z
+		backup_ap_targetted = Globals.feltyrion.ap_targetted
