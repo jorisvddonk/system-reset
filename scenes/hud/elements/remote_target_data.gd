@@ -1,6 +1,7 @@
 extends VBoxContainer
 
 var starName = null
+
 func _ready():
 	visibility_changed.connect(_visibility_changed)
 	Globals.tick.connect(refresh)
@@ -60,6 +61,7 @@ func _visibility_changed():
 
 func _ap_target_changed(x, y, z, _code):
 	recomputeStarName(x, y, z)
+	refresh()
 
 func recomputeStarName(x, y, z):
 	if Globals.feltyrion.ap_targetted == 1:
