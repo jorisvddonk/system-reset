@@ -91,4 +91,13 @@ func _process(delta):
 		if lowestdotrot_node != null and lowestdotrot_node is Farstar:
 			var s = (lowestdotrot_node as Farstar)
 			var starLabel = Globals.feltyrion.get_star_name(s.parsis_x, s.parsis_y, s.parsis_z) # starlabel already contains star class
-			Globals.update_hud_selected_star_text(starLabel)
+
+func _input(event):
+	if event.is_action_pressed("quit"):
+		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
+			Globals.ui_mode = Globals.UI_MODE.NONE
+			# have to make sure we reset the HUD text for the selected star label back to what is actually selected... Kind of annoying we have to do it here, but :shrug:
+			var s = Globals.feltyrion.get_ap_target_info()
+			if s.has("ap_target_class"):
+				var starLabel = Globals.feltyrion.get_star_name(s.ap_target_x, s.ap_target_y, s.ap_target_z) # starlabel already contains star class
+				Globals.update_hud_selected_star(starLabel, s.ap_target_x, s.ap_target_y, s.ap_target_z)

@@ -168,13 +168,6 @@ func _input(event):
 			if not OS.has_feature("editor"):
 				Globals.save_game() # save the game on exit, but don't do it when running the game via the editor as it can make debugging more difficult
 			get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
-		elif Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET: # TODO: this really shouldn't be in `space_near.gd`...
-			Globals.ui_mode = Globals.UI_MODE.NONE
-			# have to make sure we reset the HUD text for the selected star label back to what is actually selected... Kind of annoying we have to do it here, but :shrug:
-			var s = Globals.feltyrion.get_ap_target_info()
-			if s.has("ap_target_class"):
-				var starLabel = Globals.feltyrion.get_star_name(s.ap_target_x, s.ap_target_y, s.ap_target_z) # starlabel already contains star class
-				Globals.update_hud_selected_star_text(starLabel)
 		elif Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:
 			Globals.local_target_index = -1
 			Globals.ui_mode = Globals.UI_MODE.NONE
