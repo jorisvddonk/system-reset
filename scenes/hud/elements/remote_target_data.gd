@@ -42,6 +42,7 @@ func refresh():
 		var radius = targetInfo.ap_target_ray
 		var mass = 0.001 * (4 * PI / 3) * radius * radius * radius * get_starmass_correction(targetInfo.ap_target_class)
 		var temperature = mass / (0.38e-4 * targetInfo.ap_target_ray)
+		var starnop = Globals.feltyrion.get_starnop_estimate(Globals.feltyrion.ap_target_x, Globals.feltyrion.ap_target_y, Globals.feltyrion.ap_target_z)
 		if targetInfo.ap_target_class == 6:
 			temperature = temperature * 0.0022
 		
@@ -49,7 +50,7 @@ func refresh():
 %8.5f BAL M  %8.3f\n              Centidyams
 Surface temperature:
 %5.0f@k&%5.0f@c&%6.0f@f
-major bodies: ? est." % [mass, radius, temperature + 273.15, temperature, temperature * 1.8 + 32] # TODO: add major body estimation
+major bodies: %d est." % [mass, radius, temperature + 273.15, temperature, temperature * 1.8 + 32, starnop]
 	else:
 		%HeaderLabel.text = "Remote target not set"
 		%ContentLabel.text = ""
