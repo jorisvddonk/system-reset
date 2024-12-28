@@ -166,14 +166,15 @@ func _ready():
 	timer.start()
 
 func set_ap_target(x: float, y: float, z: float):
-	feltyrion.lock()
-	feltyrion.ap_target_x = x
-	feltyrion.ap_target_y = y
-	feltyrion.ap_target_z = z
-	feltyrion.set_ap_targetted(1)
-	var info = feltyrion.get_ap_target_info()
-	feltyrion.unlock()
-	on_ap_target_changed.emit(x, y, z, info.ap_target_id_code)
+	if x != feltyrion.ap_target_x or y != feltyrion.ap_target_y or z != feltyrion.ap_target_z or feltyrion.ap_targetted != 1:
+		feltyrion.lock()
+		feltyrion.ap_target_x = x
+		feltyrion.ap_target_y = y
+		feltyrion.ap_target_z = z
+		feltyrion.set_ap_targetted(1)
+		var info = feltyrion.get_ap_target_info()
+		feltyrion.unlock()
+		on_ap_target_changed.emit(x, y, z, info.ap_target_id_code)
 	
 func set_direct_ap_target(x: float, y: float, z: float):
 	feltyrion.lock()
