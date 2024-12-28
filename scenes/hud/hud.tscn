@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://fuj2xt1sh8nm"]
+[gd_scene load_steps=11 format=3 uid="uid://fuj2xt1sh8nm"]
 
 [ext_resource type="Script" path="res://scenes/hud/hud.gd" id="1_o8fq7"]
 [ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://assets/themes/theme.tres" id="2_hq42y"]
 [ext_resource type="Texture2D" uid="uid://dvwxod1u8jtnl" path="res://addons/kenney_crosshair_pack/crosshair001.png" id="3_kl6mr"]
 [ext_resource type="Theme" uid="uid://dvqwgv7i0cjg" path="res://assets/themes/theme_smallfont_2x.tres" id="3_ok57h"]
 [ext_resource type="PackedScene" uid="uid://cnktcbnnx6t" path="res://scenes/hud/license.tscn" id="5_jju6a"]
+[ext_resource type="PackedScene" uid="uid://1nobss814qjg" path="res://scenes/hud/elements/remote_target_data.tscn" id="6_dxgrt"]
 
 [sub_resource type="Gradient" id="Gradient_q7tnt"]
 colors = PackedColorArray(0.0901961, 0.0627451, 0.0588235, 1, 0.0706842, 0.0527823, 0.0349736, 1)
@@ -540,3 +541,27 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 45.0
+offset_top = -20.0
+offset_right = 85.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="RemoteTargetData" parent="Container" instance=ExtResource("6_dxgrt")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+anchors_preset = 0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 200.0
+offset_bottom = 99.0
+grow_vertical = 1

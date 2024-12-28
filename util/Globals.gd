@@ -41,6 +41,15 @@ signal osd_updated(item1_text: String, item2_text: String, item3_text: String, i
 		ui_mode_changing.emit(ui_mode, new_value)
 		ui_mode = new_value
 		ui_mode_changed.emit(new_value)
+		
+enum DATA_UI_MODE {NONE, REMOTE_TARGET, LOCAL_TARGET, ENVIRONMENT}
+signal data_ui_mode_changed(new_value)
+@export var data_ui_mode: DATA_UI_MODE = DATA_UI_MODE.NONE:
+	get:
+		return data_ui_mode
+	set(new_value):
+		data_ui_mode = new_value
+		data_ui_mode_changed.emit(new_value)
 
 signal _on_local_target_changed(planet_index: int)
 @export var local_target_index: int = -1: # the *selected* local target; -1 if none - basically a wrapper around feltyrion.ip_targetted that emits a signal on change

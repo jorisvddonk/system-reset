@@ -13,6 +13,7 @@ func _ready():
 	Globals.update_hud_selected_planet_text_request.connect(update_planetlabel_text)
 	Globals.update_hud_lightyears_text_request.connect(update_lightyears_text)
 	Globals.update_hud_dyams_text_request.connect(update_dyams_text)
+	Globals.data_ui_mode_changed.connect(on_data_ui_mode_changed)
 	Globals.tick.connect(_tick)
 	
 	# Set up timer to periodically refresh various bits of the HUD
@@ -186,3 +187,12 @@ func _tick():
 	else:
 		%SystemReset.show()
 	
+func on_data_ui_mode_changed(data_ui_mode):
+	if data_ui_mode == Globals.DATA_UI_MODE.NONE:
+		%RemoteTargetData.hide()
+	elif data_ui_mode == Globals.DATA_UI_MODE.REMOTE_TARGET:
+		%RemoteTargetData.show()
+	elif data_ui_mode == Globals.DATA_UI_MODE.LOCAL_TARGET:
+		%RemoteTargetData.hide()
+	elif data_ui_mode == Globals.DATA_UI_MODE.ENVIRONMENT:
+		%RemoteTargetData.hide()
