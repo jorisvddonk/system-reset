@@ -126,9 +126,9 @@ func update_fcs_status_text(val: String, timeout: int = 0):
 	update_fcs_status_request.emit(val, timeout)
 
 
-signal update_hud_selected_star_text_request(val:String) ## signal to request a HUD update to set the new selected star
-func update_hud_selected_star_text(val: String):
-	update_hud_selected_star_text_request.emit(val)
+signal update_hud_selected_star_request(val:String, x: float, y: float, z: float) ## signal to request a HUD update to set the new selected star
+func update_hud_selected_star(val: String, x: float, y: float, z: float):
+	update_hud_selected_star_request.emit(val, x, y, z)
 	
 signal update_hud_selected_planet_text_request(val:String) ## signal to request a HUD update to set the new selected planet
 func update_hud_selected_planet_text(val: String):

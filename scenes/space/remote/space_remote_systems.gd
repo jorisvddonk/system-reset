@@ -2,11 +2,16 @@ extends Node3D
 var Farstar = preload("res://scenes/space/remote/far_star.tscn")
 @onready var regex = RegEx.new()
 
+var backup_target_parsis_x = null
+var backup_target_parsis_y = null
+var backup_target_parsis_z = null
+
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
 	Globals.feltyrion.found_star.connect(_on_found_star)
 	Globals.vimana.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.game_loaded.connect(on_game_loaded)
+	Globals.ui_mode_changing.connect(on_ui_mode_changing)
 	# create lots of stars (duplicates of the first child of $Stars)
 	for i in range(0, 2744):
 		var star: Sprite3D = $StarsVimana/Star.duplicate()
@@ -91,13 +96,23 @@ func _process(delta):
 		if lowestdotrot_node != null and lowestdotrot_node is Farstar:
 			var s = (lowestdotrot_node as Farstar)
 			var starLabel = Globals.feltyrion.get_star_name(s.parsis_x, s.parsis_y, s.parsis_z) # starlabel already contains star class
+			Globals.set_ap_target(s.parsis_x, s.parsis_y, s.parsis_z)
+			Globals.update_hud_selected_star(starLabel, s.parsis_x, s.parsis_y, s.parsis_z)
 
 func _input(event):
 	if event.is_action_pressed("quit"):
 		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 			Globals.ui_mode = Globals.UI_MODE.NONE
+			if backup_target_parsis_z != null and backup_target_parsis_y != null and backup_target_parsis_z != null:
+				Globals.set_ap_target(backup_target_parsis_x, backup_target_parsis_y, backup_target_parsis_z)
 			# have to make sure we reset the HUD text for the selected star label back to what is actually selected... Kind of annoying we have to do it here, but :shrug:
 			var s = Globals.feltyrion.get_ap_target_info()
 			if s.has("ap_target_class"):
 				var starLabel = Globals.feltyrion.get_star_name(s.ap_target_x, s.ap_target_y, s.ap_target_z) # starlabel already contains star class
 				Globals.update_hud_selected_star(starLabel, s.ap_target_x, s.ap_target_y, s.ap_target_z)
+
+func on_ui_mode_changing(old_value, new_value):
+	if new_value == Globals.UI_MODE.SET_REMOTE_TARGET:
+		backup_target_parsis_x = Globals.feltyrion.ap_target_x
+		backup_target_parsis_y = Globals.feltyrion.ap_target_y
+		backup_target_parsis_z = Globals.feltyrion.ap_target_z

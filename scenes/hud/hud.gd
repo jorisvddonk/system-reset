@@ -9,7 +9,7 @@ func _ready():
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.osd_updated.connect(on_osd_updated)
 	Globals.update_fcs_status_request.connect(update_fcs_status)
-	Globals.update_hud_selected_star_text_request.connect(update_starlabel_text)
+	Globals.update_hud_selected_star_request.connect(update_starlabel_text)
 	Globals.update_hud_selected_planet_text_request.connect(update_planetlabel_text)
 	Globals.update_hud_lightyears_text_request.connect(update_lightyears_text)
 	Globals.update_hud_dyams_text_request.connect(update_dyams_text)
@@ -122,7 +122,7 @@ func update_fcs_status(val: String, timeout: int = 0):
 
 ## Update Star label in the HUD
 ## This is called or through a Global method (Globals.update_hud_selected_star_text(val))
-func update_starlabel_text(val: String):
+func update_starlabel_text(val: String, _x, _y, _z):
 	%SelectedStar.text = val
 	
 ## Update Planet label in the HUD
