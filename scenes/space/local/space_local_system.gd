@@ -18,16 +18,9 @@ func on_local_target_orbit_changed(index):
 		Globals.feltyrion.load_planet_at_current_system(index)
 
 func _physics_process(delta):
-	# TODO: determine how often this actually needs to be called
-	if Engine.physics_ticks_per_second == 24:
-		# DEPRECATED - WILL BE REMOVED
-		# 24 physics tics per second: use Noctis IV's engine for movement
-		# TODO: determine what to do here :)
-		pass
-	else:
-		#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta)) # use this if you want to simulate accelerated time
-		Globals.feltyrion.update_time()
-		Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
+	#Globals.feltyrion.set_secs(Globals.feltyrion.get_secs() + (1000 * delta)) # use this if you want to simulate accelerated time
+	Globals.feltyrion.update_time()
+	Globals.feltyrion.update_current_star_planets($SolarSystemContainer/Planets.get_path())
 		
 func _process(delta):
 	if Globals.ui_mode == Globals.UI_MODE.SET_LOCAL_TARGET:

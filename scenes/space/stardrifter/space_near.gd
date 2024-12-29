@@ -41,24 +41,9 @@ func _process(delta):
 		
 func _physics_process(delta):
 	var feltyrion = Globals.feltyrion
-	if Engine.physics_ticks_per_second == 24:
-		# 24 physics tics per second: use Noctis IV's engine for movement
-		# DEPRECATED - no longer going to be developed
-		var old_stspeed = feltyrion.stspeed
-		feltyrion.loop_iter()
-		Globals.on_parsis_changed.emit(feltyrion.dzat_x, feltyrion.dzat_y, feltyrion.dzat_z)
-		if feltyrion.stspeed != old_stspeed:
-			printt("Detected vimana status change", feltyrion.stspeed)
-			# vimana status changed
-			if feltyrion.stspeed == 0:
-				# we just got out of vimana
-				feltyrion.set_nearstar(feltyrion.ap_target_x, feltyrion.ap_target_y, feltyrion.ap_target_z)
-				feltyrion.prepare_star()
-			Globals.vimana.vimana_status_change.emit(true if feltyrion.stspeed == 1 else false)
-	else:
-		# Some other physics tics per second rating: use the custom engine for movement
-		Globals.vimana.process(delta)
-		Globals.interplanetaryDrive.process(delta)
+	
+	Globals.vimana.process(delta)
+	Globals.interplanetaryDrive.process(delta)
 	
 	if !Globals.vimana.active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
 		# we are in a solar system and not in Vimana flight; update the local star's light!
