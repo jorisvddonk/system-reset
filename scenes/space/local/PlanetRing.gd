@@ -36,7 +36,7 @@ func on_ring_particle_found(x, y, z, radii, unconditioned_color, body_index):
 	var rp: Sprite3D = get_child(_lastp)
 	rp.show()
 	
-	var v = Vector3((x - _cachedPlanetinfo.nearstar_p_plx), (y - _cachedPlanetinfo.nearstar_p_ply - 0.0005), (z - _cachedPlanetinfo.nearstar_p_plz))
+	var v = Vector3((x - _cachedPlanetinfo.nearstar_p_plx), (y - _cachedPlanetinfo.nearstar_p_ply), (z - _cachedPlanetinfo.nearstar_p_plz))
 	rp.position = v
 	_lastp += 1
 	if _lastp > maxparticles - 1:
