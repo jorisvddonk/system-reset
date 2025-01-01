@@ -173,16 +173,17 @@ func menu_od_nav():
 	
 func menu_od_misc():
 	clear_connections()
-	item1.text = "Internal light %s" % ["on" if true else "off"] # TODO: change depending on status
+	item1.text = "Internal light %s" % ["on" if Globals.feltyrion.ilightv else "off"]
 	item2.text = "Remote target data"
 	item3.text = "Local target data"
 	item4.text = "Environment data"
 	#--
 	clear_lines()
-	item1.pressed.connect(not_implemented_yet)
+	item1.pressed.connect(func(): Globals.feltyrion.ilightv = 1 if Globals.feltyrion.ilightv != 1 else 0)
 	item2.pressed.connect(func(): Globals.data_ui_mode = Globals.DATA_UI_MODE.NONE if Globals.data_ui_mode == Globals.DATA_UI_MODE.REMOTE_TARGET else Globals.DATA_UI_MODE.REMOTE_TARGET)
 	item3.pressed.connect(not_implemented_yet) # item3.pressed.connect(func(): Globals.data_ui_mode = Globals.DATA_UI_MODE.NONE if Globals.data_ui_mode == Globals.DATA_UI_MODE.LOCAL_TARGET else Globals.DATA_UI_MODE.LOCAL_TARGET) # note: not implemented yet
 	item4.pressed.connect(not_implemented_yet) # item4.pressed.connect(func(): Globals.data_ui_mode = Globals.DATA_UI_MODE.NONE if Globals.data_ui_mode == Globals.DATA_UI_MODE.ENVIRONMENT else Globals.DATA_UI_MODE.ENVIRONMENT) # note: not implemented yet
+	add_connection(Globals.feltyrion.on_ilightv_changed, func(_a): menu_od_misc()) # redraw screen if ilightv toggled
 	setup_extra_default_connections()
 	
 func menu_od_gc():
