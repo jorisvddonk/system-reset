@@ -13,6 +13,9 @@ func _ready():
 	Globals.vimana.vimana_status_change.connect(_on_vimana_status_change)
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.ui_mode_changing.connect(on_ui_mode_changing)
+	Globals.on_ap_target_changed.connect(func(_x, _y, _z, _idcode): repositionRemoteTargetSelectionSprite())
+	Globals.vimana.vimana_status_change.connect(func(_a): repositionRemoteTargetSelectionSprite())
+	Globals.game_loaded.connect(func(): repositionRemoteTargetSelectionSprite())
 	# create lots of stars (duplicates of the first child of $Stars)
 	for i in range(0, 2744):
 		var star: Sprite3D = $StarsVimana/Star.duplicate()
@@ -67,9 +70,28 @@ func _on_vimana_status_change(vimana_is_active):
 	else:
 		scan_for_stars()
 
+func repositionRemoteTargetSelectionSprite():
+	if Globals.feltyrion.ap_targetted == 0:
+		$RemoteTargetSelectionSprite.hide()
+		return
+	elif Globals.feltyrion.ap_targetted == 1: # remote target - star
+		if Globals.vimana.active == false:
+			if Globals.feltyrion.get_nearstar_x() == Globals.feltyrion.ap_target_x and Globals.feltyrion.get_nearstar_y() == Globals.feltyrion.ap_target_y and Globals.feltyrion.get_nearstar_z() == Globals.feltyrion.ap_target_z:
+				# we are in the remote target system and vimana is off, so hide the selection sprite as well
+				$RemoteTargetSelectionSprite.hide()
+				return
+	$RemoteTargetSelectionSprite.show()
+	$RemoteTargetSelectionSprite.position = Vector3(
+		Globals.feltyrion.ap_target_x - Globals.feltyrion.dzat_x,
+		Globals.feltyrion.ap_target_y - Globals.feltyrion.dzat_y,
+		Globals.feltyrion.ap_target_z - Globals.feltyrion.dzat_z
+	).normalized()*500
+
 # Update the location of the vimana stars fx
 func updateVimanaParticles():
 	Globals.feltyrion.update_star_particles(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z, 1.0, $StarsVimana.get_path())
+	repositionRemoteTargetSelectionSprite()
+	
 
 func _process(delta):
 	if Globals.vimana.active:

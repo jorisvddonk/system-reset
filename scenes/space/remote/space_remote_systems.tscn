@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://mna8adl51ysw"]
+[gd_scene load_steps=5 format=3 uid="uid://mna8adl51ysw"]
 
 [ext_resource type="Script" path="res://scenes/space/remote/space_remote_systems.gd" id="1_y4fie"]
 [ext_resource type="Script" path="res://util/camera.gd" id="2_yu2n3"]
 [ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="3_laskp"]
+[ext_resource type="Texture2D" uid="uid://cl7dxo5mupi7t" path="res://addons/kenney_crosshair_pack/crosshair087.png" id="4_8sgla"]
 
 [node name="SpaceRemoteSystems" type="Node3D"]
 script = ExtResource("1_y4fie")
@@ -21,3 +22,10 @@ visibility_range_begin = 1.0
 pixel_size = 0.014
 billboard = 1
 texture = ExtResource("3_laskp")
+
+[node name="RemoteTargetSelectionSprite" type="Sprite3D" parent="."]
+transform = Transform3D(5.12494, 0, 0, 0, 5.12494, 0, 0, 0, 1, 0, 0, 0)
+pixel_size = 0.0001
+billboard = 1
+fixed_size = true
+texture = ExtResource("4_8sgla")

@@ -53,7 +53,7 @@ func setSelected(selected: bool):
 		$Label3D.modulate = highlight_color
 		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 			$Label3D.modulate = remote_tgt_highlight_color
-			$SelectionSprite.show()
+			#$SelectionSprite.show() # no longer used (2025-01-02)
 	else:
 		mouseover = false
 		clicking = false
@@ -64,7 +64,7 @@ func setSelected(selected: bool):
 func _on_ap_target_changed(x, y, z, id_code):
 	$SelectionSprite.hide()
 	if self.id_code == id_code:
-		$CurrentAPTargetSelectionSprite.show()
+		pass #$CurrentAPTargetSelectionSprite.show() # no longer used (2025-01-02)
 	else:
 		$CurrentAPTargetSelectionSprite.hide()
 
