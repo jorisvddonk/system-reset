@@ -62,10 +62,10 @@ func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, 
 	planet.planet_viewpoint = viewpoint
 	planet.planet_term_start = term_start
 	planet.planet_rotation = rotation
-	planet.planet_pos_relative_to_star_x = (x - Globals.feltyrion.ap_target_x)
-	planet.planet_pos_relative_to_star_y = (y - Globals.feltyrion.ap_target_y)
-	planet.planet_pos_relative_to_star_z = (z - Globals.feltyrion.ap_target_z)
-	planet.translate(Vector3((x - Globals.feltyrion.ap_target_x), (y - Globals.feltyrion.ap_target_y), (z - Globals.feltyrion.ap_target_z)))
+	planet.planet_pos_relative_to_star_x = (x - Globals.feltyrion.get_nearstar_x())
+	planet.planet_pos_relative_to_star_y = (y - Globals.feltyrion.get_nearstar_y())
+	planet.planet_pos_relative_to_star_z = (z - Globals.feltyrion.get_nearstar_z())
+	planet.translate(Vector3((x - Globals.feltyrion.get_nearstar_x()), (y - Globals.feltyrion.get_nearstar_y()), (z - Globals.feltyrion.get_nearstar_z())))
 	planet.ringParticleBase = %RingParticleBase
 	$SolarSystemContainer/Planets.add_child(planet)
 
@@ -76,7 +76,7 @@ func _on_parsis_changed(x: float, y: float, z: float):
 	repositionContainer(x, y, z)
 	
 func repositionContainer(x: float, y: float, z: float):
-	$SolarSystemContainer.position = Vector3(Globals.feltyrion.ap_target_x - x, Globals.feltyrion.ap_target_y - y, Globals.feltyrion.ap_target_z - z)
+	$SolarSystemContainer.position = Vector3(Globals.feltyrion.get_nearstar_x() - x, Globals.feltyrion.get_nearstar_y() - y, Globals.feltyrion.get_nearstar_z() - z)
 
 func check_arrived_at_star():
 	if Globals.vimana.active:
