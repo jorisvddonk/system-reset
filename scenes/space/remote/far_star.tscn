@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqp07p8i506lb"]
+[gd_scene load_steps=5 format=3 uid="uid://bqp07p8i506lb"]
 
 [ext_resource type="Script" path="res://scenes/space/remote/far_star.gd" id="1_8mgae"]
 [ext_resource type="Texture2D" uid="uid://bick7owy5u6xy" path="res://addons/kenney_particle_pack/star_01.png" id="1_d6ke2"]
 [ext_resource type="FontFile" uid="uid://c327cb0xm5a2h" path="res://assets/charmap_alpha_2x.png" id="2_q6mao"]
-[ext_resource type="Texture2D" uid="uid://dmt0y2irs4ws4" path="res://addons/kenney_crosshair_pack/crosshair026.png" id="3_ko2uk"]
 
 [sub_resource type="FontVariation" id="FontVariation_4bh6k"]
 base_font = ExtResource("2_q6mao")
@@ -30,20 +29,3 @@ visibility_range_begin = 10.0
 pixel_size = 0.014
 billboard = 1
 texture = ExtResource("1_d6ke2")
-
-[node name="SelectionSprite" type="Sprite3D" parent="."]
-transform = Transform3D(5.12494, 0, 0, 0, 5.12494, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-pixel_size = 0.0001
-billboard = 1
-fixed_size = true
-texture = ExtResource("3_ko2uk")
-
-[node name="CurrentAPTargetSelectionSprite" type="Sprite3D" parent="."]
-transform = Transform3D(5.12494, 0, 0, 0, 5.12494, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-modulate = Color(0.537255, 0.486275, 1, 1)
-pixel_size = 0.0001
-billboard = 1
-fixed_size = true
-texture = ExtResource("3_ko2uk")

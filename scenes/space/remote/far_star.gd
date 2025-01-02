@@ -17,7 +17,6 @@ signal clicked
 func _ready():
 	$Label3D.text = star_name
 	setSelected(false)
-	Globals.on_ap_target_changed.connect(_on_ap_target_changed)
 	Globals.mouse_click_begin.connect(click_begin)
 	Globals.mouse_clicked.connect(clicked_end)
 	Globals.ui_mode_changed.connect(ui_mode_changed)
@@ -53,20 +52,11 @@ func setSelected(selected: bool):
 		$Label3D.modulate = highlight_color
 		if Globals.ui_mode == Globals.UI_MODE.SET_REMOTE_TARGET:
 			$Label3D.modulate = remote_tgt_highlight_color
-			#$SelectionSprite.show() # no longer used (2025-01-02)
 	else:
 		mouseover = false
 		clicking = false
 		$Label3D.modulate = orig_color
-		$SelectionSprite.hide()
 	updateLabelVisibility()
-
-func _on_ap_target_changed(x, y, z, id_code):
-	$SelectionSprite.hide()
-	if self.id_code == id_code:
-		pass #$CurrentAPTargetSelectionSprite.show() # no longer used (2025-01-02)
-	else:
-		$CurrentAPTargetSelectionSprite.hide()
 
 func on_debug_tools_enabled_changed(_a):
 	updateLabelVisibility()
