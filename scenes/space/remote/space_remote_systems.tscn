@@ -18,7 +18,9 @@ script = ExtResource("2_yu2n3")
 visible = false
 
 [node name="Star" type="Sprite3D" parent="StarsVimana"]
-visibility_range_begin = 1.0
+visibility_range_begin = 15.0
+visibility_range_begin_margin = 10.0
+visibility_range_fade_mode = 1
 pixel_size = 0.014
 billboard = 1
 texture = ExtResource("3_laskp")
