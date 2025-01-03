@@ -28,4 +28,5 @@ uppercase = true
 visibility_range_begin = 10.0
 pixel_size = 0.014
 billboard = 1
+fixed_size = true
 texture = ExtResource("1_d6ke2")

@@ -43,7 +43,7 @@ func _on_found_star(x, y, z, id_code):
 	star.parsis_y = y
 	star.parsis_z = z
 	star.id_code = id_code
-	star.position = Vector3((x - Globals.feltyrion.dzat_x) * 0.001, (y - Globals.feltyrion.dzat_y) * 0.001, (z - Globals.feltyrion.dzat_z) * 0.001)
+	star.setPosition(Vector3((x - Globals.feltyrion.dzat_x) * 0.001, (y - Globals.feltyrion.dzat_y) * 0.001, (z - Globals.feltyrion.dzat_z) * 0.001))
 	$Stars.add_child(star)
 	
 # Scan for stars and show stars around

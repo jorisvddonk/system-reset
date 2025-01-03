@@ -40,4 +40,5 @@ baseSprite = NodePath("Star")
 visibility_range_begin = 5.0
 pixel_size = 0.014
 billboard = 1
+fixed_size = true
 texture = ExtResource("3_6rtj1")
