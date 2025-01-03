@@ -11,6 +11,8 @@ const TRACKING_DISTANCE__MIDDLE = 0.08
 const TRACKING_DISTANCE__FAR = 0.12
 const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * Globals.DEGREES_TO_RADIANS # in radians per second
 
+const INTERSTELLAR_SPACE_LIGHT_COLOR = Color(0.2, 0.3, 0.6) # _very_ 'ambient' light if in interstellar space
+
 var nearstar_ray = 1
 
 func _ready():
@@ -22,6 +24,8 @@ func _ready():
 	$StardrifterParent/DeploymentSelectionScreen/Area3D.area_entered.connect(deployment_console_entered)
 	$StardrifterParent/DeploymentSelectionScreen/Area3D.area_exited.connect(deployment_console_exited)
 	Globals.vimana.vimana_status_change.connect(on_vimana_status_change)
+	Globals.vimana.linkingToStar.connect(linking_to_star)
+	Globals.vimana.unlinkingToStar.connect(unlinking_to_star)
 	Globals.game_loaded.connect(on_game_load)
 	update_star_lights()
 	Globals.on_debug_tools_enabled_changed.connect(_on_debug_tools_enabled_changed)
@@ -45,8 +49,8 @@ func _physics_process(delta):
 	Globals.vimana.process(delta)
 	Globals.interplanetaryDrive.process(delta)
 	
-	if !Globals.vimana.active and feltyrion.get_nearstar_x() != 0 and feltyrion.get_nearstar_y() != 0 and feltyrion.get_nearstar_z() != 0:
-		# we are in a solar system and not in Vimana flight; update the local star's light!
+	if Globals.vimana.linkedToStar:
+		# we are in a solar system; update the local star's light!
 		var star_vector = Vector3(feltyrion.dzat_x - feltyrion.get_nearstar_x(), feltyrion.dzat_y - feltyrion.get_nearstar_y(), feltyrion.dzat_z - feltyrion.get_nearstar_z())
 		var light_energy = tanh(nearstar_ray/max(0.0001, star_vector.length()/10))
 		$SolarSystemParentStarLight.look_at(star_vector)
@@ -167,21 +171,24 @@ func deployment_console_exited(area):
 
 func on_vimana_status_change(active):
 	update_star_lights()
+
+func linking_to_star():
+	update_star_lights()
+	
+func unlinking_to_star():
+	update_star_lights()
 	
 func on_game_load():
 	update_star_lights()
 	
 func update_star_lights():
-	var lightcolor = Color(0.2, 0.3, 0.6) # _very_ 'ambient' light if in interstellar space
+	var lightcolor = INTERSTELLAR_SPACE_LIGHT_COLOR
 	
-	if !Globals.vimana.active and Globals.feltyrion.get_nearstar_x() != 0 and Globals.feltyrion.get_nearstar_y() != 0 and Globals.feltyrion.get_nearstar_z() != 0:
-		# We have possibly arrived at a star!
+	if Globals.vimana.linkedToStar:
+		# Nearby enough to a star to have linked to it
 		var data = Globals.feltyrion.get_ap_target_info()
 		nearstar_ray = data.ap_target_ray
 		lightcolor = Color(data.ap_target_r / 64.0, data.ap_target_g / 64.0, data.ap_target_b / 64.0)
-		$SolarSystemParentStarLight.visible = true
-	else:
-		$SolarSystemParentStarLight.visible = false
 	
 	$SolarSystemParentStarLight.light_color = lightcolor
 	$StardrifterParent/InternalLightExtra1.light_color = lightcolor

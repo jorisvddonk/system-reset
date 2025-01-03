@@ -4,7 +4,7 @@ var Planet = preload("res://scenes/space/local/Planet.tscn")
 
 func _ready():
 	regex.compile("\\s*S[0-9][0-9]")
-	Globals.vimana.vimana_status_change.connect(_on_vimana_status_change)
+	Globals.vimana.linkingToStar.connect(_on_vimana_linking)
 	Globals.on_parsis_changed.connect(_on_parsis_changed)
 	Globals.game_loaded.connect(on_game_loaded)
 	Globals.gameplay_mode_changed.connect(on_gameplay_mode_changed)
@@ -46,7 +46,7 @@ func _process(delta):
 			Globals.update_hud_selected_planet_text((lowestdotrot_node as Planet).planet_name)
 
 func on_game_loaded():
-	check_arrived_at_star()
+	_load_local_system()
 	repositionContainer(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z)
 	
 func on_gameplay_mode_changed(_a):
@@ -69,61 +69,58 @@ func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, 
 	planet.ringParticleBase = %RingParticleBase
 	$SolarSystemContainer/Planets.add_child(planet)
 
-func _on_vimana_status_change(vimana_is_active):
-	check_arrived_at_star()
-
 func _on_parsis_changed(x: float, y: float, z: float):
 	repositionContainer(x, y, z)
 	
 func repositionContainer(x: float, y: float, z: float):
 	$SolarSystemContainer.position = Vector3(Globals.feltyrion.get_nearstar_x() - x, Globals.feltyrion.get_nearstar_y() - y, Globals.feltyrion.get_nearstar_z() - z)
 
-func check_arrived_at_star():
-	if Globals.vimana.active:
-		$SolarSystemContainer/Planets.hide()
-		$SolarSystemContainer/SolarSystemParentStar.hide()
-	else:
-		for item in $SolarSystemContainer/Planets.get_children():
-			item.queue_free()
-		if Globals.feltyrion.ap_reached and Globals.feltyrion.ap_targetted == 1:
-			print("Creating planets...")
-			print(Time.get_unix_time_from_system())
-			Globals.feltyrion.update_time()
-			var data = Globals.feltyrion.get_current_star_info()
-			if !data.has("nearstar_class"):
-				print("WARN(check_arrived_at_star): current star info seems to be empty...")
-				return
-			print(data)
-			var material = $SolarSystemContainer/SolarSystemParentStar.get_active_material(0)
-			var clr = Color(float(data.nearstar_r)/64, float(data.nearstar_g)/64, float(data.nearstar_b)/64, 1)
-			material.set_shader_parameter("color", clr)
-			var scale_factor = float(data.nearstar_ray) / 13
-			$SolarSystemContainer/SolarSystemParentStar.scale = Vector3(scale_factor, scale_factor, scale_factor)
-			for i in range(0,data.nearstar_nob):
-				var pl_data = Globals.feltyrion.get_planet_info(i)
-				print("Found planet: ", pl_data)
-				load_planet(i, pl_data.nearstar_p_identity, pl_data.nearstar_p_seedval,
-					pl_data.nearstar_p_plx,
-					pl_data.nearstar_p_ply,
-					pl_data.nearstar_p_plz,
-					pl_data.nearstar_p_type,
-					pl_data.nearstar_p_owner,
-					pl_data.nearstar_p_moonid,
-					pl_data.nearstar_p_ring,
-					pl_data.nearstar_p_tilt,
-					pl_data.nearstar_p_ray,
-					pl_data.nearstar_p_orb_ray,
-					pl_data.nearstar_p_orb_tilt,
-					pl_data.nearstar_p_orb_orient,
-					pl_data.nearstar_p_orb_ecc,
-					pl_data.nearstar_p_rtperiod,
-					pl_data.nearstar_p_rotation,
-					pl_data.nearstar_p_viewpoint,
-					pl_data.nearstar_p_term_start,
-					pl_data.nearstar_p_term_end,
-					pl_data.nearstar_p_qsortindex,
-					pl_data.nearstar_p_qsortdist)
-			print("done creating planets")
-			print(Time.get_unix_time_from_system())
-			$SolarSystemContainer/Planets.show()
-			$SolarSystemContainer/SolarSystemParentStar.show()
+func _on_vimana_linking():
+	_load_local_system()
+	
+func _load_local_system():
+	for item in $SolarSystemContainer/Planets.get_children():
+		item.queue_free()
+	print("Creating planets...")
+	print(Time.get_unix_time_from_system())
+	Globals.feltyrion.update_time()
+	var data = Globals.feltyrion.get_current_star_info()
+	if !data.has("nearstar_class"):
+		print("WARN(_load_local_system): current star info seems to be empty...")
+		$SolarSystemContainer.hide()
+		return
+	print(data)
+	$SolarSystemContainer.show()
+	var material = $SolarSystemContainer/SolarSystemParentStar.get_active_material(0)
+	var clr = Color(float(data.nearstar_r)/64, float(data.nearstar_g)/64, float(data.nearstar_b)/64, 1)
+	material.set_shader_parameter("color", clr)
+	var scale_factor = float(data.nearstar_ray) / 13
+	$SolarSystemContainer/SolarSystemParentStar.scale = Vector3(scale_factor, scale_factor, scale_factor)
+	for i in range(0,data.nearstar_nob):
+		var pl_data = Globals.feltyrion.get_planet_info(i)
+		print("Found planet: ", pl_data)
+		load_planet(i, pl_data.nearstar_p_identity, pl_data.nearstar_p_seedval,
+			pl_data.nearstar_p_plx,
+			pl_data.nearstar_p_ply,
+			pl_data.nearstar_p_plz,
+			pl_data.nearstar_p_type,
+			pl_data.nearstar_p_owner,
+			pl_data.nearstar_p_moonid,
+			pl_data.nearstar_p_ring,
+			pl_data.nearstar_p_tilt,
+			pl_data.nearstar_p_ray,
+			pl_data.nearstar_p_orb_ray,
+			pl_data.nearstar_p_orb_tilt,
+			pl_data.nearstar_p_orb_orient,
+			pl_data.nearstar_p_orb_ecc,
+			pl_data.nearstar_p_rtperiod,
+			pl_data.nearstar_p_rotation,
+			pl_data.nearstar_p_viewpoint,
+			pl_data.nearstar_p_term_start,
+			pl_data.nearstar_p_term_end,
+			pl_data.nearstar_p_qsortindex,
+			pl_data.nearstar_p_qsortdist)
+	print("done creating planets")
+	print(Time.get_unix_time_from_system())
+	$SolarSystemContainer/Planets.show()
+	$SolarSystemContainer/SolarSystemParentStar.show()
