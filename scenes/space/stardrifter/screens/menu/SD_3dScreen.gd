@@ -1,12 +1,21 @@
 extends MeshInstance3D
 @onready var mouseover: bool = false
 @export var viewport: SubViewport
-@export var sdscreen: Panel
+@export var sdscreen: SDScreen
 @export var camera: Camera3D
+
+var sleepTimer: Timer
 
 func _ready():
 	$Area3D.mouse_entered.connect(_mouse_entered)
 	$Area3D.mouse_exited.connect(_mouse_exited)
+	sleepTimer = Timer.new()
+	sleepTimer.timeout.connect(_sleep_timeout)
+	sleepTimer.wait_time = 5
+	sleepTimer.one_shot = false
+	add_child(sleepTimer)
+	sleepTimer.start()
+	Globals.ui_mode_changed.connect(_ui_mode_changed)
 	
 func _process(delta):
 	var s = get_viewport().size
@@ -53,6 +62,19 @@ func _process(delta):
 
 func _mouse_entered():
 	mouseover = true
+	sleepTimer.stop()
 	
 func _mouse_exited():
 	mouseover = false
+	if Globals.feltyrion.autoscreenoff and Globals.ui_mode == Globals.UI_MODE.NONE:
+		sleepTimer.start()
+
+func _sleep_timeout():
+	sdscreen.menu_dd()
+
+func _ui_mode_changed(new_value):
+	if new_value == Globals.UI_MODE.NONE:
+		if mouseover == false and Globals.feltyrion.autoscreenoff:
+			sleepTimer.start()
+	else:
+		sleepTimer.stop()

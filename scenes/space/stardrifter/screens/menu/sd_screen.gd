@@ -1,4 +1,5 @@
 extends Panel
+class_name SDScreen
 @export var line1: Label
 @export var line2: Label
 @export var line3: Label
@@ -206,17 +207,18 @@ func menu_od_gc():
 	
 func menu_prefs():
 	clear_connections()
-	item1.text = "Auto screen sleep %s" % ["on" if true else "off"] # TODO: change depending on status
+	item1.text = "Auto screen sleep %s" % ["on" if Globals.feltyrion.autoscreenoff else "off"]
 	item2.text = "%s pitch controls" % ["Normal" if true else "Reverse"] # TODO: change depending on status
 	item3.text = "Menus always onscreen" if true else "Auto-hidden menus" # TODO: change depending on status
 	item4.text = "Depolarize" if true else "Polarize" # TODO: change depending on status
 	#--
 	clear_lines()
-	item1.pressed.connect(not_implemented_yet)
+	item1.pressed.connect(func(): Globals.feltyrion.autoscreenoff = 0 if Globals.feltyrion.autoscreenoff > 0 else 1)
 	item2.pressed.connect(not_implemented_yet)
 	item3.pressed.connect(not_implemented_yet)
 	item4.pressed.connect(not_implemented_yet)
 	setup_extra_default_connections()
+	add_connection(Globals.feltyrion.on_autoscreenoff_changed, func(_a): menu_prefs()) # redraw screen if auto screen sleep changed
 	
 func menu_dd():
 	clear_connections()
