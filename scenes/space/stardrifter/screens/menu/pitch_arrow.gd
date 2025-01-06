@@ -24,18 +24,6 @@ func _update_label():
 	else:
 		$Label.text = "<-" if side_of_stardrifter == SIDE_OF_STARDRIFTER.LEFT else "->"
 
-func _get_actual_pitch_direction():
-	if Globals.feltyrion.revcontrols:
-		if side_of_stardrifter == SIDE_OF_STARDRIFTER.LEFT:
-			return _PITCH_DIRECTION.RIGHT
-		else:
-			return _PITCH_DIRECTION.LEFT
-	else:
-		if side_of_stardrifter == SIDE_OF_STARDRIFTER.LEFT:
-			return _PITCH_DIRECTION.LEFT
-		else:
-			return _PITCH_DIRECTION.RIGHT
-
 func _reset_synthetic():
 	if _synthetic != null:
 		_synthetic.pressed = false
@@ -43,7 +31,7 @@ func _reset_synthetic():
 		_synthetic = null
 	if _synthetic == null:
 		_synthetic = InputEventAction.new()
-		_synthetic.action = "rotate_left" if _get_actual_pitch_direction() == SIDE_OF_STARDRIFTER.LEFT else "rotate_right"
+		_synthetic.action = "rotate_left" if side_of_stardrifter == SIDE_OF_STARDRIFTER.LEFT else "rotate_right" # NOTE: actual pitch reversing (when Globals.feltyrion.revcontrols is truthy) happens when handling the action
 
 func _click_begin():
 	_synthetic.pressed = true

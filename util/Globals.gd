@@ -208,15 +208,17 @@ func _process(delta):
 	
 	# rotation - input tracking. TODO: interpolate these!
 	if Input.is_action_pressed("rotate_left"):
+		var mod = -1 if Globals.feltyrion.revcontrols else 1
 		if chase_mode == CHASE_MODE.HIGH_SPEED_CHASE || chase_mode == CHASE_MODE.SYNCRONE_ORBIT || chase_mode == CHASE_MODE.TRACKING_DISABLED:
-			rotate_by(STARDRIFTER_ROTATION_SPEED * delta)
+			rotate_by(STARDRIFTER_ROTATION_SPEED * delta * mod)
 		elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
-			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * delta)
+			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * delta * mod)
 	if Input.is_action_pressed("rotate_right"):
+		var mod = -1 if Globals.feltyrion.revcontrols else 1
 		if chase_mode == CHASE_MODE.HIGH_SPEED_CHASE || chase_mode == CHASE_MODE.SYNCRONE_ORBIT || chase_mode == CHASE_MODE.TRACKING_DISABLED:
-			rotate_by(STARDRIFTER_ROTATION_SPEED * -delta)
+			rotate_by(STARDRIFTER_ROTATION_SPEED * -delta * mod)
 		elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
-			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * -delta)
+			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * -delta * mod)
 	
 func save_game():
 	print("Saving game...")
