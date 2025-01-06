@@ -26,6 +26,7 @@ signal on_camera_rotation(rotation)
 signal on_ap_target_changed(parsis_x: float, parsis_y: float, parsis_z: float, id_code)
 signal mouse_clicked()
 signal mouse_click_begin()
+signal mouse_click_end()
 signal game_loaded()
 signal initiate_landing_sequence()
 signal initiate_return_sequence()
@@ -201,6 +202,7 @@ func _process(delta):
 	else:
 		if mouse_left_held > 0:
 			if mouse_left_held > MOUSE_CLICK_THRESHOLD_LOW && mouse_left_held < MOUSE_CLICK_THRESHOLD_HIGH:
+				mouse_click_end.emit()
 				mouse_clicked.emit()
 			mouse_left_held = 0
 	

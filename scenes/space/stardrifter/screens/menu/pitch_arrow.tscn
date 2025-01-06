@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://bu34kihlaqmbx"]
+
+[ext_resource type="Theme" uid="uid://c2t22owqfyns8" path="res://assets/themes/theme.tres" id="1_bcpew"]
+[ext_resource type="Script" path="res://scenes/space/stardrifter/screens/menu/pitch_arrow.gd" id="1_ig2f7"]
+[ext_resource type="Script" path="res://scenes/space/stardrifter/screens/menu/SDScreenControl.gd" id="3_j5koe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48ie2"]
+
+[node name="PitchArrow" type="Panel"]
+custom_minimum_size = Vector2(100, 100)
+offset_right = 100.0
+offset_bottom = 100.0
+theme = ExtResource("1_bcpew")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_48ie2")
+script = ExtResource("1_ig2f7")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -18.0
+offset_right = 32.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+text = "<-"
+uppercase = true
+script = ExtResource("3_j5koe")
