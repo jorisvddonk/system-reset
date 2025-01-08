@@ -161,6 +161,7 @@ script = ExtResource("1_xlqem")
 [node name="PlayerCharacterController" type="CharacterBody3D" parent="."]
 unique_name_in_owner = true
 collision_layer = 0
+collision_mask = 2147483649
 wall_min_slide_angle = 0.0261799
 floor_stop_on_slope = false
 floor_max_angle = 1.7017
@@ -209,6 +210,7 @@ mesh = SubResource("PlaneMesh_l8v2s")
 [node name="Boundaries" type="Node3D" parent="."]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Boundaries"]
+collision_layer = 2147483648
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boundaries/StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_mesfj")

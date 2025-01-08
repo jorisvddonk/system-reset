@@ -1,4 +1,5 @@
 extends Node3D
+var Hopper = preload("res://scenes/surface/animals/hopper.tscn")
 
 var gravity
 func _ready():
@@ -20,6 +21,7 @@ func initialize():
 			%Rain.queue_free()
 		else:
 			%Rain.amount = 1000 + (9000 * Globals.feltyrion.rainy) # rainy variable is beteween 0.0 and 5.0
+		_spawn_hoppers()
 	else:
 		%Rain.queue_free()
 		$Water.hide()
@@ -72,3 +74,9 @@ func _physics_process(delta):
 		if $CupolaRigidBody.position.y > 2000:
 			Globals.update_fcs_status_text("")
 			Globals.initiate_return_sequence.emit()
+
+func _spawn_hoppers(amount: int = 100):
+	for i in range(0,amount):
+		var hopper = Hopper.instantiate()
+		hopper.position = Vector3(randi_range(-100, 100), 500, randi_range(-100, 100))
+		add_child(hopper)
