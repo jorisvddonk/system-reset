@@ -7,6 +7,7 @@ The following files in this directory are derived from Noctis IV and are license
 * icon.png
 * font.png
 * vehicle.glb
+* mammal.glb
 
 The following files are original work and licensed under [CC0](https://creativecommons.org/public-domain/cc0/) or [MIT](../LICENSE.md) license:
 
