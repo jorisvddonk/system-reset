@@ -23,8 +23,9 @@ func initialize():
 	else:
 		%Rain.queue_free()
 		$Water.hide()
-	%PlayerCharacterController.lock_to($CupolaRigidBody)
-	Globals.update_fcs_status_text("INITIALIZING LANDING SEQUENCE")
+	if not Globals.debug_tools_enabled:
+		%PlayerCharacterController.lock_to($CupolaRigidBody)
+		Globals.update_fcs_status_text("INITIALIZING LANDING SEQUENCE")
 
 func _getCollisionPoint(x, z):
 	var rc = RayCast3D.new()
