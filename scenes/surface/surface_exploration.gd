@@ -1,5 +1,6 @@
 extends Node3D
 var Hopper = preload("res://scenes/surface/animals/hopper.tscn")
+var Bird = preload("res://scenes/surface/animals/bird.tscn")
 
 var gravity
 func _ready():
@@ -21,7 +22,7 @@ func initialize():
 			%Rain.queue_free()
 		else:
 			%Rain.amount = 1000 + (9000 * Globals.feltyrion.rainy) # rainy variable is beteween 0.0 and 5.0
-		_spawn_hoppers()
+		_spawn_animals()
 	else:
 		%Rain.queue_free()
 		$Water.hide()
@@ -75,8 +76,30 @@ func _physics_process(delta):
 			Globals.update_fcs_status_text("")
 			Globals.initiate_return_sequence.emit()
 
-func _spawn_hoppers(amount: int = 100):
-	for i in range(0,amount):
-		var hopper = Hopper.instantiate()
-		hopper.position = Vector3(randi_range(-100, 100), 500, randi_range(-100, 100))
-		add_child(hopper)
+func _spawn_animals():
+	var animals = Globals.feltyrion.get_animals()
+	printt("Number of animals: ", animals.size())
+	for i in range(0,animals.size()):
+		if animals[i].ani_type == 1:
+			_spawn_bird(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale)
+		elif animals[i].ani_type == 4:
+			_spawn_reptile(animals[i].ani_x, animals[i].ani_z)
+		elif animals[i].ani_type == 5:
+			_spawn_hopper(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale)
+		else:
+			printt("unknown animal type", animals[i].ani_type)
+		
+func _spawn_hopper(x, z, scale):
+	var hopper = Hopper.instantiate()
+	hopper.position = Vector3(randi_range(-100, 100), 500, randi_range(-100, 100)) # TODO: map x/z to our coordinate space? Or just ignore it?
+	hopper.scale = Vector3(scale, scale, scale)
+	add_child(hopper)
+
+func _spawn_bird(x, z, scale):
+	var bird = Bird.instantiate()
+	bird.position = Vector3(randi_range(-100, 100), 500, randi_range(-100, 100)) # TODO: map x/z to our coordinate space? Or just ignore it?
+	bird.scale = Vector3(scale, scale, scale)
+	add_child(bird)
+	
+func _spawn_reptile(x, z):
+	pass # We actually can't spawn reptiles... because they don't exist in NIV, even though they're - oddly enough - defined in the code
