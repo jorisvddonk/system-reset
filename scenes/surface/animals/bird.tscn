@@ -1,10 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://rtw8mdi8i48b"]
 
 [ext_resource type="Script" path="res://scenes/surface/animals/bird.gd" id="1_i1dht"]
-[ext_resource type="PackedScene" uid="uid://bvwl2cphcpyi" path="res://assets/birdy.glb" id="2_45irc"]
+[ext_resource type="PackedScene" uid="uid://bbt1nhf4x6swh" path="res://assets/birdy_animated.tscn" id="2_q6gyc"]
 
 [node name="Bird" type="Node3D"]
 script = ExtResource("1_i1dht")
 
-[node name="birdy" parent="." instance=ExtResource("2_45irc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0786992, 0)
+[node name="birdy" parent="." instance=ExtResource("2_q6gyc")]
