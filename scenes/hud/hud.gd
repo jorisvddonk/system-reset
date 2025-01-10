@@ -142,12 +142,7 @@ func update_dyams_text(val: String):
 	%Dyams.text = val
 
 func update_epoc_label():
-	var secs = Globals.feltyrion.get_secs()
-	var epoc = floor(6011 + secs / 1e9)
-	var sinisters = floor(fmod(secs, 1e9) / 1e6)
-	var medii = floor(fmod(secs, 1e6) / 1e3)
-	var dexters = floor(fmod(secs, 1e3))
-	%EpocLabel.text = "EPOC %04s & %03s.%03s.%03s" % [epoc, sinisters, medii, dexters]
+	%EpocLabel.text = "EPOC %04s & %03s.%03s.%03s" % [EpocClock.epoc, EpocClock.sinisters, EpocClock.medii, EpocClock.dexters]
 
 func update_fps_label():
 	%FPSLabel.text = " & " + str(Engine.get_frames_per_second()) + " FPS"

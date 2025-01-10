@@ -19,6 +19,7 @@ config/icon="res://assets/icon.png"
 [autoload]
 
 Globals="*res://util/Globals.gd"
+EpocClock="*res://util/systems/EpocClock.gd"
 
 [display]
 
