@@ -1,0 +1,100 @@
+[gd_scene load_steps=14 format=3 uid="uid://bbt1nhf4x6swh"]
+
+[ext_resource type="PackedScene" uid="uid://bvwl2cphcpyi" path="res://assets/birdy.glb" id="1_jbc8p"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_prrp1"]
+animation = &"wingRightAction"
+use_custom_timeline = true
+timeline_length = 10.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5s0cw"]
+animation = &"wingLeftAction"
+use_custom_timeline = true
+timeline_length = 10.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_sbgrg"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_mp12x"]
+graph_offset = Vector2(-578.234, 6.49397)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_5s0cw")
+nodes/Animation/position = Vector2(-242.962, 60.0945)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_prrp1")
+"nodes/Animation 2/position" = Vector2(-252.63, 235.302)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_sbgrg")
+nodes/Blend2/position = Vector2(80, 80)
+node_connections = [&"Blend2", 0, &"Animation", &"Blend2", 1, &"Animation 2", &"output", 0, &"Blend2"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_24f07"]
+animation = &"wingRightAction"
+use_custom_timeline = true
+timeline_length = 0.25
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s5rvw"]
+animation = &"wingLeftAction"
+use_custom_timeline = true
+timeline_length = 0.25
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ia1dk"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_taxv5"]
+graph_offset = Vector2(-651.532, -54.7704)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_s5rvw")
+nodes/Animation/position = Vector2(0, 0)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_24f07")
+"nodes/Animation 2/position" = Vector2(0, 200)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_ia1dk")
+nodes/Blend2/position = Vector2(320, 100)
+nodes/output/position = Vector2(540, 120)
+node_connections = [&"Blend2", 0, &"Animation", &"Blend2", 1, &"Animation 2", &"output", 0, &"Blend2"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_81mck"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w2jie"]
+advance_mode = 2
+advance_condition = &"flying"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u2h46"]
+advance_mode = 2
+advance_condition = &"landed"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_w1ymg"]
+states/End/position = Vector2(610, 117)
+states/Idle/node = SubResource("AnimationNodeBlendTree_mp12x")
+states/Idle/position = Vector2(337, 141)
+states/Start/position = Vector2(200, 194)
+states/WingsFlap/node = SubResource("AnimationNodeBlendTree_taxv5")
+states/WingsFlap/position = Vector2(458, 263)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_81mck"), "Idle", "WingsFlap", SubResource("AnimationNodeStateMachineTransition_w2jie"), "WingsFlap", "Idle", SubResource("AnimationNodeStateMachineTransition_u2h46")]
+graph_offset = Vector2(-61, 96)
+
+[node name="birdy" instance=ExtResource("1_jbc8p")]
+
+[node name="wingRight" parent="." index="1"]
+transform = Transform3D(0.00799908, 0.000218843, -0.000527661, -0.000527858, -1.37758e-09, -0.00800206, -0.000218368, 0.00801646, 1.44033e-05, -0.00210078, 0.0612487, 0)
+
+[node name="wingLeft" parent="." index="2"]
+transform = Transform3D(-0.00799863, -0.000218367, 0.000527857, -0.000527631, -1.44056e-05, -0.00800206, -0.00021883, 0.00801646, -9.63454e-10, 0.00210086, 0.0612487, 0)
+
+[node name="AnimationPlayer" parent="." index="3"]
+active = false
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="4"]
+tree_root = SubResource("AnimationNodeStateMachine_w1ymg")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/flying = false
+parameters/conditions/landed = true
+parameters/Idle/Blend2/blend_amount = 0.5
+parameters/WingsFlap/Blend2/blend_amount = 0.5
