@@ -195,14 +195,15 @@ func menu_od_gc():
 	item4.text = "Set target to parsis" if Globals.ui_mode != Globals.UI_MODE.SET_TARGET_TO_PARSIS else "(Enter coordinates)"
 	#--
 	clear_lines()
-	line1.text = "Epoc 6012 triads 1234,567,890" # TODO: change depending on status
-	line2.text = "Parsis universal coordinates: %s:%s:%s" % [Globals.feltyrion.dzat_x, -Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z]
+	line1.text = "Epoc %04s triads %03s,%03s,%03s" % [EpocClock.epoc, EpocClock.sinisters, EpocClock.medii, EpocClock.dexters]
+	line2.text = "Parsis universal coordinates: %s;%s;%s" % [round(Globals.feltyrion.dzat_x), round(-Globals.feltyrion.dzat_y), round(Globals.feltyrion.dzat_z)]
 	line3.text = "Heading pitch: %s:%s" % [-42, -42] # TODO: change depending on status
 	item1.pressed.connect(not_implemented_yet)
 	item2.pressed.connect(not_implemented_yet)
 	item3.pressed.connect(not_implemented_yet)
 	item4.pressed.connect(set_target_to_parsis)
 	add_connection(Globals.ui_mode_changed, func(_a): menu_od_gc()) # redraw screen if ui mode mode changed.. hmm, this doesn't work?
+	add_connection(Globals.tick, func(): menu_od_gc()) # redraw screen every second
 	setup_extra_default_connections()
 	
 func menu_prefs():
