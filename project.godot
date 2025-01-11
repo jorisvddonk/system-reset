@@ -20,6 +20,7 @@ config/icon="res://assets/icon.png"
 
 Globals="*res://util/Globals.gd"
 EpocClock="*res://util/systems/EpocClock.gd"
+Clipping="*res://util/clipping.gd"
 
 [display]
 
