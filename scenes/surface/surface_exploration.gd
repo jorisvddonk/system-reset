@@ -1,6 +1,8 @@
 extends Node3D
 var Hopper = preload("res://scenes/surface/animals/hopper.tscn")
 var Bird = preload("res://scenes/surface/animals/bird.tscn")
+var birdTexture
+var birdEyeColor
 
 var gravity
 func _ready():
@@ -99,6 +101,14 @@ func _spawn_bird(x, z, scale):
 	var bird = Bird.instantiate()
 	bird.position = Vector3(randi_range(-100, 100), 500, randi_range(-100, 100)) # TODO: map x/z to our coordinate space? Or just ignore it?
 	bird.scale = Vector3(scale, scale, scale)
+	if birdTexture == null:
+		var surfaceImage = Globals.feltyrion.return_txtr_image(false)
+		birdTexture = ImageTexture.create_from_image(surfaceImage)
+	if birdEyeColor == null:
+		var paletteimg = Globals.feltyrion.get_surface_palette_as_image()
+		birdEyeColor = paletteimg.get_pixel(39, 0)
+	bird.set_body_texture(birdTexture)
+	bird.set_eye_color(birdEyeColor)
 	add_child(bird)
 	
 func _spawn_reptile(x, z):

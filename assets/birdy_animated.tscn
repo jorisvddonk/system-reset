@@ -78,15 +78,15 @@ states/Start/position = Vector2(200, 194)
 states/WingsFlap/node = SubResource("AnimationNodeBlendTree_taxv5")
 states/WingsFlap/position = Vector2(458, 263)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_81mck"), "Idle", "WingsFlap", SubResource("AnimationNodeStateMachineTransition_w2jie"), "WingsFlap", "Idle", SubResource("AnimationNodeStateMachineTransition_u2h46")]
-graph_offset = Vector2(-61, 96)
+graph_offset = Vector2(-58, 46)
 
 [node name="birdy" instance=ExtResource("1_jbc8p")]
 
 [node name="wingRight" parent="." index="1"]
-transform = Transform3D(0.00799908, 0.000218843, -0.000527661, -0.000527858, -1.37758e-09, -0.00800206, -0.000218368, 0.00801646, 1.44033e-05, -0.00210078, 0.0612487, 0)
+transform = Transform3D(0.00801945, 0, 0, 0, 4.91049e-19, -0.00801945, 0, 0.00801945, 4.91049e-19, 0, 0.0611747, 0)
 
 [node name="wingLeft" parent="." index="2"]
-transform = Transform3D(-0.00799863, -0.000218367, 0.000527857, -0.000527631, -1.44056e-05, -0.00800206, -0.00021883, 0.00801646, -9.63454e-10, 0.00210086, 0.0612487, 0)
+transform = Transform3D(-0.008019, 0, 0, 0, -4.91049e-19, -0.00801945, 0, 0.00801945, -4.91049e-19, 0, 0.0611747, 0)
 
 [node name="AnimationPlayer" parent="." index="3"]
 active = false
