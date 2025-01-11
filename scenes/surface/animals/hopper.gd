@@ -59,3 +59,20 @@ func _rotate():
 		rotate_tween.kill()
 	rotate_tween = get_tree().create_tween()
 	rotate_tween.tween_property(self, "quaternion", Quaternion((Vector3.UP*0.5).normalized(), randf_range((-3*PI)/4, (3*PI)/4)), 1).as_relative().set_trans(Tween.TRANS_SINE)
+
+func _override_body_material_with_texture(meshInstance: MeshInstance3D, texture):
+	var i = meshInstance.mesh.surface_find_by_name("body")
+	var mat = meshInstance.mesh.surface_get_material(i).duplicate()
+	mat.uv1_scale = Vector3(0.7, 0.7, 0.7)
+	mat.albedo_texture = texture
+	meshInstance.set_surface_override_material(i, mat)
+
+func set_body_texture(texture):
+	_override_body_material_with_texture($hopper/body, texture)
+
+func set_eye_color(color: Color):
+	var meshInstance = $hopper/body
+	var i = meshInstance.mesh.surface_find_by_name("eyes")
+	var mat = meshInstance.mesh.surface_get_material(i).duplicate()
+	mat.albedo_color = color
+	meshInstance.set_surface_override_material(i, mat)
