@@ -5,9 +5,16 @@ var birdTexture
 var birdEyeColor
 var hopperTexture
 var hopperEyeColor
+var hopper_bird_multiplier = 10
 
 var gravity
 func _ready():
+	if Globals.debug_tools_enabled:
+		# make hoppers and birds easier to spot
+		hopperTexture = PlaceholderTexture2D.new()
+		birdTexture = PlaceholderTexture2D.new()
+		# spawn more hoppers and birds
+		hopper_bird_multiplier = 100
 	%SurfaceContainer.connect("child_entered_tree", func(c): c.connect("meshUpdated", surfaceMeshUpdated))
 	if %ScatteringContainer.get_meta("enabled"):
 		Globals.feltyrion.prepare_surface_scattering(%ScatteringContainer, "res://scenes/surface/util/ScatteringObject.tscn", %ScatteringContainer.get_meta("generateSingleMesh"))
@@ -83,7 +90,7 @@ func _physics_process(delta):
 func _spawn_animals():
 	var animals = Globals.feltyrion.get_animals()
 	printt("Number of animals: ", animals.size())
-	for j in range(0, animals.size() * 10):
+	for j in range(0, animals.size() * hopper_bird_multiplier):
 		var i = j % animals.size()
 		if animals[i].ani_type == 1:
 			_spawn_bird(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale)
