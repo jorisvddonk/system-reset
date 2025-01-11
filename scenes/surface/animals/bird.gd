@@ -21,6 +21,7 @@ func _ready():
 func _process(delta):
 	var velocity = -Basis().from_euler(rotation).z.normalized() * speed
 	position = position + (velocity * delta)
+	position = Clipping.surfaceClip(position)
 	var collision = _getCollisionPoint()
 	if collision:
 		if collision.position:			
