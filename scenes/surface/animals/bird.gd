@@ -93,7 +93,8 @@ func _land():
 
 func _override_body_material_with_texture(meshInstance: MeshInstance3D, texture):
 	var i = meshInstance.mesh.surface_find_by_name("body")
-	var mat = meshInstance.mesh.surface_get_material(i).duplicate()
+	var mat: StandardMaterial3D = meshInstance.mesh.surface_get_material(i).duplicate()
+	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	mat.uv1_scale = Vector3(0.7, 0.7, 0.7)
 	mat.albedo_texture = texture
 	meshInstance.set_surface_override_material(i, mat)
