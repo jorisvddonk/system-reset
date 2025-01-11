@@ -93,13 +93,13 @@ func _spawn_animals():
 		
 func _spawn_hopper(x, z, scale):
 	var hopper = Hopper.instantiate()
-	hopper.position = Vector3(randi_range(-100, 100), 500, randi_range(-100, 100)) # TODO: map x/z to our coordinate space? Or just ignore it?
+	hopper.position = Vector3(randi_range(-Clipping.SURFACE_USABLE_XZ_MAX * 0.7, Clipping.SURFACE_USABLE_XZ_MAX * 0.7), 500, randi_range(-Clipping.SURFACE_USABLE_XZ_MAX * 0.7, Clipping.SURFACE_USABLE_XZ_MAX * 0.7)) # TODO: map x/z to our coordinate space? Or just ignore it?
 	hopper.scale = Vector3(scale, scale, scale)
 	add_child(hopper)
 
 func _spawn_bird(x, z, scale):
 	var bird = Bird.instantiate()
-	bird.position = Vector3(randi_range(-100, 100), 500, randi_range(-100, 100)) # TODO: map x/z to our coordinate space? Or just ignore it?
+	bird.position = Vector3(randi_range(-Clipping.SURFACE_USABLE_XZ_MAX * 0.7, Clipping.SURFACE_USABLE_XZ_MAX * 0.7), 500, randi_range(-Clipping.SURFACE_USABLE_XZ_MAX * 0.7, Clipping.SURFACE_USABLE_XZ_MAX * 0.7)) # TODO: map x/z to our coordinate space? Or just ignore it?
 	bird.scale = Vector3(scale, scale, scale)
 	if birdTexture == null:
 		var surfaceImage = Globals.feltyrion.return_txtr_image(false)
