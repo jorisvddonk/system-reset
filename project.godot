@@ -32,6 +32,10 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/noctis_dev_plugin/plugin.cfg", "res://addons/system_reset_dev_plugin/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 move_left={
