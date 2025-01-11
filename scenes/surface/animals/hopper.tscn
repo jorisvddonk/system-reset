@@ -6,5 +6,5 @@
 [node name="Hopper" type="Node3D"]
 script = ExtResource("1_w3hx1")
 
-[node name="mammal" parent="." instance=ExtResource("1_epfwh")]
+[node name="hopper" parent="." instance=ExtResource("1_epfwh")]
 transform = Transform3D(-1, 0, 1.22465e-16, 0, 1, 0, -1.22465e-16, 0, -1, 0, 0, 0)
