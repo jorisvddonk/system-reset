@@ -89,17 +89,22 @@ func _physics_process(delta):
 
 func _spawn_animals():
 	var animals = Globals.feltyrion.get_animals()
-	printt("Number of animals: ", animals.size())
+	printt("Number of animals: ", animals.size(), "(*", hopper_bird_multiplier, "=", (animals.size() * hopper_bird_multiplier), ")")
+	var hopcount = 0
+	var birdcount = 0
 	for j in range(0, animals.size() * hopper_bird_multiplier):
 		var i = j % animals.size()
 		if animals[i].ani_type == 1:
 			_spawn_bird(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale)
+			birdcount += 1
 		elif animals[i].ani_type == 4:
 			_spawn_reptile(animals[i].ani_x, animals[i].ani_z)
 		elif animals[i].ani_type == 5:
 			_spawn_hopper(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale)
+			hopcount += 1
 		else:
 			printt("unknown animal type", animals[i].ani_type)
+	printt("Hoppers:", hopcount, "Birds:", birdcount)
 		
 func _spawn_hopper(x, z, scale):
 	var hopper = Hopper.instantiate()
