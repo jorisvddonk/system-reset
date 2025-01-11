@@ -81,7 +81,8 @@ func _physics_process(delta):
 func _spawn_animals():
 	var animals = Globals.feltyrion.get_animals()
 	printt("Number of animals: ", animals.size())
-	for i in range(0,animals.size()):
+	for j in range(0, animals.size() * 10):
+		var i = j % animals.size()
 		if animals[i].ani_type == 1:
 			_spawn_bird(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale)
 		elif animals[i].ani_type == 4:
