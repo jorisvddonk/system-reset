@@ -90,3 +90,22 @@ func _land():
 		speed_tween.kill()
 	speed_tween = get_tree().create_tween()
 	speed_tween.tween_property(self, "speed", 0, 1.5).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_IN)
+
+func _override_body_material_with_texture(meshInstance: MeshInstance3D, texture):
+	var i = meshInstance.mesh.surface_find_by_name("body")
+	var mat = meshInstance.mesh.surface_get_material(i).duplicate()
+	mat.uv1_scale = Vector3(0.7, 0.7, 0.7)
+	mat.albedo_texture = texture
+	meshInstance.set_surface_override_material(i, mat)
+
+func set_body_texture(texture):
+	_override_body_material_with_texture($birdy/body, texture)
+	_override_body_material_with_texture($birdy/wingLeft, texture)
+	_override_body_material_with_texture($birdy/wingRight, texture)
+
+func set_eye_color(color: Color):
+	var meshInstance = $birdy/body
+	var i = meshInstance.mesh.surface_find_by_name("eyes")
+	var mat = meshInstance.mesh.surface_get_material(i).duplicate()
+	mat.albedo_color = color
+	meshInstance.set_surface_override_material(i, mat)
