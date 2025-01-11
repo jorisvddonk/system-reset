@@ -8,3 +8,4 @@ data/COMM.BIN
 data/SURFACE.BIN
 exported_project/*
 .vscode/
+*.blend1
