@@ -188,16 +188,21 @@ func on_data_ui_mode_changed(_data_ui_mode):
 
 func hideAllDataUIs():
 	%RemoteTargetData.hide()
+	%LocalTargetData.hide()
 	
 func updateDataUIVisibility():
 	if Globals.data_ui_mode == Globals.DATA_UI_MODE.NONE:
 		%RemoteTargetData.hide()
+		%LocalTargetData.hide()
 	elif Globals.data_ui_mode == Globals.DATA_UI_MODE.REMOTE_TARGET:
 		%RemoteTargetData.show()
+		%LocalTargetData.hide()
 	elif Globals.data_ui_mode == Globals.DATA_UI_MODE.LOCAL_TARGET:
 		%RemoteTargetData.hide()
+		%LocalTargetData.show()
 	elif Globals.data_ui_mode == Globals.DATA_UI_MODE.ENVIRONMENT:
 		%RemoteTargetData.hide()
+		%LocalTargetData.hide()
 
 func on_gameplay_mode_changed(new_gameplay_mode):
 	if new_gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE:

@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3r4p4yn32pgw"]
+
+[ext_resource type="Theme" uid="uid://cuudlufcrpmou" path="res://assets/themes/datapanel.tres" id="1_jr6gd"]
+[ext_resource type="Script" path="res://scenes/hud/elements/local_target_data.gd" id="2_ugdmq"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d0g02"]
+
+[node name="LocalTargetData" type="VBoxContainer"]
+texture_repeat = 2
+material = SubResource("CanvasItemMaterial_d0g02")
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 45.0
+offset_top = -140.0
+offset_right = 289.0
+offset_bottom = -41.0
+grow_vertical = 2
+theme = ExtResource("1_jr6gd")
+script = ExtResource("2_ugdmq")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HeaderLabel" type="RichTextLabel" parent="PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LOCAL TARGET NOT SET"
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 79)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("1_jr6gd")
+theme_type_variation = &"ContentPanel"
+
+[node name="ContentLabel" type="RichTextLabel" parent="PanelContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_jr6gd")
+theme_type_variation = &"ContentPanel"
+autowrap_mode = 0

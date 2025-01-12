@@ -182,7 +182,7 @@ func menu_od_misc():
 	clear_lines()
 	item1.pressed.connect(func(): Globals.feltyrion.ilightv = 1 if Globals.feltyrion.ilightv != 1 else 0)
 	item2.pressed.connect(func(): Globals.data_ui_mode = Globals.DATA_UI_MODE.NONE if Globals.data_ui_mode == Globals.DATA_UI_MODE.REMOTE_TARGET else Globals.DATA_UI_MODE.REMOTE_TARGET)
-	item3.pressed.connect(not_implemented_yet) # item3.pressed.connect(func(): Globals.data_ui_mode = Globals.DATA_UI_MODE.NONE if Globals.data_ui_mode == Globals.DATA_UI_MODE.LOCAL_TARGET else Globals.DATA_UI_MODE.LOCAL_TARGET) # note: not implemented yet
+	item3.pressed.connect(func(): Globals.data_ui_mode = Globals.DATA_UI_MODE.NONE if Globals.data_ui_mode == Globals.DATA_UI_MODE.LOCAL_TARGET else Globals.DATA_UI_MODE.LOCAL_TARGET)
 	item4.pressed.connect(not_implemented_yet) # item4.pressed.connect(func(): Globals.data_ui_mode = Globals.DATA_UI_MODE.NONE if Globals.data_ui_mode == Globals.DATA_UI_MODE.ENVIRONMENT else Globals.DATA_UI_MODE.ENVIRONMENT) # note: not implemented yet
 	add_connection(Globals.feltyrion.on_ilightv_changed, func(_a): menu_od_misc()) # redraw screen if ilightv toggled
 	setup_extra_default_connections()
