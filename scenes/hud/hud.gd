@@ -89,8 +89,8 @@ func refresh_selected_targets():
 		if ap_target_info.has("ap_target_x") && ap_target_info.has("ap_target_y") && ap_target_info.has("ap_target_z"):
 			%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [ap_target_info.ap_target_x, -ap_target_info.ap_target_y, ap_target_info.ap_target_z]
 			%SelectedStar.text = Globals.feltyrion.get_star_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z)
-			if Globals.feltyrion.ip_targetted:
-				%SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.feltyrion.ip_targetted)
+			if Globals.local_target_index != -1:
+				%SelectedPlanet.text = Globals.feltyrion.get_planet_name(ap_target_info.ap_target_x, ap_target_info.ap_target_y, ap_target_info.ap_target_z, Globals.local_target_index)
 	elif Globals.feltyrion.ap_targetted == -1:
 		%APTarget.text = "[center]remote target: x=%s y=%s z=%s [/center]" % [Globals.feltyrion.ap_target_x, Globals.feltyrion.ap_target_y, Globals.feltyrion.ap_target_z]
 		%SelectedStar.text = "- DIRECT PARSIS TARGET -" # TODO: actually use a separate hud element for this, as in NIV it's styled differently / not displayed in this field.
