@@ -33,6 +33,7 @@ color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 
 [node name="OutputLabel" type="Label" parent="."]
 unique_name_in_owner = true
+clip_text = true
 custom_minimum_size = Vector2(700, 700)
 layout_mode = 2
 offset_left = 50.0
