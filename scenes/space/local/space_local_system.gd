@@ -1,5 +1,7 @@
 extends Node3D
 var Planet = preload("res://scenes/space/local/Planet.tscn")
+var CompanionStar = preload("res://scenes/space/local/CompanionStar.tscn")
+const COMPANION_STAR_TYPE = 10 # "companion star - not a planet", in Noctis IV's planet class list
 @onready var regex = RegEx.new()
 
 func _ready():
@@ -53,6 +55,9 @@ func on_gameplay_mode_changed(_a):
 	repositionContainer(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z)
 
 func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, tilt, ray, orb_ray, orb_tilt, orb_orient, orb_ecc, rtperiod, rotation, viewpoint, term_start, term_end, qsortindex, qsortdist):
+	if type == COMPANION_STAR_TYPE:
+		_load_companion_star(index, planet_id, x, y, z, ray)
+		return
 	var planet_name = Globals.feltyrion.get_planet_name_by_id(planet_id)
 	var planet = Planet.instantiate()
 	planet.type = type
@@ -68,6 +73,15 @@ func load_planet(index, planet_id, seedval, x, y, z, type, owner, moonid, ring, 
 	planet.translate(Vector3((x - Globals.feltyrion.get_nearstar_x()), (y - Globals.feltyrion.get_nearstar_y()), (z - Globals.feltyrion.get_nearstar_z())))
 	planet.ringParticleBase = %RingParticleBase
 	$SolarSystemContainer/Planets.add_child(planet)
+
+## Companion stars are rendered as stars, rather than as planets (they have no
+## surface in Noctis IV). They share the primary star's mesh and material.
+func _load_companion_star(index, planet_id, x, y, z, ray):
+	var parent_star = $SolarSystemContainer/SolarSystemParentStar
+	var star = CompanionStar.instantiate()
+	star.configure(index, Globals.feltyrion.get_planet_name_by_id(planet_id), ray, parent_star.mesh, parent_star.get_active_material(0))
+	star.translate(Vector3((x - Globals.feltyrion.get_nearstar_x()), (y - Globals.feltyrion.get_nearstar_y()), (z - Globals.feltyrion.get_nearstar_z())))
+	$SolarSystemContainer/Planets.add_child(star)
 
 func _on_parsis_changed(x: float, y: float, z: float):
 	repositionContainer(x, y, z)
