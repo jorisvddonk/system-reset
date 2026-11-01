@@ -45,6 +45,12 @@ func vimanaStart():
 	vimana_reaction_time = 0.01
 	vimana_status_change.emit(active)
 
+## The multiplier that is applied to the target star's ray to determine how close the
+## Vimana drive will approach it. When the radiations limit is forced, the Stardrifter
+## stops much further away from high-radiation stars.
+static func get_approach_distance_multiplier(anti_rad_enabled: bool) -> float:
+	return VIMANA_APPROACH_DISTANCE_MULTIPLIER_ANTIRAD if anti_rad_enabled else VIMANA_APPROACH_DISTANCE_MULTIPLIER_NORMAL
+
 func process(delta):
 	if active:
 		# this has some precision issues initially as you Vimana far across the universe, but will become more precise as you get closer
@@ -52,7 +58,7 @@ func process(delta):
 		var dy = feltyrion.dzat_y - feltyrion.ap_target_y
 		var dz = feltyrion.dzat_z - feltyrion.ap_target_z
 		var dist = sqrt(dx*dx + dy*dy + dz*dz)
-		var ray_dist_multiplier = VIMANA_APPROACH_DISTANCE_MULTIPLIER_NORMAL if true else VIMANA_APPROACH_DISTANCE_MULTIPLIER_ANTIRAD # TODO: set this based on the anti radiation setting
+		var ray_dist_multiplier = get_approach_distance_multiplier(Globals.anti_rad)
 		var target_distance = (ray_dist_multiplier * feltyrion.get_ap_target_info().ap_target_ray) if Globals.feltyrion.ap_targetted == 1 else VIMANA_APPROACH_DISTANCE_DIRECT_PARSIS_TARGET
 		
 		# vimana flight steps, in order:

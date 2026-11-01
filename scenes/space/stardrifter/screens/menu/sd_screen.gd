@@ -146,10 +146,10 @@ func menu_od_nav():
 	item1.text = "Starfield amplificator"
 	item2.text = "Local planets finder"
 	item3.text = CHASE_MODES[Globals.chase_mode]
-	item4.text = "Force radiations limit"
+	item4.text = "FORCE RADIATIONS LIMIT" if Globals.anti_rad else "force radiations limit"
 	#--
 	clear_lines()
-	line1.text = "Starfield amplification enabled/disabled. High radiation fields are ignored/avoided."  # TODO: change depending on status
+	line1.text = "Starfield amplification enabled/disabled. High radiation fields are %s." % ["avoided" if Globals.anti_rad else "ignored"]
 	if Globals.chase_mode == Globals.CHASE_MODE.TRACKING_DISABLED:
 		line2.text = "Tracking status: inactive."
 	else:
@@ -168,8 +168,9 @@ func menu_od_nav():
 	item1.pressed.connect(not_implemented_yet)
 	item2.pressed.connect(not_implemented_yet) # this just toggles between having the planet finder on or off; at the moment it's always on
 	item3.pressed.connect(change_tracking_mode)
-	item4.pressed.connect(not_implemented_yet)
+	item4.pressed.connect(toggle_anti_rad)
 	add_connection(Globals.chase_mode_changed, func(_a): menu_od_nav()) # redraw screen if chase mode changed
+	add_connection(Globals.anti_rad_changed, func(_a): menu_od_nav()) # redraw screen if the radiations limit changed
 	setup_extra_default_connections()
 	
 func menu_od_misc():
@@ -314,6 +315,10 @@ func can_cancel_local_target():
 
 func change_tracking_mode():
 	Globals.chase_mode = 0 if Globals.chase_mode >= 6 else Globals.chase_mode + 1
+
+func toggle_anti_rad():
+	Globals.anti_rad = !Globals.anti_rad
+	Globals.update_fcs_status_text("ACTIVE" if Globals.anti_rad else "INACTIVE", 1)
 	
 func start_deploy_surface_capsule():
 	Globals.deploy_surface_capsule_status_change.emit(true)

@@ -120,6 +120,14 @@ var hud_mode:HUD_MODE = HUD_MODE.SHOW:
 		hud_mode = value
 		hud_mode_changed.emit(value)
 
+signal anti_rad_changed(enabled: bool)
+@export var anti_rad: bool = true: # whether the Stardrifter avoids high-radiation fields by keeping its distance from stars
+	get:
+		return anti_rad
+	set(value):
+		anti_rad = value
+		anti_rad_changed.emit(value)
+
 @export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
 signal update_fcs_status_request(val: String, timeout: int) ## signal to request an fcs status update from the HUD. Do not emit this manually, use Globals.update_fcs_status_text() instead
