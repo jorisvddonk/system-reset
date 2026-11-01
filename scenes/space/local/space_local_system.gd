@@ -124,3 +124,24 @@ func _load_local_system():
 	print(Time.get_unix_time_from_system())
 	$SolarSystemContainer/Planets.show()
 	$SolarSystemContainer/SolarSystemParentStar.show()
+	_populate_orbiting_body_rings()
+
+## Ring particles are only generated when the engine 'draws' a body from up close:
+## it reduces the number of ring layers with distance. When a game is loaded, the
+## ship is not necessarily close to the ringed world it is orbiting yet, in which
+## case no ring particles would be generated at all. Force a close-up load of that
+## body, so its rings show up regardless of where the ship currently is.
+func _populate_orbiting_body_rings():
+	if Globals.local_target_orbit_index == -1:
+		return
+	var pl_data = Globals.feltyrion.get_planet_info(Globals.local_target_orbit_index)
+	if pl_data.nearstar_p_ring == 0.0:
+		return
+	var dzat = Vector3(Globals.feltyrion.dzat_x, Globals.feltyrion.dzat_y, Globals.feltyrion.dzat_z)
+	Globals.feltyrion.dzat_x = pl_data.nearstar_p_plx
+	Globals.feltyrion.dzat_y = pl_data.nearstar_p_ply
+	Globals.feltyrion.dzat_z = pl_data.nearstar_p_plz
+	Globals.feltyrion.load_planet_at_current_system(Globals.local_target_orbit_index)
+	Globals.feltyrion.dzat_x = dzat.x
+	Globals.feltyrion.dzat_y = dzat.y
+	Globals.feltyrion.dzat_z = dzat.z
