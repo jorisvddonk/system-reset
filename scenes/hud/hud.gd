@@ -15,6 +15,7 @@ func _ready():
 	Globals.update_hud_dyams_text_request.connect(update_dyams_text)
 	Globals.gameplay_mode_changed.connect(on_gameplay_mode_changed)
 	Globals.data_ui_mode_changed.connect(on_data_ui_mode_changed)
+	Globals.targets_in_range_changed.connect(on_targets_in_range_changed)
 	Globals.tick.connect(_tick)
 	
 	# Set up timer to periodically refresh various bits of the HUD
@@ -28,6 +29,8 @@ func _ready():
 	add_child(timer)
 	timer.start()
 	
+	%TargetsInRangeData.visible = Globals.targets_in_range and Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SPACE
+
 	# Defalt to "OSD off" display
 	show_menulabel_for_osd_off()
 	
@@ -204,7 +207,11 @@ func updateDataUIVisibility():
 		%RemoteTargetData.hide()
 		%LocalTargetData.hide()
 
+func on_targets_in_range_changed(_enabled):
+	%TargetsInRangeData.visible = Globals.targets_in_range and Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SPACE
+
 func on_gameplay_mode_changed(new_gameplay_mode):
+	%TargetsInRangeData.visible = Globals.targets_in_range and new_gameplay_mode == Globals.GAMEPLAY_MODE.SPACE
 	if new_gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE:
 		hideAllDataUIs()
 	elif new_gameplay_mode == Globals.GAMEPLAY_MODE.SPACE:
