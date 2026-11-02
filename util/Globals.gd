@@ -1,6 +1,7 @@
 extends Node
 
 const VimanaDrive = preload("res://util/systems/VimanaDrive.gd")
+const ControlsConfig = preload("res://util/ControlsConfig.gd")
 const InterplanetaryDrive = preload("res://util/systems/InterplanetaryDrive.gd")
 
 signal tick() # simple clock ticker, is emitted once per second
@@ -170,6 +171,7 @@ func update_hud_dyams_text(val: String):
 
 
 func _ready():
+	ControlsConfig.load_config()
 	feltyrion.update_time()
 	self.add_child(feltyrion) # need to add Feltyrion to the tree so we can get nodes via the tree in C++
 	chase_mode = CHASE_MODE.HIGH_SPEED_VIEWPOINT_CHASE
