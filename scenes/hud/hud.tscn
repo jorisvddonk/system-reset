@@ -556,19 +556,6 @@ offset_right = 85.0
 offset_bottom = 20.0
 grow_vertical = 2
 
-[node name="RemoteTargetData" parent="Container" instance=ExtResource("6_dxgrt")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-anchors_preset = 0
-anchor_top = 0.0
-anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 200.0
-offset_bottom = 99.0
-grow_vertical = 1
-
 [node name="TargetsInRangeData" parent="Container" instance=ExtResource("8_tgt")]
 unique_name_in_owner = true
 visible = false
@@ -580,6 +567,19 @@ offset_left = 0.0
 offset_top = 160.0
 offset_right = 244.0
 offset_bottom = 340.0
+grow_vertical = 1
+
+[node name="RemoteTargetData" parent="Container" instance=ExtResource("6_dxgrt")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+anchors_preset = 0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 200.0
+offset_bottom = 99.0
 grow_vertical = 1
 
 [node name="LocalTargetData" parent="Container" instance=ExtResource("7_561t3")]
