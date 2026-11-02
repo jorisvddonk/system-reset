@@ -6,6 +6,7 @@ var p_console_img: Image
 var camera_is_around_deployment_console = false
 
 const TRACKING_SPEED = 1
+const TRACKING_INTERPOLATION_RESPONSE = 0.92 # 1/s; Noctis IV moves 5% of the remaining offset per frame at 18 FPS
 const TRACKING_DISTANCE__NEAR = 0.05
 const TRACKING_DISTANCE__MIDDLE = 0.08
 const TRACKING_DISTANCE__FAR = 0.12
@@ -14,6 +15,8 @@ const TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED = 10 * Globals.DEGREES_TO_RADIANS 
 const INTERSTELLAR_SPACE_LIGHT_COLOR = Color(0.2, 0.3, 0.6) # _very_ 'ambient' light if in interstellar space
 
 var nearstar_ray = 1
+var tracked_position: Vector3
+var tracking_position_initialized := false
 
 func _ready():
 	%vehicle/vehicle_007/StaticBody3D/CollisionShape3D.shape.backface_collision = true 
@@ -65,18 +68,18 @@ func _physics_process(delta):
 				vec = (Globals.chase_direction*TRACKING_DISTANCE__FAR)
 			elif Globals.chase_mode == Globals.CHASE_MODE.FIXED_POINT_CHASE:
 				vec = (Globals.chase_direction*TRACKING_DISTANCE__MIDDLE)
-			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.dzat_y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
+			_track_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_z() + vec.z, delta)
 			Globals.rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
 		elif Globals.chase_mode == Globals.CHASE_MODE.HIGH_SPEED_CHASE:
 			Globals.chase_direction = Globals.chase_direction.rotated(Vector3.UP, TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED * delta)
 			var vec = (Globals.chase_direction*TRACKING_DISTANCE__MIDDLE)
-			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.dzat_y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
+			_track_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_z() + vec.z, delta)
 			# do not rotate!
 		elif Globals.chase_mode == Globals.CHASE_MODE.HIGH_SPEED_VIEWPOINT_CHASE:
 			# same as HIGH_SPEED_CHASE, but we rotate as well
 			Globals.chase_direction = Globals.chase_direction.rotated(Vector3.UP, TRACKING__HIGH_SPEED_CHASE__ORBIT_SPEED * delta)
 			var vec = (Globals.chase_direction*TRACKING_DISTANCE__MIDDLE)
-			Globals.slew_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.dzat_y, feltyrion.get_ip_targetted_z() + vec.z, TRACKING_SPEED)
+			_track_to(feltyrion.get_ip_targetted_x() + vec.x, feltyrion.get_ip_targetted_z() + vec.z, delta)
 			Globals.rotate_to(feltyrion.get_ip_targetted_x(), feltyrion.get_ip_targetted_y(), feltyrion.get_ip_targetted_z())
 		# Move to the same plane of the planet, using the PID controller - but only if we are in some tracking mode
 		if not Globals.chase_mode == Globals.CHASE_MODE.TRACKING_DISABLED: # TODO: move this code over to InterplanetaryDrive
@@ -85,6 +88,22 @@ func _physics_process(delta):
 			if abs(err) > 0.0000001:
 				var corr = clamp(Globals.interplanetaryDrive.dzat_y_PIDController.step(), -10, 10) * delta
 				Globals.slew_to(feltyrion.dzat_x, feltyrion.dzat_y + corr, feltyrion.dzat_z, TRACKING_SPEED)
+	else:
+		tracking_position_initialized = false
+
+## Interpolates the tracked position towards the target position. Noctis IV moves
+## 5% of the remaining offset per frame in its chase modes (see the nsync code in
+## noctis-1.cpp), so switching tracking modes is a smooth move instead of the ship
+## teleporting to its new position.
+func interpolate_tracking_position(current: Vector3, target: Vector3, delta: float) -> Vector3:
+	return current.lerp(target, 1.0 - exp(-TRACKING_INTERPOLATION_RESPONSE * delta))
+
+func _track_to(target_x: float, target_z: float, delta: float):
+	if not tracking_position_initialized:
+		tracked_position = Vector3(Globals.feltyrion.dzat_x, 0, Globals.feltyrion.dzat_z)
+		tracking_position_initialized = true
+	tracked_position = interpolate_tracking_position(tracked_position, Vector3(target_x, 0, target_z), delta)
+	Globals.slew_to(tracked_position.x, Globals.feltyrion.dzat_y, tracked_position.z, TRACKING_SPEED)
 
 
 
