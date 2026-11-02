@@ -120,6 +120,14 @@ var hud_mode:HUD_MODE = HUD_MODE.SHOW:
 		hud_mode = value
 		hud_mode_changed.emit(value)
 
+signal menusalwayson_changed(enabled: bool)
+@export var menusalwayson: bool = true: # whether all menus are always onscreen, or only the part that is being looked at
+	get:
+		return menusalwayson
+	set(value):
+		menusalwayson = value
+		menusalwayson_changed.emit(value)
+
 @export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
 signal update_fcs_status_request(val: String, timeout: int) ## signal to request an fcs status update from the HUD. Do not emit this manually, use Globals.update_fcs_status_text() instead

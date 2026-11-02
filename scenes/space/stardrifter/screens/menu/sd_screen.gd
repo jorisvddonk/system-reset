@@ -43,8 +43,13 @@ const ordinal = ["zeroth",     "first",     "second",    "third",       "fourth"
 
 var other_signals_to_cleanup = []
 
+enum FOCUS_REGION { COMMANDS, ITEMS, LINES }
+var current_focus_region: FOCUS_REGION = FOCUS_REGION.ITEMS
+
 func _ready():
 	_disable_display()
+	Globals.menusalwayson_changed.connect(func(_a): _apply_focus_region())
+	_apply_focus_region()
 	flight_control_drive.pressed.connect(menu_fcd)
 	onboard_devices.pressed.connect(menu_od)
 	preferences.pressed.connect(menu_prefs)
@@ -210,17 +215,18 @@ func menu_prefs():
 	clear_connections()
 	item1.text = "Auto screen sleep %s" % ["on" if Globals.feltyrion.autoscreenoff else "off"]
 	item2.text = "%s pitch controls" % ["Normal" if Globals.feltyrion.revcontrols == 0 else "Reverse"]
-	item3.text = "Menus always onscreen" if true else "Auto-hidden menus" # TODO: change depending on status
+	item3.text = "Menus always onscreen" if Globals.menusalwayson else "Auto-hidden menus"
 	item4.text = "Depolarize" if true else "Polarize" # TODO: change depending on status
 	#--
 	clear_lines()
 	item1.pressed.connect(func(): Globals.feltyrion.autoscreenoff = 0 if Globals.feltyrion.autoscreenoff > 0 else 1)
 	item2.pressed.connect(func(): Globals.feltyrion.revcontrols = 0 if Globals.feltyrion.revcontrols > 0 else 1)
-	item3.pressed.connect(not_implemented_yet)
+	item3.pressed.connect(toggle_menusalwayson)
 	item4.pressed.connect(not_implemented_yet)
 	setup_extra_default_connections()
 	add_connection(Globals.feltyrion.on_autoscreenoff_changed, func(_a): menu_prefs()) # redraw screen if auto screen sleep changed
 	add_connection(Globals.feltyrion.on_revcontrols_changed, func(_a): menu_prefs()) # redraw screen if reverse controls changed
+	add_connection(Globals.menusalwayson_changed, func(_a): menu_prefs()) # redraw screen if the menu display mode changed
 	
 func menu_dd():
 	clear_connections()
@@ -311,6 +317,30 @@ func can_deploy_surface_capsule():
 
 func can_cancel_local_target():
 	return Globals.local_target_index != -1
+
+func toggle_menusalwayson():
+	Globals.menusalwayson = !Globals.menusalwayson
+
+## Updates which part of the menu is being looked at, and hides the parts that
+## aren't, when 'auto-hidden menus' is enabled. The normalized position is the
+## position of the player's aim point on the screen, in [0,1] screen coordinates.
+func update_focus_region(normalized_position: Vector2):
+	var position_on_screen = get_global_rect().position + (normalized_position * size)
+	var region = current_focus_region
+	if $RootContainer/CommandsContainer.get_global_rect().has_point(position_on_screen):
+		region = FOCUS_REGION.COMMANDS
+	elif $RootContainer/RightSideContainer/ItemContainer.get_global_rect().has_point(position_on_screen):
+		region = FOCUS_REGION.ITEMS
+	elif $RootContainer/RightSideContainer/LinesContainer.get_global_rect().has_point(position_on_screen):
+		region = FOCUS_REGION.LINES
+	if region != current_focus_region:
+		current_focus_region = region
+		_apply_focus_region()
+
+func _apply_focus_region():
+	$RootContainer/CommandsContainer.visible = Globals.menusalwayson or current_focus_region == FOCUS_REGION.COMMANDS
+	$RootContainer/RightSideContainer/ItemContainer.visible = Globals.menusalwayson or current_focus_region == FOCUS_REGION.ITEMS
+	$RootContainer/RightSideContainer/LinesContainer.visible = Globals.menusalwayson or current_focus_region == FOCUS_REGION.LINES
 
 func change_tracking_mode():
 	Globals.chase_mode = 0 if Globals.chase_mode >= 6 else Globals.chase_mode + 1
