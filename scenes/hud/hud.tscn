@@ -262,6 +262,58 @@ text = "6\\set remote 7\\start vima 8\\set local  9\\deploy sur"
 scroll_active = false
 autowrap_mode = 0
 
+[node name="CompassContainer" type="HBoxContainer" parent="HUDRim/Top"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -16.0
+offset_right = 300.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="CompassLabel" type="RichTextLabel" parent="HUDRim/Top/CompassContainer"]
+unique_name_in_owner = true
+clip_contents = false
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme = ExtResource("3_ok57h")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_outline_size = 6
+text = "N.........E.........S"
+scroll_active = false
+
+[node name="SQCLabel" type="RichTextLabel" parent="HUDRim/Top/CompassContainer"]
+unique_name_in_owner = true
+clip_contents = false
+custom_minimum_size = Vector2(240, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme = ExtResource("3_ok57h")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_outline_size = 6
+text = "SQC 0.0:0.0"
+scroll_active = false
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="HUDRim/Top"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
