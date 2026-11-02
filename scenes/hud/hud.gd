@@ -221,7 +221,6 @@ func on_gameplay_mode_changed(new_gameplay_mode):
 	elif new_gameplay_mode == Globals.GAMEPLAY_MODE.SPACE:
 		updateDataUIVisibility()
 
-const ControlsConfig = preload("res://util/ControlsConfig.gd")
 
 ## The action that is currently being rebound from the help screen, if any.
 var rebinding_action: String = ""
