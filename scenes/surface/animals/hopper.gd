@@ -1,5 +1,51 @@
 extends Node3D
 
+## The three mammal movement behaviours that Noctis IV generates hoppers with.
+const FELINE_LIKE = 0
+const RABBIT_LIKE = 1
+const KANGAROO_LIKE = 2
+
+## Per-behaviour movement characteristics, based on the mammal behaviour in Noctis IV
+## (noctis-1.cpp): felines trot around, rabbits take small frequent hops, and kangaroos
+## take large, slower hops. Speeds are in metres per second.
+const BEHAVIOURS = {
+	FELINE_LIKE: {
+		"min_speed": 3.5,
+		"max_speed": 7.0,
+		"hop_height": 0.4,
+		"hop_duration": 0.3,
+		"hop_chance": 0.15,
+		"action_interval": 1.5,
+		"action_variation": 1.0,
+		"stop_chance": 0.5,
+		"turn_chance": 0.25,
+	},
+	RABBIT_LIKE: {
+		"min_speed": 2.0,
+		"max_speed": 4.0,
+		"hop_height": 0.8,
+		"hop_duration": 0.35,
+		"hop_chance": 0.85,
+		"action_interval": 0.6,
+		"action_variation": 0.5,
+		"stop_chance": 0.3,
+		"turn_chance": 0.25,
+	},
+	KANGAROO_LIKE: {
+		"min_speed": 4.0,
+		"max_speed": 5.0,
+		"hop_height": 2.5,
+		"hop_duration": 0.7,
+		"hop_chance": 0.6,
+		"action_interval": 0.9,
+		"action_variation": 0.4,
+		"stop_chance": 0.2,
+		"turn_chance": 0.2,
+	},
+}
+
+@export var move_type: int = FELINE_LIKE
+
 var speed: float = 0.0
 
 const rayCheckVectorBegin = Vector3.UP * 10
@@ -17,7 +63,6 @@ var heightAboveSurface: float = 0.0
 func _ready():
 	rotate_y(randf_range(0, PI * 2))
 
-
 func _process(delta):
 	var velocity = -Basis().from_euler(rotation).z.normalized() * speed
 	position = position + velocity * delta
@@ -28,21 +73,26 @@ func _process(delta):
 			position = collision.position + (Vector3.UP * heightAboveSurface)
 	timeToNextAction -= delta
 	if timeToNextAction < 0:
-		timeToNextAction = 1.5 + randf_range(0, 1)
-		var r = randi() % 4
-		if r <= 1:
-			if speed < 0.01:
-				_begin_move()
-			else:
-				_end_move()
-		elif r == 2:
-			_rotate()
-		elif r == 3:
-			pass # do nothing
-		var h = randi() % 2
-		if h == 0:
-			_hop()
+		_decide_next_action()
 
+## The movement characteristics for this hopper's behaviour.
+func get_behaviour() -> Dictionary:
+	return BEHAVIOURS.get(move_type, BEHAVIOURS[FELINE_LIKE])
+
+func _decide_next_action():
+	var behaviour = get_behaviour()
+	timeToNextAction = behaviour.action_interval + randf_range(0, behaviour.action_variation)
+	var r = randf()
+	if r < behaviour.stop_chance:
+		if speed < 0.01:
+			_begin_move()
+		else:
+			_end_move()
+	elif r < behaviour.stop_chance + behaviour.turn_chance:
+		_rotate()
+	# otherwise: do nothing for a moment
+	if randf() < behaviour.hop_chance:
+		_hop()
 
 func _getCollisionPoint():
 	var rc = RayCast3D.new()
@@ -57,10 +107,11 @@ func _getCollisionPoint():
 	return result
 
 func _begin_move():
+	var behaviour = get_behaviour()
 	if step_tween:
 		step_tween.kill()
 	step_tween = get_tree().create_tween()
-	step_tween.tween_property(self, "speed", 2.0 + randf_range(2.0, 5.0), 0.2).set_trans(Tween.TRANS_SINE)
+	step_tween.tween_property(self, "speed", randf_range(behaviour.min_speed, behaviour.max_speed), 0.2).set_trans(Tween.TRANS_SINE)
 	
 func _end_move():
 	if step_tween:
@@ -70,14 +121,15 @@ func _end_move():
 	
 func _hop():
 	# TODO: hop using gravity instead of tweens
-	if heightAboveSurface > 0 or (step_tween == null or step_tween.is_running()) or (rotate_tween == null or rotate_tween.is_running()):
-		return # can't hop if already hopping or if the hopper is accelerating/decelerating/rotating
+	if heightAboveSurface > 0 or (rotate_tween != null and rotate_tween.is_running()):
+		return # can't hop if already hopping or rotating
+	var behaviour = get_behaviour()
 	if height_tween:
 		height_tween.kill()
 	height_tween = get_tree().create_tween()
-	height_tween.tween_property(self, "heightAboveSurface", 1  + randf_range(0, 1), 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	height_tween.tween_property(self, "heightAboveSurface", 0, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-
+	height_tween.tween_property(self, "heightAboveSurface", behaviour.hop_height, behaviour.hop_duration * 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	height_tween.tween_property(self, "heightAboveSurface", 0, behaviour.hop_duration * 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	
 func _rotate():
 	if rotate_tween:
 		rotate_tween.kill()

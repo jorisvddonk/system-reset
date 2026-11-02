@@ -100,14 +100,15 @@ func _spawn_animals():
 		elif animals[i].ani_type == 4:
 			_spawn_reptile(animals[i].ani_x, animals[i].ani_z)
 		elif animals[i].ani_type == 5:
-			_spawn_hopper(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale)
+			_spawn_hopper(animals[i].ani_x, animals[i].ani_z, animals[i].ani_scale, animals[i].get("ani_mtype", 0))
 			hopcount += 1
 		else:
 			printt("unknown animal type", animals[i].ani_type)
 	printt("Hoppers:", hopcount, "Birds:", birdcount)
 		
-func _spawn_hopper(x, z, scale):
+func _spawn_hopper(x, z, scale, move_type):
 	var hopper = Hopper.instantiate()
+	hopper.move_type = move_type
 	hopper.position = Vector3(randi_range(-Clipping.SURFACE_USABLE_XZ_MAX * 0.7, Clipping.SURFACE_USABLE_XZ_MAX * 0.7), 500, randi_range(-Clipping.SURFACE_USABLE_XZ_MAX * 0.7, Clipping.SURFACE_USABLE_XZ_MAX * 0.7)) # TODO: map x/z to our coordinate space? Or just ignore it?
 	hopper.scale = Vector3(scale * 0.2, scale * 0.2, scale * 0.2)
 	if hopperTexture == null:
