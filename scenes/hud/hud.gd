@@ -1,5 +1,7 @@
 extends Control
 
+const ControlsConfig = preload("res://util/ControlsConfig.gd")
+
 func _ready():
 	# Bind signals
 	Globals.on_parsis_changed.connect(on_parsis_changed)
@@ -16,6 +18,8 @@ func _ready():
 	Globals.gameplay_mode_changed.connect(on_gameplay_mode_changed)
 	Globals.data_ui_mode_changed.connect(on_data_ui_mode_changed)
 	Globals.tick.connect(_tick)
+	%HelpText.meta_clicked.connect(_on_help_meta_clicked)
+	refresh_help()
 	
 	# Set up timer to periodically refresh various bits of the HUD
 	var timer = Timer.new()
@@ -144,17 +148,74 @@ func update_dyams_text(val: String):
 func update_epoc_label():
 	%EpocLabel.text = "EPOC %04s & %03s.%03s.%03s" % [EpocClock.epoc, EpocClock.sinisters, EpocClock.medii, EpocClock.dexters]
 
+## The action that is currently being rebound from the help screen, if any.
+var rebinding_action: String = ""
+
+## Rebuilds the help screen, showing the controls that are currently configured.
+func refresh_help():
+	var lines = [
+		"[center]System Reset[/center]",
+		"",
+		"[center]Modified version of Noctis IV - a program made by Alessandro Ghignola.[/center]",
+		"",
+		"[center]Click a key below to change it, then press the new key.[/center]",
+		"",
+		"[b]Controls[/b]",
+	]
+	for entry in ControlsConfig.ACTIONS:
+		if entry.action == rebinding_action:
+			lines.append("%s - [color=yellow]press a key...[/color]" % entry.label)
+		else:
+			lines.append("%s - [url=bind:%s]%s[/url]" % [entry.label, entry.action, ControlsConfig.get_key_label(entry.action)])
+	lines.append("")
+	lines.append("[b]Stardrifter on-board menu controls[/b]")
+	lines.append("Flight control drive - %s" % ControlsConfig.get_key_label("osd_category_1"))
+	lines.append("Onboard devices - %s" % ControlsConfig.get_key_label("osd_category_2"))
+	lines.append("Preferences - %s" % ControlsConfig.get_key_label("osd_category_3"))
+	lines.append("Disable display - %s" % ControlsConfig.get_key_label("osd_category_4"))
+	lines.append("")
+	lines.append("Menu command 1 - %s" % ControlsConfig.get_key_label("osd_item_1"))
+	lines.append("Menu command 2 - %s" % ControlsConfig.get_key_label("osd_item_2"))
+	lines.append("Menu command 3 - %s" % ControlsConfig.get_key_label("osd_item_3"))
+	lines.append("Menu command 4 - %s" % ControlsConfig.get_key_label("osd_item_4"))
+	%HelpText.text = "\n".join(lines)
+
+func _on_help_meta_clicked(meta):
+	if str(meta).begins_with("bind:"):
+		rebinding_action = str(meta).substr(5)
+		refresh_help()
+
+func _input(event):
+	if rebinding_action != "":
+		if event is InputEventKey and event.is_pressed() and not event.echo:
+			if event.keycode == KEY_ESCAPE:
+				rebinding_action = ""
+			else:
+				ControlsConfig.bind(rebinding_action, event.keycode)
+				rebinding_action = ""
+			refresh_help()
+			get_viewport().set_input_as_handled()
+		return
+
 func update_fps_label():
 	%FPSLabel.text = " & " + str(Engine.get_frames_per_second()) + " FPS"
 
 func on_osd_updated(item1_text: String, item2_text: String, item3_text: String, item4_text: String):
 	if item1_text != "": # if the first item is set, we know we haven't turned the screen off
-		%MenuLabel.text = "6\\%-20s 7\\%-20s 8\\%-20s  9\\%-20s" % [item1_text.substr(0,20), item2_text.substr(0,20), item3_text.substr(0,20), item4_text.substr(0,20)]
+		%MenuLabel.text = "%s\\%-20s %s\\%-20s %s\\%-20s  %s\\%-20s" % [
+			ControlsConfig.get_key_label("osd_item_1"), item1_text.substr(0,20),
+			ControlsConfig.get_key_label("osd_item_2"), item2_text.substr(0,20),
+			ControlsConfig.get_key_label("osd_item_3"), item3_text.substr(0,20),
+			ControlsConfig.get_key_label("osd_item_4"), item4_text.substr(0,20)]
 	else:
 		show_menulabel_for_osd_off()
 		
 func show_menulabel_for_osd_off():
-	%MenuLabel.text = "1\\%-20s 2\\%-20s 3\\%-20s  4\\%-20s" % ["FLIGHT CONTROL DRIVE", "DEVICES", "PREFERENCES", "SCREEN OFF"]
+	%MenuLabel.text = "%s\\%-20s %s\\%-20s %s\\%-20s  %s\\%-20s" % [
+		ControlsConfig.get_key_label("osd_category_1"), "FLIGHT CONTROL DRIVE",
+		ControlsConfig.get_key_label("osd_category_2"), "DEVICES",
+		ControlsConfig.get_key_label("osd_category_3"), "PREFERENCES",
+		ControlsConfig.get_key_label("osd_category_4"), "SCREEN OFF"]
 
 
 func show_detail():
