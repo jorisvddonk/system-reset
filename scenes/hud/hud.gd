@@ -1,6 +1,9 @@
 extends Control
 
 func _ready():
+	%HelpText.meta_clicked.connect(_on_help_meta_clicked)
+	refresh_help()
+
 	# Bind signals
 	Globals.on_parsis_changed.connect(on_parsis_changed)
 	Globals.on_ap_target_changed.connect(on_ap_target_changed)
@@ -28,9 +31,6 @@ func _ready():
 	add_child(timer)
 	timer.start()
 	
-	%HelpText.meta_clicked.connect(_on_help_meta_clicked)
-	refresh_help()
-
 	# Defalt to "OSD off" display
 	show_menulabel_for_osd_off()
 	
@@ -147,55 +147,6 @@ func update_dyams_text(val: String):
 func update_epoc_label():
 	%EpocLabel.text = "EPOC %04s & %03s.%03s.%03s" % [EpocClock.epoc, EpocClock.sinisters, EpocClock.medii, EpocClock.dexters]
 
-## The action that is currently being rebound from the help screen, if any.
-var rebinding_action: String = ""
-
-## Rebuilds the help screen, showing the controls that are currently configured.
-func refresh_help():
-	var lines = [
-		"[center]System Reset[/center]",
-		"",
-		"[center]Modified version of Noctis IV - a program made by Alessandro Ghignola.[/center]",
-		"",
-		"[center]Click a key below to change it, then press the new key.[/center]",
-		"",
-		"[b]Controls[/b]",
-	]
-	for entry in ControlsConfig.ACTIONS:
-		if entry.action == rebinding_action:
-			lines.append("%s - [color=yellow]press a key...[/color]" % entry.label)
-		else:
-			lines.append("%s - [url=bind:%s]%s[/url]" % [entry.label, entry.action, ControlsConfig.get_key_label(entry.action)])
-	lines.append("")
-	lines.append("[b]Stardrifter on-board menu controls[/b]")
-	lines.append("Flight control drive - %s" % ControlsConfig.get_key_label("osd_category_1"))
-	lines.append("Onboard devices - %s" % ControlsConfig.get_key_label("osd_category_2"))
-	lines.append("Preferences - %s" % ControlsConfig.get_key_label("osd_category_3"))
-	lines.append("Disable display - %s" % ControlsConfig.get_key_label("osd_category_4"))
-	lines.append("")
-	lines.append("Menu command 1 - %s" % ControlsConfig.get_key_label("osd_item_1"))
-	lines.append("Menu command 2 - %s" % ControlsConfig.get_key_label("osd_item_2"))
-	lines.append("Menu command 3 - %s" % ControlsConfig.get_key_label("osd_item_3"))
-	lines.append("Menu command 4 - %s" % ControlsConfig.get_key_label("osd_item_4"))
-	%HelpText.text = "\n".join(lines)
-
-func _on_help_meta_clicked(meta):
-	if str(meta).begins_with("bind:"):
-		rebinding_action = str(meta).substr(5)
-		refresh_help()
-
-func _unhandled_input(event):
-	if rebinding_action != "":
-		if event is InputEventKey and event.is_pressed() and not event.echo:
-			if event.keycode == KEY_ESCAPE:
-				rebinding_action = ""
-			else:
-				ControlsConfig.bind(rebinding_action, event.keycode)
-				rebinding_action = ""
-			refresh_help()
-			get_viewport().set_input_as_handled()
-		return
-
 func update_fps_label():
 	%FPSLabel.text = " & " + str(Engine.get_frames_per_second()) + " FPS"
 
@@ -269,5 +220,56 @@ func on_gameplay_mode_changed(new_gameplay_mode):
 		hideAllDataUIs()
 	elif new_gameplay_mode == Globals.GAMEPLAY_MODE.SPACE:
 		updateDataUIVisibility()
+
+const ControlsConfig = preload("res://util/ControlsConfig.gd")
+
+## The action that is currently being rebound from the help screen, if any.
+var rebinding_action: String = ""
+
+## Rebuilds the help screen, showing the controls that are currently configured.
+func refresh_help():
+	var lines = [
+		"[center]System Reset[/center]",
+		"",
+		"[center]Modified version of Noctis IV - a program made by Alessandro Ghignola.[/center]",
+		"",
+		"[center]Click a key below to change it, then press the new key.[/center]",
+		"",
+		"[b]Controls[/b]",
+	]
+	for entry in ControlsConfig.ACTIONS:
+		if entry.action == rebinding_action:
+			lines.append("%s - [color=yellow]press a key...[/color]" % entry.label)
+		else:
+			lines.append("%s - [url=bind:%s]%s[/url]" % [entry.label, entry.action, ControlsConfig.get_key_label(entry.action)])
+	lines.append("")
+	lines.append("[b]Stardrifter on-board menu controls[/b]")
+	lines.append("Flight control drive - %s" % ControlsConfig.get_key_label("osd_category_1"))
+	lines.append("Onboard devices - %s" % ControlsConfig.get_key_label("osd_category_2"))
+	lines.append("Preferences - %s" % ControlsConfig.get_key_label("osd_category_3"))
+	lines.append("Disable display - %s" % ControlsConfig.get_key_label("osd_category_4"))
+	lines.append("")
+	lines.append("Menu command 1 - %s" % ControlsConfig.get_key_label("osd_item_1"))
+	lines.append("Menu command 2 - %s" % ControlsConfig.get_key_label("osd_item_2"))
+	lines.append("Menu command 3 - %s" % ControlsConfig.get_key_label("osd_item_3"))
+	lines.append("Menu command 4 - %s" % ControlsConfig.get_key_label("osd_item_4"))
+	%HelpText.text = "\n".join(lines)
+
+func _on_help_meta_clicked(meta):
+	if str(meta).begins_with("bind:"):
+		rebinding_action = str(meta).substr(5)
+		refresh_help()
+
+func _unhandled_input(event):
+	if rebinding_action != "":
+		if event is InputEventKey and event.is_pressed() and not event.echo:
+			if event.keycode == KEY_ESCAPE:
+				rebinding_action = ""
+			else:
+				ControlsConfig.bind(rebinding_action, event.keycode)
+				rebinding_action = ""
+			refresh_help()
+			get_viewport().set_input_as_handled()
+		return
 
 const ControlsConfig = preload("res://util/ControlsConfig.gd")
