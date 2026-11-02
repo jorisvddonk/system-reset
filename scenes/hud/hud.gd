@@ -185,7 +185,7 @@ func _on_help_meta_clicked(meta):
 		rebinding_action = str(meta).substr(5)
 		refresh_help()
 
-func _input(event):
+func _unhandled_input(event):
 	if rebinding_action != "":
 		if event is InputEventKey and event.is_pressed() and not event.echo:
 			if event.keycode == KEY_ESCAPE:
