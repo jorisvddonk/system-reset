@@ -111,6 +111,14 @@ const DEGREES_TO_RADIANS = 0.0174532925
 
 const STARDRIFTER_ROTATION_SPEED = 15 * DEGREES_TO_RADIANS # per second
 
+signal menusalwayson_changed(enabled: bool)
+@export var menusalwayson: bool = true: # whether all menus are always onscreen, or only the part that is being looked at
+	get:
+		return menusalwayson
+	set(value):
+		menusalwayson = value
+		menusalwayson_changed.emit(value)
+
 enum HUD_MODE { SHOW, HIDE }
 signal hud_mode_changed(new_hud_mode)
 var hud_mode:HUD_MODE = HUD_MODE.SHOW:
@@ -119,14 +127,6 @@ var hud_mode:HUD_MODE = HUD_MODE.SHOW:
 	set(value):
 		hud_mode = value
 		hud_mode_changed.emit(value)
-
-signal menusalwayson_changed(enabled: bool)
-@export var menusalwayson: bool = true: # whether all menus are always onscreen, or only the part that is being looked at
-	get:
-		return menusalwayson
-	set(value):
-		menusalwayson = value
-		menusalwayson_changed.emit(value)
 
 @export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
