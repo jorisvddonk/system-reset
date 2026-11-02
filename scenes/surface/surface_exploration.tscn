@@ -1,7 +1,20 @@
-[gd_scene load_steps=30 format=3 uid="uid://c3d6ixw7o8jrw"]
+[gd_scene load_steps=33 format=3 uid="uid://c3d6ixw7o8jrw"]
 
 [ext_resource type="Script" path="res://scenes/surface/surface_exploration.gd" id="1_xlqem"]
 [ext_resource type="Script" path="res://util/PlayerCharacterController.gd" id="3_e41ui"]
+[ext_resource type="Script" path="res://scenes/surface/surface_sun.gd" id="4_sunsun"]
+
+[sub_resource type="Gradient" id="Gradient_sun"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 1, 0.95, 1, 1, 0.95, 0.75, 0.85, 1, 0.8, 0.5, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sun"]
+gradient = SubResource("Gradient_sun")
+width = 64
+height = 64
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [sub_resource type="Gradient" id="Gradient_pk5sq"]
 offsets = PackedFloat32Array(0, 0.996748)
@@ -166,6 +179,21 @@ wall_min_slide_angle = 0.0261799
 floor_stop_on_slope = false
 floor_max_angle = 1.7017
 script = ExtResource("3_e41ui")
+
+[node name="SurfaceSun" type="Sprite3D" parent="." node_paths=PackedStringArray("player", "secondary_sun")]
+unique_name_in_owner = true
+billboard = 1
+pixel_size = 0.001
+texture = SubResource("GradientTexture2D_sun")
+script = ExtResource("4_sunsun")
+player = NodePath("../PlayerCharacterController")
+secondary_sun = NodePath("../SecondarySurfaceSun")
+
+[node name="SecondarySurfaceSun" type="Sprite3D" parent="."]
+unique_name_in_owner = true
+billboard = 1
+pixel_size = 0.001
+texture = SubResource("GradientTexture2D_sun")
 
 [node name="Rain" type="GPUParticles3D" parent="PlayerCharacterController"]
 unique_name_in_owner = true
