@@ -206,20 +206,36 @@ func _process(delta):
 				mouse_clicked.emit()
 			mouse_left_held = 0
 	
-	# rotation - input tracking. TODO: interpolate these!
+	# rotation - input tracking, interpolated (see apply_stardrifter_rotation)
+	var rotation_input = 0.0
 	if Input.is_action_pressed("rotate_left"):
-		var mod = -1 if Globals.feltyrion.revcontrols else 1
-		if chase_mode == CHASE_MODE.HIGH_SPEED_CHASE || chase_mode == CHASE_MODE.SYNCRONE_ORBIT || chase_mode == CHASE_MODE.TRACKING_DISABLED:
-			rotate_by(STARDRIFTER_ROTATION_SPEED * delta * mod)
-		elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
-			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * delta * mod)
+		rotation_input += 1.0
 	if Input.is_action_pressed("rotate_right"):
-		var mod = -1 if Globals.feltyrion.revcontrols else 1
-		if chase_mode == CHASE_MODE.HIGH_SPEED_CHASE || chase_mode == CHASE_MODE.SYNCRONE_ORBIT || chase_mode == CHASE_MODE.TRACKING_DISABLED:
-			rotate_by(STARDRIFTER_ROTATION_SPEED * -delta * mod)
-		elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
-			chase_direction = chase_direction.rotated(Vector3.UP, STARDRIFTER_ROTATION_SPEED * -delta * mod)
+		rotation_input -= 1.0
+	if feltyrion.revcontrols:
+		rotation_input = -rotation_input
+	apply_stardrifter_rotation(rotation_input, delta)
 	
+const STARDRIFTER_ROTATION_RESPONSE = 7.3 # 1/s; Noctis IV decays its rotation impulse by 1/1.5 per frame at 18 FPS
+var stardrifter_rotation_velocity: float = 0.0 # current rotation speed, in radians per second
+
+## Applies a rotation input (-1 = right, 0 = idle, 1 = left) to the Stardrifter.
+## The rotation speed is interpolated towards the requested speed instead of being
+## applied in one step. Noctis IV does the same by adding a rotation impulse and
+## decaying it every frame (see dlt_beta / user_beta in noctis-1.cpp).
+func apply_stardrifter_rotation(rotation_input: float, delta: float):
+	var target_velocity = rotation_input * STARDRIFTER_ROTATION_SPEED
+	var response = 1.0 - exp(-STARDRIFTER_ROTATION_RESPONSE * delta)
+	stardrifter_rotation_velocity = lerp(stardrifter_rotation_velocity, target_velocity, response)
+	if abs(stardrifter_rotation_velocity) < 0.0001:
+		stardrifter_rotation_velocity = 0.0
+	if stardrifter == null or stardrifter_rotation_velocity == 0.0:
+		return
+	if chase_mode == CHASE_MODE.HIGH_SPEED_CHASE || chase_mode == CHASE_MODE.SYNCRONE_ORBIT || chase_mode == CHASE_MODE.TRACKING_DISABLED:
+		rotate_by(stardrifter_rotation_velocity * delta)
+	elif chase_mode == CHASE_MODE.NEAR_CHASE or chase_mode == CHASE_MODE.FAR_CHASE or chase_mode == CHASE_MODE.FIXED_POINT_CHASE:
+		chase_direction = chase_direction.rotated(Vector3.UP, stardrifter_rotation_velocity * delta)
+
 func save_game():
 	print("Saving game...")
 	feltyrion.freeze()
