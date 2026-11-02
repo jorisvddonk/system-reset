@@ -1,5 +1,15 @@
 extends Control
 
+## Noctis IV's compass strip: a letter every 90 degrees, one character per 9 degrees.
+const COMPASS = "N.........E.........S.........W.........N.........E.........S......."
+const COMPASS_DEGREES_PER_CHARACTER = 9.0
+const COMPASS_WINDOW_SIZE = 21
+
+const BRIGHTNESS_STEP = 0.1
+const MIN_BRIGHTNESS = 0.4
+const MAX_BRIGHTNESS = 1.6
+var hud_brightness: float = 1.0
+
 func _ready():
 	# Bind signals
 	Globals.on_parsis_changed.connect(on_parsis_changed)
@@ -16,6 +26,9 @@ func _ready():
 	Globals.gameplay_mode_changed.connect(on_gameplay_mode_changed)
 	Globals.data_ui_mode_changed.connect(on_data_ui_mode_changed)
 	Globals.tick.connect(_tick)
+	Globals.tick.connect(refresh_compass)
+	Globals.on_parsis_changed.connect(func(_x, _y, _z): refresh_sqc())
+	Globals.gameplay_mode_changed.connect(func(_a): refresh_compass())
 	
 	# Set up timer to periodically refresh various bits of the HUD
 	var timer = Timer.new()
@@ -33,6 +46,7 @@ func _ready():
 	
 	# Refresh the hud immediately
 	refresh_hud()
+	refresh_compass()
 
 
 #
@@ -143,6 +157,52 @@ func update_dyams_text(val: String):
 
 func update_epoc_label():
 	%EpocLabel.text = "EPOC %04s & %03s.%03s.%03s" % [EpocClock.epoc, EpocClock.sinisters, EpocClock.medii, EpocClock.dexters]
+
+## The direction the player is looking at, in degrees (0 = north, clockwise).
+func _get_heading() -> float:
+	var yaw = 0.0
+	if Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE and Globals.playercharacter != null:
+		yaw = Globals.playercharacter.camera.global_rotation.y
+	else:
+		yaw = Globals.player_rotation_in_space.y
+	return fposmod(360.0 - rad_to_deg(yaw), 360.0)
+
+## Renders the compass strip, centered on the current heading.
+func refresh_compass():
+	var heading = _get_heading()
+	var center = int(round(heading / COMPASS_DEGREES_PER_CHARACTER))
+	var repeated = COMPASS + COMPASS + COMPASS
+	var start = center - (COMPASS_WINDOW_SIZE / 2) + COMPASS.length()
+	%CompassLabel.text = repeated.substr(start, COMPASS_WINDOW_SIZE)
+	refresh_sqc()
+
+## Renders the sector coordinates (SQC) and the position within the sector.
+func refresh_sqc():
+	if Globals.gameplay_mode == Globals.GAMEPLAY_MODE.SURFACE:
+		var player_position = Vector3.ZERO
+		if Globals.playercharacter != null:
+			player_position = Globals.playercharacter.global_position
+		var sqc_x = int((player_position.x + Clipping.SURFACE_USABLE_XZ_MAX) / (2.0 * Clipping.SURFACE_USABLE_XZ_MAX) * 200.0) - 100
+		var sqc_z = int((player_position.z + Clipping.SURFACE_USABLE_XZ_MAX) / (2.0 * Clipping.SURFACE_USABLE_XZ_MAX) * 200.0) - 100
+		%SQCLabel.text = "SQC %d.%d:%d.%d" % [Globals.feltyrion.landing_pt_lon, Globals.feltyrion.landing_pt_lat, sqc_x, sqc_z]
+	else:
+		var x = Globals.feltyrion.dzat_x
+		var z = Globals.feltyrion.dzat_z
+		var sector_x = floor(x / 16384.0)
+		var sector_z = floor(z / 16384.0)
+		%SQCLabel.text = "SQC %d.%d:%d.%d" % [sector_x, sector_z, int(x - sector_x * 16384.0), int(z - sector_z * 16384.0)]
+
+## Adjusts the brightness of the HUD, like Noctis IV's +/- display brightness keys.
+func adjust_brightness(amount: float):
+	hud_brightness = clamp(hud_brightness + amount, MIN_BRIGHTNESS, MAX_BRIGHTNESS)
+	modulate = Color(hud_brightness, hud_brightness, hud_brightness)
+
+func _input(event):
+	if event is InputEventKey and event.is_pressed() and not event.echo:
+		if event.keycode == KEY_PLUS or event.keycode == KEY_KP_ADD or event.keycode == KEY_EQUAL:
+			adjust_brightness(BRIGHTNESS_STEP)
+		if event.keycode == KEY_MINUS or event.keycode == KEY_KP_SUBTRACT:
+			adjust_brightness(-BRIGHTNESS_STEP)
 
 func update_fps_label():
 	%FPSLabel.text = " & " + str(Engine.get_frames_per_second()) + " FPS"
