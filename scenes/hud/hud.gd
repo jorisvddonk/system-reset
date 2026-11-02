@@ -1,7 +1,5 @@
 extends Control
 
-const ControlsConfig = preload("res://util/ControlsConfig.gd")
-
 func _ready():
 	# Bind signals
 	Globals.on_parsis_changed.connect(on_parsis_changed)
@@ -18,8 +16,6 @@ func _ready():
 	Globals.gameplay_mode_changed.connect(on_gameplay_mode_changed)
 	Globals.data_ui_mode_changed.connect(on_data_ui_mode_changed)
 	Globals.tick.connect(_tick)
-	%HelpText.meta_clicked.connect(_on_help_meta_clicked)
-	refresh_help()
 	
 	# Set up timer to periodically refresh various bits of the HUD
 	var timer = Timer.new()
@@ -32,6 +28,9 @@ func _ready():
 	add_child(timer)
 	timer.start()
 	
+	%HelpText.meta_clicked.connect(_on_help_meta_clicked)
+	refresh_help()
+
 	# Defalt to "OSD off" display
 	show_menulabel_for_osd_off()
 	
@@ -270,3 +269,5 @@ func on_gameplay_mode_changed(new_gameplay_mode):
 		hideAllDataUIs()
 	elif new_gameplay_mode == Globals.GAMEPLAY_MODE.SPACE:
 		updateDataUIVisibility()
+
+const ControlsConfig = preload("res://util/ControlsConfig.gd")
