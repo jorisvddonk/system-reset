@@ -138,6 +138,15 @@ signal anti_rad_changed(enabled: bool)
 
 @export var camera_inverted = false # whether the camera is inverted on the Y axis or not.
 
+signal targets_in_range_changed(enabled: bool)
+@export var targets_in_range: bool = false: # whether the 'targets in range' list is shown
+	get:
+		return targets_in_range
+	set(value):
+		targets_in_range = value
+		targets_in_range_changed.emit(value)
+
+
 signal update_fcs_status_request(val: String, timeout: int) ## signal to request an fcs status update from the HUD. Do not emit this manually, use Globals.update_fcs_status_text() instead
 func update_fcs_status_text(val: String, timeout: int = 0):
 	update_fcs_status_request.emit(val, timeout)

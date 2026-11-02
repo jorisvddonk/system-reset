@@ -198,7 +198,7 @@ func menu_od_gc():
 	clear_connections()
 	item1.text = "Remove star label" # TODO: change depending on status?
 	item2.text = "Label planet as..."
-	item3.text = "Show targets in range"
+	item3.text = "SHOW TARGETS IN RANGE" if Globals.targets_in_range else "Show targets in range"
 	item4.text = "Set target to parsis" if Globals.ui_mode != Globals.UI_MODE.SET_TARGET_TO_PARSIS else "(Enter coordinates)"
 	#--
 	clear_lines()
@@ -207,8 +207,9 @@ func menu_od_gc():
 	line3.text = "Heading pitch: %s:%s" % [-42, -42] # TODO: change depending on status
 	item1.pressed.connect(not_implemented_yet)
 	item2.pressed.connect(not_implemented_yet)
-	item3.pressed.connect(not_implemented_yet)
+	item3.pressed.connect(func(): Globals.targets_in_range = !Globals.targets_in_range)
 	item4.pressed.connect(set_target_to_parsis)
+	add_connection(Globals.targets_in_range_changed, func(_a): menu_od_gc()) # redraw screen if targets in range is toggled
 	add_connection(Globals.ui_mode_changed, func(_a): menu_od_gc()) # redraw screen if ui mode mode changed.. hmm, this doesn't work?
 	add_connection(Globals.tick, func(): menu_od_gc()) # redraw screen every second
 	setup_extra_default_connections()
