@@ -42,6 +42,7 @@ func _process(delta):
 			var y = sdscreen.size.y * mouse2d.y
 			synthetic.position = Vector2(x,y)
 			viewport.push_input(synthetic, true)
+			sdscreen.update_focus_region(mouse2d)
 			
 			# below has been replaced by the code in sd_screen's root script!
 			#if (Input.get_mouse_button_mask() != 0):
