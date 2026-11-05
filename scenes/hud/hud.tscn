@@ -454,6 +454,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HelpText" type="RichTextLabel" parent="Help/HelpTextContainer"]
+unique_name_in_owner = true
+meta_underlined = true
+mouse_filter = 0
 clip_contents = false
 custom_minimum_size = Vector2(1760, 10)
 layout_mode = 1
@@ -475,61 +478,7 @@ theme_override_constants/shadow_offset_y = 0
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_outline_size = 6
 bbcode_enabled = true
-text = "[center]System Reset[/center]
-
-[center]Modified version of Noctis IV - a program made by Alessandro Ghignola.[/center]
-
-
----Controls---
-
-(note: all of these controls can be modified in the Godot project settings - if modified, changes are not reflected here!! (TODO))
-
-W/A/S/D - move
-
-Space - jump
-
-ALT - (re)capture mouse
-
-F1 - help
-
-F2 - load game
-
-F3 - save game
-
-F4 - screenshot
-
-F9 - toggle mouse y axis inversion
-
-F10 - toggle HUD
-
-F11 - toggle CRT shader effect
-
-F12 - toggle debug tools
-
-
-
-Stardrifter on-board menu controls
-
-Main menu:
-
-1 - Flight control drive
-
-2 - Onboard Devices
-
-3 - Preferences
-
-4 - Disable display
-
-Display navigation:
-
-6 - Activate menu command 1
-
-7 - Activate menu command 2
-
-8 - Activate menu command 3
-
-9 - Activate menu command 4
-"
+text = "System Reset"
 scroll_active = false
 
 [node name="License" parent="Help/HelpTextContainer" instance=ExtResource("5_jju6a")]
